@@ -24,6 +24,11 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block">Signup</button>
             </div>
+            {{#if error}}
+            <div class="error-text">
+                Error: {{error}}
+            </div>
+            {{/if}}
         </form>
         <p class="text-center"><a href="/login">Login</a></p>
     </div>

@@ -36,12 +36,23 @@ app.get('/signup', (req, res) => {
     res.render('index', { layout: 'signup', title: 'Signup' });
 });
 
-app.post('/signup', async (req, res) => {
-    // TODO Check user not exist, passwords match
-    const password_hash = await bcrypt.hash(req.body.password);
-    db.set("users", { _id: req.body.email, password_hash: password_hash });
+app.post('/signup', urlencodedParser, async (req, res) => {
+    let error = null;
+    let result = await db.get("users", { _id: req.body.email });
 
-    res.render('index', { layout: 'signup', title: 'Signup' });
+    if (result != null) {
+        error = "Email already in use"
+    } else if (req.body.password != req.body.confirm_password) {
+        error = "Passwords do not match"
+    }
+
+    if (error == null) {
+        const password_hash = await bcrypt.hash(req.body.password);
+        await db.set("users", { _id: req.body.email, password_hash: password_hash });
+        res.render('index', { layout: 'login', title: 'Login' });
+    } else {
+        res.render('index', { layout: 'signup', title: 'Signup', error: error });
+    }
 });
 
 app.get('/login', (req, res) => {
@@ -49,13 +60,24 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', urlencodedParser, async (req, res) => {
+    let error = null;
     let result = await db.get("users", { _id: req.body.email });
-    if (result) {
+
+    if (result == null) {
+        error = "Incorrect Email or Password"
+    } else {
         const valid = await bcrypt.check(req.body.password, result['password_hash']);
-        console.log(valid);
+        if (!valid) {
+            error = "Incorrect Email or Password"
+        }
     }
 
-    res.render('index', { layout: 'login', title: 'Login' });
+    if (error == null) {
+        res.render('index', { layout: 'login', title: 'Login', error: "LOGIN SUCCESS" });
+    } else {
+        res.render('index', { layout: 'login', title: 'Login', error: error });
+    }
+
 });
 
 app.listen(port, () => console.log(`App listening to port ${port}`));
