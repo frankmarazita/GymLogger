@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{> head}}
+</head>
+
+<body>
+    <body>
+        {{>header}}
+
+        <main role="main">
+
+            <section class="jumbotron text-center">
+                <div class="container">
+                    <h2>Welcome, {{name}}</h2>
+                    <p class="lead text-muted">Start by adding an exercise group, and then add exercises to each group. For example you could have them for days of the week or for specific body groups.</p>
+                    <p>
+                        <a href="#" class="btn btn-primary my-2">Add new group</a>
+                        <a href="#" class="btn btn-secondary my-2">Add new exercise</a>
+                    </p>
+                </div>
+            </section>
+
+            <div class="album py-5 bg-light">
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <img class="card-img-top" alt="image" style="height: 245px; object-fit: cover;"
+                                    src="./img/logo.png"
+                                    data-holder-rendered="true" title="">
+                                <div class="card-body">
+                                    <h4>Chest / Arms</h4>
+                                    <p class="card-text" style="text-align: justify;"></p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='/group/group_id'">View</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='/edit/group/group_id'">Edit</button>
+                                        </div>
+                                        <small class="text-muted">0 Exercises</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <img class="card-img-top" alt="image" style="height: 245px; object-fit: cover;" src="./img/logo.png"
+                                    data-holder-rendered="true" title="">
+                                <div class="card-body">
+                                    <h4>Shoulders / Back</h4>
+                                    <p class="card-text" style="text-align: justify;"></p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                onclick="location.href='/group/group_id'">View</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                onclick="location.href='/edit/group/group_id'">Edit</button>
+                                        </div>
+                                        <small class="text-muted">0 Exercises</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <img class="card-img-top" alt="image" style="height: 245px; object-fit: cover;" src="./img/logo.png"
+                                    data-holder-rendered="true" title="">
+                                <div class="card-body">
+                                    <h4>Abs</h4>
+                                    <p class="card-text" style="text-align: justify;"></p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                onclick="location.href='/group/group_id'">View</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                onclick="location.href='/edit/group/group_id'">Edit</button>
+                                        </div>
+                                        <small class="text-muted">0 Exercises</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <img class="card-img-top" alt="image" style="height: 245px; object-fit: cover;" src="./img/logo.png"
+                                    data-holder-rendered="true" title="">
+                                <div class="card-body">
+                                    <h4>Legs / Lower back</h4>
+                                    <p class="card-text" style="text-align: justify;"></p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                onclick="location.href='/group/group_id'">View</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                onclick="location.href='/edit/group/group_id'">Edit</button>
+                                        </div>
+                                        <small class="text-muted">0 Exercises</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <img class="card-img-top" alt="image" style="height: 245px; object-fit: cover;" src="./img/logo.png"
+                                    data-holder-rendered="true" title="">
+                                <div class="card-body">
+                                    <h4>Cardio</h4>
+                                    <p class="card-text" style="text-align: justify;"></p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                onclick="location.href='/group/group_id'">View</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                onclick="location.href='/edit/group/group_id'">Edit</button>
+                                        </div>
+                                        <small class="text-muted">0 Exercises</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <div class="card-body">
+                                    <h4>Add Group</h4>
+                                    <p class="card-text" style="text-align: justify;"></p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-primary"
+                                                onclick="location.href='/add/group'">Add</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+    </body>
+
+    {{>footer}}
+</body>
+
+</html>

@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const session = require('express-session');
+
 const db = require('./db') // Import Database
 const bcrypt = require('./bcrypt') // Import bcrypt
 
@@ -11,8 +13,18 @@ db.init(process.env.MONGODB_SECRET, databaseName);
 // Initialise Express
 
 const app = express();
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    key: 'myCookieSessionId',
+    cookie: {
+        httpOnly: true,
+        // secure: true,
+        // domain: 'example.com'
+    }
+}));
 const jsonParser = bodyParser.json();
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
+app.use(express.static('public'));
 const port = 3000;
 
 const handlebars = require('express-handlebars');
@@ -24,16 +36,28 @@ app.engine('hbs', handlebars({
     partialsDir: __dirname + '/views/partials/'
 }));
 
-app.use(express.static('public'));
-
 // Requests
 
+function auth(req, res) {
+    if (!req.session.email) {
+        res.redirect('/login');
+        return false;
+    }
+    return true;
+}
+
 app.get('/', (req, res) => {
-    res.render('index', { layout: 'main', title: 'Main' });
+    if (auth(req, res)) {
+        res.render('index', { layout: 'main', title: 'Main', name: req.session.name });
+    }
 });
 
 app.get('/signup', (req, res) => {
-    res.render('index', { layout: 'signup', title: 'Signup' });
+    if (req.session.email) {
+        res.redirect('/');
+    } else {
+        res.render('index', { layout: 'signup', title: 'Signup' });
+    }
 });
 
 app.post('/signup', urlencodedParser, async (req, res) => {
@@ -48,7 +72,7 @@ app.post('/signup', urlencodedParser, async (req, res) => {
 
     if (error == null) {
         const password_hash = await bcrypt.hash(req.body.password);
-        await db.set("users", { _id: req.body.email, password_hash: password_hash });
+        await db.set("users", { _id: req.body.email, name: req.body.name, passwordhash: password_hash });
         res.render('index', { layout: 'login', title: 'Login' });
     } else {
         res.render('index', { layout: 'signup', title: 'Signup', error: error });
@@ -56,7 +80,11 @@ app.post('/signup', urlencodedParser, async (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    res.render('index', { layout: 'login', title: 'Login' });
+    if (req.session.email) {
+        res.redirect('/');
+    } else {
+        res.render('index', { layout: 'login', title: 'Login' });
+    }
 });
 
 app.post('/login', urlencodedParser, async (req, res) => {
@@ -66,14 +94,16 @@ app.post('/login', urlencodedParser, async (req, res) => {
     if (result == null) {
         error = "Incorrect Email or Password"
     } else {
-        const valid = await bcrypt.check(req.body.password, result['password_hash']);
+        const valid = await bcrypt.check(req.body.password, result['passwordhash']);
         if (!valid) {
             error = "Incorrect Email or Password"
         }
     }
 
     if (error == null) {
-        res.render('index', { layout: 'login', title: 'Login', error: "LOGIN SUCCESS" });
+        req.session.email = result['_id'];
+        req.session.name = result['name'];
+        res.redirect('/');
     } else {
         res.render('index', { layout: 'login', title: 'Login', error: error });
     }
