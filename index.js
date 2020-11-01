@@ -46,9 +46,15 @@ function auth(req, res) {
     return true;
 }
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
     if (auth(req, res)) {
-        res.render('index', { layout: 'main', title: 'Main', name: req.session.name });
+        let result = await db.get("users", { _id: req.session.email });
+        let exerciseGroups = [];
+        for (const element of result['exercisegroups']) {
+            let exerciseGroup = await db.get("exercisegroups", element, true);
+            exerciseGroups.push(exerciseGroup);
+        };
+        res.render('index', { layout: 'main', title: 'Main', name: req.session.name, exerciseGroups: exerciseGroups });
     }
 });
 

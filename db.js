@@ -1,6 +1,7 @@
-const { response } = require('express');
+const response = require('express');
 const request = require('express');
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectID;
 
 let db = null;
 let databaseName = null;
@@ -18,11 +19,15 @@ exports.init = async function (uri, name) {
     }
 }
 
-exports.get = async function (collection, data) {
+exports.get = async function (collection, data, objectID=false) {
     // collection - name of database collection
     // data - dictionary of search fields
+    // objectID - set to true, and treats data as a object ID string
     if (db) {
         let dbo = db.db(databaseName);
+        if (objectID) {
+            data = { '_id': new ObjectId(data) };
+        }
         return await dbo.collection(collection).findOne(data);
     }
 }
