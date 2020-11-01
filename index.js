@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const handlebars_express = require('express-handlebars');
 
 const db = require('./db') // Import Database
 const bcrypt = require('./bcrypt') // Import bcrypt
@@ -27,14 +28,22 @@ const urlencodedParser = bodyParser.urlencoded({ extended: true });
 app.use(express.static('public'));
 const port = 3000;
 
-const handlebars = require('express-handlebars');
-app.set('view engine', 'hbs');
-app.engine('hbs', handlebars({
+// Initialise Handlebars
+
+const handlebars = handlebars_express.create({
+    // defaultLayout: 'default',
     layoutsDir: __dirname + '/views/layouts',
+    partialsDir: __dirname + '/views/partials',
     extname: 'hbs',
-    defaultLayout: 'default',
-    partialsDir: __dirname + '/views/partials/'
-}));
+    helpers: {
+        equals: function (a, b) {
+            return a == b;
+        }
+    }
+});
+
+app.set('view engine', 'hbs');
+app.engine('hbs', handlebars.engine);
 
 // Requests
 
@@ -46,14 +55,31 @@ function auth(req, res) {
     return true;
 }
 
+function error(req, res, code) {
+    let message = null;
+    switch (code) {
+        case 403:
+            message = "Resource Forbidden"
+            break;
+        case 404:
+            message = "Page Not Found"
+            break;
+        default:
+            break;
+    }
+    res.render('index', { layout: 'error', title: 'Error', code: code, message: message});
+}
+
 app.get('/', async (req, res) => {
     if (auth(req, res)) {
         let result = await db.get("users", { _id: req.session.email });
         let exerciseGroups = [];
-        for (const element of result['exercisegroups']) {
-            let exerciseGroup = await db.get("exercisegroups", element, true);
-            exerciseGroups.push(exerciseGroup);
-        };
+        if ('exercisegroups' in result) {
+            for (const element of result['exercisegroups']) {
+                let exerciseGroup = await db.get("exercisegroups", element, true);
+                exerciseGroups.push(exerciseGroup);
+            };
+        }
         res.render('index', { layout: 'main', title: 'Main', name: req.session.name, exerciseGroups: exerciseGroups });
     }
 });
@@ -114,6 +140,47 @@ app.post('/login', urlencodedParser, async (req, res) => {
         res.render('index', { layout: 'login', title: 'Login', error: error });
     }
 
+});
+
+app.get('/add/:item', (req, res) => {
+    if (auth(req, res)) {
+        switch (req.params.item) {
+            case 'group':
+                res.render('index', { layout: 'add', title: 'Add Exercise Group', type: req.params.item});
+                break;
+            case 'exercise':
+                res.render('index', { layout: 'add', title: 'Add Exercise', type: req.params.item});
+                break;
+            default:
+                error(req, res, 404);
+                break;
+        }
+    }
+});
+
+app.post('/add/:item', urlencodedParser, async (req, res) => {
+    if (auth(req, res)) {
+        switch (req.params.item) {
+            case 'group':
+                req.body['exercises'] = [];
+                let result = await db.set("exercisegroups", req.body);
+                result = await db.update("users", req.session.email, "exercisegroups", result.insertedId);
+                res.redirect('/group/' + result.insertedId);
+                break;
+            case 'exercise':
+                // res.render('index', { layout: 'add', title: 'Add Exercise', type: req.params.item });
+                break;
+            default:
+                error(req, res, 404);
+                break;
+        }
+    }
+});
+
+app.use(function (req, res) {
+    if (auth(req, res)) {
+        error(req, res, 404);
+    }
 });
 
 app.listen(port, () => console.log(`App listening to port ${port}`));

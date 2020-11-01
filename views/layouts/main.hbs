@@ -6,69 +6,66 @@
 </head>
 
 <body>
-    <body>
-        {{>header}}
+    {{>header}}
 
-        <main role="main">
+    <main role="main">
 
-            <section class="jumbotron text-center">
-                <div class="container">
-                    <h2>Welcome, {{name}}</h2>
-                    <p class="lead text-muted">Start by adding an exercise group, and then add exercises to each group. For example you could have them for days of the week or for specific body groups.</p>
-                    <p>
-                        <a href="/add/group" class="btn btn-primary my-2">Add New Group</a>
-                        <a href="/add/exercise" class="btn btn-secondary my-2">Add New Exercise</a>
-                    </p>
-                </div>
-            </section>
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h2>Welcome, {{name}}</h2>
+                <p class="lead text-muted">Start by adding an exercise group, and then add exercises to each group. For example you could have them for days of the week or for specific body groups.</p>
+                <p>
+                    <a href="/add/group" class="btn btn-primary my-2">Add New Group</a>
+                    <a href="/add/exercise" class="btn btn-secondary my-2">Add New Exercise</a>
+                </p>
+            </div>
+        </section>
 
-            <div class="album py-5 bg-light">
-                <div class="container">
-                    <div class="row">
-                        {{#exerciseGroups}}
-                        <div class="col-md-4">
-                            <div class="card mb-4 shadow-sm">
-                                <img class="card-img-top" alt="image" style="height: 245px; object-fit: cover;"
-                                    src="./img/logo.png"
-                                    data-holder-rendered="true" title="">
-                                <div class="card-body">
-                                    <h4>{{name}}</h4>
-                                    <p class="card-text" style="text-align: justify;">{{note}}</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='/group/{{_id}}'">View</button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='/edit/group/{{_id}}'">Edit</button>
-                                        </div>
-                                        <small class="text-muted">{{exercises.length}} Exercises</small>
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    {{#exerciseGroups}}
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            <img class="card-img-top" alt="image" style="height: 245px; object-fit: cover;"
+                                src="/img/logo.png"
+                                data-holder-rendered="true" title="">
+                            <div class="card-body">
+                                <h4>{{name}}</h4>
+                                <p class="card-text" style="text-align: justify;">{{note}}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='/group/{{_id}}'">View</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='/edit/group/{{_id}}'">Edit</button>
                                     </div>
+                                    <small class="text-muted">{{exercises.length}} Exercises</small>
                                 </div>
                             </div>
                         </div>
-                        {{/exerciseGroups}}
-
-                        {{!-- Add Group Card --}}
-                        <div class="col-md-4">
-                            <div class="card mb-4 shadow-sm">
-                                <div class="card-body">
-                                    <h4>Add New Group</h4>
-                                    <p class="card-text" style="text-align: justify;"></p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-sm btn-outline-primary"
-                                                onclick="location.href='/add/group'">Add</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
+                    {{/exerciseGroups}}
+
+                    {{!-- Add Group Card --}}
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            <div class="card-body">
+                                <h4>Add New Group</h4>
+                                <p class="card-text" style="text-align: justify;"></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-primary"
+                                            onclick="location.href='/add/group'">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
+        </div>
 
-        </main>
-
-    </body>
+    </main>
 
     {{>footer}}
 </body>

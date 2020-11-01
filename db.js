@@ -40,3 +40,10 @@ exports.set = async function (collection, data) {
         return await dbo.collection(collection).insertOne(data);
     }
 }
+
+exports.update = async function (collection, _id, field, parameter) {
+    let item = {};
+    item[field] = parameter;
+    let dbo = db.db(databaseName);
+    return await dbo.collection(collection).updateOne({ _id: _id }, { $addToSet: item });
+}

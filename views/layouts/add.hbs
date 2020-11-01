@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{> head}}
+</head>
+
+<body>
+    {{>header}}
+
+    <main>
+        <div class="container" style="max-width: 40%; min-width: 350px;">
+            <div class="pt-5 text-center">
+                <h2>{{title}}</h2>
+                <p class="lead">Add a new {{type}} by completing the fields.</p>
+            </div>
+            <div class="form">
+                <form action="/add/{{type}}" method="post">
+                    {{#if (equals type 'group')}}
+                    <div class="form-group">
+                        <label for="name">Group Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="My Exercise Group" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="note">Note <span class="text-muted">(Optional)</span></label>
+                        <textarea class="form-control" id="note" name="note" rows="3" placeholder="I need to work on ..."></textarea>
+                    </div>
+                    {{else if (equals type 'exercise')}}
+                    <div class="form-group">
+                        <label for="name">Exercise Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="My Exercise" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="note">Note <span class="text-muted">(Optional)</span></label>
+                        <textarea class="form-control" id="note" name="note" rows="3" placeholder="I need to work on ..."></textarea>
+                    </div>
+                    {{/if}}
+                    <hr>
+                    <div class="form-group d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary btn-md btn-block" style="max-width: 150px;">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    {{>footer}}
+</body>
+
+</html>
