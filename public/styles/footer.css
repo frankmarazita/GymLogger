@@ -11,3 +11,8 @@ html {
   line-height: 60px;
   background-color: #f5f5f5;
 }
+
+body {
+  /* Adds spacing for the footer */
+   margin-bottom: 60px;
+}
