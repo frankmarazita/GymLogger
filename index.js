@@ -182,7 +182,7 @@ app.post('/add/:item', urlencodedParser, async (req, res) => {
                 group.note = req.body.note;
                 group.exercises = [];
                 let exercise = await db.set("exercisegroups", group);
-                await db.update("users", req.session.email, "exercisegroups", exercise.insertedId);
+                await db.updateArray("users", req.session.email, "exercisegroups", exercise.insertedId);
                 res.redirect('/group/' + exercise.insertedId);
                 break;
             }
@@ -193,8 +193,72 @@ app.post('/add/:item', urlencodedParser, async (req, res) => {
                 exercise.name = req.body.name;
                 exercise.note = req.body.note;
                 exercise = await db.set("exercise", exercise);
-                await db.update("exercisegroups", req.body.exercisegroup, "exercises", exercise.insertedId, true);
+                await db.updateArray("exercisegroups", req.body.exercisegroup, "exercises", exercise.insertedId, true);
                 res.redirect('/exercise/' + exercise.insertedId);
+                break;
+            }
+            default: {
+                error(req, res, 404);
+                break;
+            }
+        }
+    }
+});
+
+app.get('/edit/:item/:_id', async (req, res) => {
+    if (auth(req, res)) {
+        switch (req.params.item) {
+            case 'group': {
+                let result = await db.get("users", { _id: req.session.email });
+                let found = false;
+                for (let i = 0; i < result.exercisegroups.length; i++) {
+                    if (String(result.exercisegroups[i]) == req.params._id) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) {
+                    exerciseGroup = await db.get("exercisegroups", req.params._id, true);
+                    res.render('index', { layout: 'edit', title: 'Edit Exercise Group', type: req.params, exerciseGroup: exerciseGroup });
+                } else {
+                    error(req, res, 404);
+                }
+                break;
+            }
+            case 'exercise': {
+                // TODO check if user owns exercise
+                let exercise = await db.get("exercise", req.params._id, true)
+                res.render('index', { layout: 'edit', title: 'Edit Exercise', type: req.params, exercise: exercise });
+                break;
+            }
+            default: {
+                error(req, res, 404);
+                break;
+            }
+        }
+    }
+});
+
+app.post('/edit/:item/:_id', urlencodedParser, async (req, res) => {
+    if (auth(req, res)) {
+        switch (req.params.item) {
+            case 'group': {
+                // TODO Check integrity of request
+                let group = {};
+                group.name = req.body.name;
+                group.note = req.body.note;
+                await db.update("exercisegroups", req.params._id, group, true);
+                res.redirect('/group/' + req.params._id);
+                break;
+            }
+            case 'exercise': {
+                // TODO Check integrity of request
+                // Check user owns that group
+                let exercise = {};
+                exercise.name = req.body.name;
+                exercise.note = req.body.note;
+                await db.update("exercise", req.params._id, exercise, true);
+                res.redirect('/exercise/' + req.params._id);
                 break;
             }
             default: {
