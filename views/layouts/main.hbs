@@ -16,7 +16,9 @@
                 <p class="lead text-muted">Start by adding an exercise group, and then add exercises to each group. For example you could have them for days of the week or for specific body groups.</p>
                 <p>
                     <a href="/add/group" class="btn btn-primary my-2">Add New Group</a>
+                    {{#if (greater exerciseGroups.length 0)}}
                     <a href="/add/exercise" class="btn btn-secondary my-2">Add New Exercise</a>
+                    {{/if}}
                 </p>
             </div>
         </section>

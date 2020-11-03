@@ -38,6 +38,9 @@ const handlebars = handlebars_express.create({
     helpers: {
         equals: function (a, b) {
             return a == b;
+        },
+        greater: function (a, b) {
+            return a > b;
         }
     }
 });
@@ -142,18 +145,29 @@ app.post('/login', urlencodedParser, async (req, res) => {
 
 });
 
-app.get('/add/:item', (req, res) => {
+app.get('/add/:item', async (req, res) => {
     if (auth(req, res)) {
         switch (req.params.item) {
-            case 'group':
-                res.render('index', { layout: 'add', title: 'Add Exercise Group', type: req.params.item});
+            case 'group': {
+                res.render('index', { layout: 'add', title: 'Add Exercise Group', type: req.params.item });
                 break;
-            case 'exercise':
-                res.render('index', { layout: 'add', title: 'Add Exercise', type: req.params.item});
+            }
+            case 'exercise': {
+                let result = await db.get("users", { _id: req.session.email });
+                let exerciseGroups = [];
+                if ('exercisegroups' in result) {
+                    for (const element of result['exercisegroups']) {
+                        let exerciseGroup = await db.get("exercisegroups", element, true);
+                        exerciseGroups.push(exerciseGroup);
+                    };
+                }
+                res.render('index', { layout: 'add', title: 'Add Exercise', type: req.params.item, exerciseGroups: exerciseGroups });
                 break;
-            default:
+            }
+            default: {
                 error(req, res, 404);
                 break;
+            }
         }
     }
 });
@@ -161,18 +175,32 @@ app.get('/add/:item', (req, res) => {
 app.post('/add/:item', urlencodedParser, async (req, res) => {
     if (auth(req, res)) {
         switch (req.params.item) {
-            case 'group':
-                req.body['exercises'] = [];
-                let result = await db.set("exercisegroups", req.body);
+            case 'group': {
+                // TODO Check integrity of request
+                let group = {};
+                group.name = req.body.name;
+                group.note = req.body.note;
+                group.exercises = [];
+                let result = await db.set("exercisegroups", group);
                 result = await db.update("users", req.session.email, "exercisegroups", result.insertedId);
                 res.redirect('/group/' + result.insertedId);
                 break;
-            case 'exercise':
-                // res.render('index', { layout: 'add', title: 'Add Exercise', type: req.params.item });
+            }
+            case 'exercise': {
+                // TODO Check integrity of request
+                // Check user owns that group
+                let exercise = {};
+                exercise.name = req.body.name;
+                exercise.note = req.body.note;
+                let result = await db.set("exercise", exercise);
+                result = await db.update("exercisegroups", req.body.exercisegroup, "exercises", result.insertedId, true);
+                res.redirect('/exercise/' + result.insertedId);
                 break;
-            default:
+            }
+            default: {
                 error(req, res, 404);
                 break;
+            }
         }
     }
 });

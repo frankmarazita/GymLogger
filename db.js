@@ -41,9 +41,12 @@ exports.set = async function (collection, data) {
     }
 }
 
-exports.update = async function (collection, _id, field, parameter) {
+exports.update = async function (collection, _id, field, parameter, objectID = false) {
     let item = {};
     item[field] = parameter;
     let dbo = db.db(databaseName);
+    if (objectID) {
+        _id = new ObjectId(_id);
+    }
     return await dbo.collection(collection).updateOne({ _id: _id }, { $addToSet: item });
 }
