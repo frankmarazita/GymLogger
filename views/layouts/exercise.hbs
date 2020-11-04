@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{> head}}
+</head>
+
+<body>
+    {{>header}}
+
+    <main>
+        <div class="container" style="max-width: 40%; min-width: 350px;">
+            <div class="pt-5 text-center">
+                <h2>{{exercise.name}}</h2>
+                <p class="lead">{{exercise.note}}</p>
+                <a href="/edit/exercise/{{exercise._id}}" class="">Edit</a>
+            </div>
+        </div>
+    </main>
+
+    {{>footer}}
+</body>
+
+</html>

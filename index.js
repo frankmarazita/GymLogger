@@ -198,23 +198,30 @@ app.get('/edit/:item/:_id', async (req, res) => {
     if (auth(req, res)) {
         switch (req.params.item) {
             case 'group': {
-                let exerciseGroups = await db.getAll("exercisegroups", { user: req.session.email });
-                for (let i = 0; i < exerciseGroups.length; i++) {
-                    if (String(exerciseGroups[i]._id) == req.params._id) {
-                        found = true;
-                        res.render('index', { layout: 'edit', title: 'Edit Exercise Group', type: req.params, exerciseGroup: exerciseGroups[i] });
-                        break;
+                let exerciseGroup = await db.get("exercisegroups", req.params._id, true);
+                if (exerciseGroup) {
+                    if (exerciseGroup.user == req.session.email) {
+                        res.render('index', { layout: 'edit', title: 'Edit Exercise Group', type: req.params, exerciseGroup: exerciseGroup });
+                    } else {
+                        error(req, res, 403);
                     }
-                }
-                if (!found) {
+                } else {
                     error(req, res, 404);
                 }
                 break;
             }
             case 'exercise': {
-                // TODO check if user owns exercise
                 let exercise = await db.get("exercises", req.params._id, true)
-                res.render('index', { layout: 'edit', title: 'Edit Exercise', type: req.params, exercise: exercise });
+                if (exercise) {
+                    let exerciseGroup = await db.get("exercisegroups", exercise.exercisegroup, true);
+                    if (exerciseGroup.user == req.session.email) {
+                        res.render('index', { layout: 'edit', title: 'Edit Exercise', type: req.params, exercise: exercise });
+                    } else {
+                        error(req, res, 403);
+                    }
+                } else {
+                    error(req, res, 404);
+                }
                 break;
             }
             default: {
@@ -258,21 +265,37 @@ app.post('/edit/:item/:_id', urlencodedParser, async (req, res) => {
 
 app.get('/group/:_id', async (req, res) => {
     if (auth(req, res)) {
-        let exerciseGroups = await db.getAll("exercisegroups", { user: req.session.email });
-        for (let i = 0; i < exerciseGroups.length; i++) {
-            if (String(exerciseGroups[i]._id) == req.params._id) {
-                found = true;
-                let exercises = await db.getAll("exercises", { exercisegroup: String(exerciseGroups[i]._id) });
-                res.render('index', { layout: 'group', title: exerciseGroups[i].name, exerciseGroup: exerciseGroups[i], exercises: exercises });
-                break;
+        let exerciseGroup = await db.get("exercisegroups", req.params._id, true);
+        if (exerciseGroup) {
+            if (exerciseGroup.user == req.session.email) {
+                let exercises = await db.getAll("exercises", { exercisegroup: String(exerciseGroup._id) });
+                res.render('index', { layout: 'group', title: exerciseGroup.name, exerciseGroup: exerciseGroup, exercises: exercises });
+            } else {
+                error(req, res, 403);
             }
-        }
-        if (!found) {
+        } else {
             error(req, res, 404);
         }
     }
 });
 
+app.get('/exercise/:_id', async (req, res) => {
+    if (auth(req, res)) {
+        let exercise = await db.get("exercises", req.params._id, true);
+        if (exercise) {
+            let exerciseGroup = await db.get("exercisegroups", exercise.exercisegroup, true);
+            if (exerciseGroup.user == req.session.email) {
+                res.render('index', { layout: 'exercise', title: exercise.name, exercise: exercise });
+            } else {
+                error(req, res, 403);
+            }
+        } else {
+            error(req, res, 404);
+        }
+    }
+});
+
+// Default page not found
 app.use(function (req, res) {
     if (auth(req, res)) {
         error(req, res, 404);
