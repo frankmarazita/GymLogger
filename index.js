@@ -76,7 +76,11 @@ function error(req, res, code) {
 app.get('/', async (req, res) => {
     if (auth(req, res)) {
         let exerciseGroups = await db.getAll("exercisegroups", { user: req.session.email });
-        res.render('index', { layout: 'main', title: 'Main', name: req.session.name, exerciseGroups: exerciseGroups });
+        for (let i = 0; i < exerciseGroups.length; i++) {
+            let exercises = await db.getAll("exercises", { exercisegroup: String(exerciseGroups[i]._id) });
+            exerciseGroups[i].numexercises = exercises.length;
+        }
+        res.render('index', { layout: 'main', title: 'Main', name: req.session.name, exerciseGroups: exerciseGroups});
     }
 });
 
@@ -195,9 +199,8 @@ app.get('/edit/:item/:_id', async (req, res) => {
         switch (req.params.item) {
             case 'group': {
                 let exerciseGroups = await db.getAll("exercisegroups", { user: req.session.email });
-                console.log(exerciseGroups);
                 for (let i = 0; i < exerciseGroups.length; i++) {
-                    if (String(exercisegroups[i]._id) == req.params._id) {
+                    if (String(exerciseGroups[i]._id) == req.params._id) {
                         found = true;
                         res.render('index', { layout: 'edit', title: 'Edit Exercise Group', type: req.params, exerciseGroup: exerciseGroups[i] });
                         break;
@@ -227,6 +230,7 @@ app.post('/edit/:item/:_id', urlencodedParser, async (req, res) => {
         switch (req.params.item) {
             case 'group': {
                 // TODO Check integrity of request
+                // Check user owns that group
                 let group = {};
                 group.name = req.body.name;
                 group.note = req.body.note;
@@ -236,7 +240,7 @@ app.post('/edit/:item/:_id', urlencodedParser, async (req, res) => {
             }
             case 'exercise': {
                 // TODO Check integrity of request
-                // Check user owns that group
+                // Check user owns that exercise
                 let exercise = {};
                 exercise.name = req.body.name;
                 exercise.note = req.body.note;
@@ -256,7 +260,6 @@ app.get('/group/:_id', async (req, res) => {
     if (auth(req, res)) {
         let exerciseGroups = await db.getAll("exercisegroups", { user: req.session.email });
         for (let i = 0; i < exerciseGroups.length; i++) {
-            console.log(String(exerciseGroups[i]._id));
             if (String(exerciseGroups[i]._id) == req.params._id) {
                 found = true;
                 let exercises = await db.getAll("exercises", { exercisegroup: String(exerciseGroups[i]._id) });
