@@ -8,7 +8,7 @@ const bcrypt = require('./bcrypt') // Import bcrypt
 
 // Initialise MongoDB
 
-let databaseName = "gymlog";
+let databaseName = "gymlogger";
 db.init(process.env.MONGODB_SECRET, databaseName);
 
 // Initialise Express
@@ -75,14 +75,7 @@ function error(req, res, code) {
 
 app.get('/', async (req, res) => {
     if (auth(req, res)) {
-        let result = await db.get("users", { _id: req.session.email });
-        let exerciseGroups = [];
-        if ('exercisegroups' in result) {
-            for (const element of result['exercisegroups']) {
-                let exerciseGroup = await db.get("exercisegroups", element, true);
-                exerciseGroups.push(exerciseGroup);
-            };
-        }
+        let exerciseGroups = await db.getAll("exercisegroups", { user: req.session.email });
         res.render('index', { layout: 'main', title: 'Main', name: req.session.name, exerciseGroups: exerciseGroups });
     }
 });
@@ -153,14 +146,7 @@ app.get('/add/:item', async (req, res) => {
                 break;
             }
             case 'exercise': {
-                let result = await db.get("users", { _id: req.session.email });
-                let exerciseGroups = [];
-                if ('exercisegroups' in result) {
-                    for (const element of result['exercisegroups']) {
-                        let exerciseGroup = await db.get("exercisegroups", element, true);
-                        exerciseGroups.push(exerciseGroup);
-                    };
-                }
+                let exerciseGroups = await db.getAll("exercisegroups", { user: req.session.email });
                 res.render('index', { layout: 'add', title: 'Add Exercise', type: req.params.item, exerciseGroups: exerciseGroups });
                 break;
             }
@@ -178,11 +164,10 @@ app.post('/add/:item', urlencodedParser, async (req, res) => {
             case 'group': {
                 // TODO Check integrity of request
                 let group = {};
+                group.user = req.session.email;
                 group.name = req.body.name;
                 group.note = req.body.note;
-                group.exercises = [];
                 let exercise = await db.set("exercisegroups", group);
-                await db.updateArray("users", req.session.email, "exercisegroups", exercise.insertedId);
                 res.redirect('/group/' + exercise.insertedId);
                 break;
             }
@@ -190,10 +175,10 @@ app.post('/add/:item', urlencodedParser, async (req, res) => {
                 // TODO Check integrity of request
                 // Check user owns that group
                 let exercise = {};
+                exercise.exercisegroup = req.body.exercisegroup;
                 exercise.name = req.body.name;
                 exercise.note = req.body.note;
-                exercise = await db.set("exercise", exercise);
-                await db.updateArray("exercisegroups", req.body.exercisegroup, "exercises", exercise.insertedId, true);
+                exercise = await db.set("exercises", exercise);
                 res.redirect('/exercise/' + exercise.insertedId);
                 break;
             }
@@ -209,25 +194,23 @@ app.get('/edit/:item/:_id', async (req, res) => {
     if (auth(req, res)) {
         switch (req.params.item) {
             case 'group': {
-                let result = await db.get("users", { _id: req.session.email });
-                let found = false;
-                for (let i = 0; i < result.exercisegroups.length; i++) {
-                    if (String(result.exercisegroups[i]) == req.params._id) {
+                let exerciseGroups = await db.getAll("exercisegroups", { user: req.session.email });
+                console.log(exerciseGroups);
+                for (let i = 0; i < exerciseGroups.length; i++) {
+                    if (String(exercisegroups[i]._id) == req.params._id) {
                         found = true;
+                        res.render('index', { layout: 'edit', title: 'Edit Exercise Group', type: req.params, exerciseGroup: exerciseGroups[i] });
                         break;
                     }
                 }
-                if (found) {
-                    exerciseGroup = await db.get("exercisegroups", req.params._id, true);
-                    res.render('index', { layout: 'edit', title: 'Edit Exercise Group', type: req.params, exerciseGroup: exerciseGroup });
-                } else {
+                if (!found) {
                     error(req, res, 404);
                 }
                 break;
             }
             case 'exercise': {
                 // TODO check if user owns exercise
-                let exercise = await db.get("exercise", req.params._id, true)
+                let exercise = await db.get("exercises", req.params._id, true)
                 res.render('index', { layout: 'edit', title: 'Edit Exercise', type: req.params, exercise: exercise });
                 break;
             }
@@ -257,7 +240,7 @@ app.post('/edit/:item/:_id', urlencodedParser, async (req, res) => {
                 let exercise = {};
                 exercise.name = req.body.name;
                 exercise.note = req.body.note;
-                await db.update("exercise", req.params._id, exercise, true);
+                await db.update("exercises", req.params._id, exercise, true);
                 res.redirect('/exercise/' + req.params._id);
                 break;
             }
@@ -271,22 +254,17 @@ app.post('/edit/:item/:_id', urlencodedParser, async (req, res) => {
 
 app.get('/group/:_id', async (req, res) => {
     if (auth(req, res)) {
-        let result = await db.get("users", { _id: req.session.email });
-        let found = false;
-        for (let i = 0; i < result.exercisegroups.length; i++) {
-            if (String(result.exercisegroups[i]) == req.params._id) {
+        let exerciseGroups = await db.getAll("exercisegroups", { user: req.session.email });
+        for (let i = 0; i < exerciseGroups.length; i++) {
+            console.log(String(exerciseGroups[i]._id));
+            if (String(exerciseGroups[i]._id) == req.params._id) {
                 found = true;
+                let exercises = await db.getAll("exercises", { exercisegroup: String(exerciseGroups[i]._id) });
+                res.render('index', { layout: 'group', title: exerciseGroups[i].name, exerciseGroup: exerciseGroups[i], exercises: exercises });
                 break;
             }
         }
-        if (found) {
-            exerciseGroup = await db.get("exercisegroups", req.params._id, true);
-            let exercises = [];
-            for (const _id of exerciseGroup.exercises) {
-                exercises.push(await db.get("exercise", _id, true));
-            };
-            res.render('index', { layout: 'group', title: exerciseGroup.name, exerciseGroup: exerciseGroup, exercises: exercises });
-        } else {
+        if (!found) {
             error(req, res, 404);
         }
     }

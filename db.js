@@ -33,6 +33,18 @@ exports.get = async function (collection, data, objectID=false) {
     }
 }
 
+exports.getAll = async function (collection, data, objectID=false) {
+    // collection - name of database collection
+    // data - dictionary of search fields
+    // objectID - set to true, and treats data as a object ID string
+    if (db) {
+        if (objectID) {
+            data = { '_id': new ObjectId(data) };
+        }
+        return await (await dbo.collection(collection).find(data)).toArray();
+    }
+}
+
 exports.set = async function (collection, data) {
     // collection - name of database collection
     // data - dictionary of search fields
