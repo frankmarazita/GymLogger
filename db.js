@@ -21,6 +21,10 @@ exports.init = async function (uri, name) {
     }
 }
 
+exports.close = async function () {
+    db.close();
+}
+
 exports.get = async function (collection, data, objectID=false) {
     // collection - name of database collection
     // data - dictionary of search fields
@@ -66,6 +70,10 @@ exports.update = async function (collection, _id, data, objectID=false) {
 }
 
 exports.updateArray = async function (collection, _id, field, parameter, objectID = false) {
+    // collection - name of database collection
+    // _id - id of collection entry
+    // field - array field to add to
+    // parameter - the value to add
     if (db) {
         let item = {};
         item[field] = parameter;
@@ -73,5 +81,16 @@ exports.updateArray = async function (collection, _id, field, parameter, objectI
             _id = new ObjectId(_id);
         }
         return await dbo.collection(collection).updateOne({ _id: _id }, { $addToSet: item });
+    }
+}
+
+exports.delete = async function (collection, _id, objectID = false) {
+    // collection - name of database collection
+    // _id - id of collection entry
+    if (db) {
+        if (objectID) {
+            _id = new ObjectId(_id);
+        }
+        return await dbo.collection(collection).deleteOne({ _id: _id });
     }
 }

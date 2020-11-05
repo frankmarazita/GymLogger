@@ -105,7 +105,9 @@ app.post('/signup', urlencodedParser, async (req, res) => {
     if (error == null) {
         const password_hash = await bcrypt.hash(req.body.password);
         await db.set("users", { _id: req.body.email, name: req.body.name, passwordhash: password_hash });
-        res.render('index', { layout: 'login', title: 'Login' });
+        req.session.email = req.body.email;
+        req.session.name = req.body.name;
+        res.redirect('/');
     } else {
         res.render('index', { layout: 'signup', title: 'Signup', error: error });
     }
@@ -140,6 +142,12 @@ app.post('/login', urlencodedParser, async (req, res) => {
         res.render('index', { layout: 'login', title: 'Login', error: error });
     }
 
+});
+
+app.get('/logout', (req, res) => {
+    delete req.session.email;
+    delete req.session.name;
+    res.redirect('/login');
 });
 
 app.get('/add/:item', async (req, res) => {
@@ -253,6 +261,27 @@ app.post('/edit/:item/:_id', urlencodedParser, async (req, res) => {
                 exercise.note = req.body.note;
                 await db.update("exercises", req.params._id, exercise, true);
                 res.redirect('/exercise/' + req.params._id);
+                break;
+            }
+            default: {
+                error(req, res, 404);
+                break;
+            }
+        }
+    }
+});
+
+app.post('/delete/:item/:_id', urlencodedParser, async (req, res) => {
+    if (auth(req, res)) {
+        switch (req.params.item) {
+            case 'group': {
+                // console.log(req.params);
+                break;
+            }
+            case 'exercise': {
+                let result = await db.get("exercises", req.params._id, true);
+                await db.delete("exercises", req.params._id, true);
+                res.status(200).send({ url: '/group/' + result.exercisegroup })
                 break;
             }
             default: {

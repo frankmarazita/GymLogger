@@ -53,11 +53,26 @@
                         <button type="submit" class="btn btn-primary btn-md btn-block" style="max-width: 150px;">Edit</button>
                     </div>
                 </form>
+                <hr>
+                <div class="form-group d-flex justify-content-center">
+                    <button onclick="deleteItem()" class="btn btn-outline-danger btn-md btn-block" style="max-width: 150px;">Delete</button>
+                </div>
             </div>
         </div>
     </main>
 
     {{>footer}}
 </body>
+
+<script>
+    function deleteItem() {
+        let result = confirm("Confirm Delete");
+        if (result == true) {
+            $.post('/delete/{{type.item}}/{{type._id}}', function (response, status) {
+                window.location.replace(response.url);
+            });
+        }
+    }
+</script>
 
 </html>
