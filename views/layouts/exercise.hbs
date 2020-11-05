@@ -16,9 +16,47 @@
                 <a href="/edit/exercise/{{exercise._id}}" class="">Edit</a>
             </div>
         </div>
+        <div class="container" style="max-width: 80%; min-width: 375px;">
+            <div id="chart"></div>
+        </div>
     </main>
 
     {{>footer}}
 </body>
+
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Day');
+        data.addColumn('number', 'Daily Max kg');
+
+        data.addRows([
+            {{#data}}
+            ["{{date}}", {{value}}],
+            {{/data}}
+        ]);
+
+        var options = {
+            title: "Weekly Analysis",
+            {{!-- curveType: 'function', --}}
+            legend: { position: 'bottom' },
+            height: 400,
+        }
+
+        resize();
+
+        function resize() {
+            var chart = new google.visualization.LineChart(document.getElementById('chart'));
+            chart.draw(data, options);
+        }
+
+        window.onload = resize;
+        window.onresize = resize;
+    }
+</script>
 
 </html>

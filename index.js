@@ -314,7 +314,18 @@ app.get('/exercise/:_id', async (req, res) => {
         if (exercise) {
             let exerciseGroup = await db.get("exercisegroups", exercise.exercisegroup, true);
             if (exerciseGroup.user == req.session.email) {
-                res.render('index', { layout: 'exercise', title: exercise.name, exercise: exercise });
+
+                let sampleData = [
+                    { date: '01/01', value: 15 },
+                    { date: '01/02', value: 15 },
+                    { date: '01/03', value: 25 },
+                    { date: '01/04', value: 25 },
+                    { date: '01/05', value: 35 },
+                    { date: '01/06', value: 45 },
+                    { date: '01/07', value: 45 },
+                ];
+
+                res.render('index', { layout: 'exercise', title: exercise.name, exercise: exercise, data: sampleData});
             } else {
                 error(req, res, 403);
             }
