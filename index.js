@@ -3,8 +3,9 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const handlebars_express = require('express-handlebars');
 
-const db = require('./db') // Import Database
-const bcrypt = require('./bcrypt') // Import bcrypt
+const db = require('./db'); // Import Database
+const bcrypt = require('./bcrypt'); // Import bcrypt
+const exerciseTypes = require('./enums/exercise-types');
 
 // Initialise MongoDB
 
@@ -159,7 +160,12 @@ app.get('/add/:item', async (req, res) => {
             }
             case 'exercise': {
                 let exerciseGroups = await db.getAll("exercisegroups", { user: req.session.email });
-                res.render('index', { layout: 'add', title: 'Add Exercise', type: req.params.item, exerciseGroups: exerciseGroups });
+                let types = [];
+                for (const [value, key] of Object.entries(exerciseTypes)) {
+                    types.push({ key: key, value: value });
+                }
+                types.splice(0, types.length / 2);
+                res.render('index', { layout: 'add', title: 'Add Exercise', type: req.params.item, exerciseGroups: exerciseGroups, exerciseTypes: types });
                 break;
             }
             default: {
@@ -190,6 +196,7 @@ app.post('/add/:item', urlencodedParser, async (req, res) => {
                 exercise.exercisegroup = req.body.exercisegroup;
                 exercise.name = req.body.name;
                 exercise.note = req.body.note;
+                exercise.exercisetype = parseInt(req.body.exercisetype);
                 exercise = await db.set("exercises", exercise);
                 res.redirect('/exercise/' + exercise.insertedId);
                 break;

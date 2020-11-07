@@ -18,7 +18,18 @@
             {{#exercises}}
             <div class="card m-3">
                 <div class="card-body">
-                    <h5 class="card-title">{{name}}</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">{{name}}</h5>
+                        {{#if (equals exercisetype 1)}}
+                        <i class="las la-dumbbell" style="font-size:48px;"></i>
+                        {{else if (equals exercisetype 2)}}
+                        <i class="las la-cog" style="font-size:48px;"></i>
+                        {{else if (equals exercisetype 3)}}
+                        <i class="las la-hand-rock" style="font-size:48px;"></i>
+                        {{else if (equals exercisetype 4)}}
+                        <i class="las la-running"style="font-size:48px;"></i>
+                        {{/if}}
+                    </div>
                     <p class="card-text">{{note}}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">

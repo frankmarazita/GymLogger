@@ -43,6 +43,15 @@
                             {{/exerciseGroups}}
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="exercisetype">Exercise Type</label>
+                        <select class="form-control" id="exercisetype" name="exercisetype" required>
+                            <option value="" selected disabled hidden>...</option>
+                            {{#exerciseTypes}}
+                            <option value="{{key}}">{{value}}</option>
+                            {{/exerciseTypes}}
+                        </select>
+                    </div>
                     {{/if}}
                     <hr>
                     <div class="form-group d-flex justify-content-center">
