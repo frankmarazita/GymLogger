@@ -42,6 +42,9 @@ const handlebars = handlebars_express.create({
         },
         greater: function (a, b) {
             return a > b;
+        },
+        or: function (a, b) {
+            return a || b;
         }
     }
 });
@@ -68,6 +71,8 @@ function error(req, res, code) {
         case 404:
             message = "Page Not Found"
             break;
+        case 422:
+            message = "Unprocessable Entity"
         default:
             break;
     }
@@ -271,7 +276,7 @@ app.post('/edit/:item/:_id', urlencodedParser, async (req, res) => {
                 break;
             }
             default: {
-                error(req, res, 404);
+                error(req, res, 422);
                 break;
             }
         }
@@ -282,17 +287,18 @@ app.post('/delete/:item/:_id', urlencodedParser, async (req, res) => {
     if (auth(req, res)) {
         switch (req.params.item) {
             case 'group': {
-                // console.log(req.params);
+                // TODO Check user owns that group
                 break;
             }
             case 'exercise': {
+                // TODO Check user owns that exercise
                 let result = await db.get("exercises", req.params._id, true);
                 await db.delete("exercises", req.params._id, true);
                 res.status(200).send({ url: '/group/' + result.exercisegroup })
                 break;
             }
             default: {
-                error(req, res, 404);
+                error(req, res, 422);
                 break;
             }
         }
@@ -322,17 +328,42 @@ app.get('/exercise/:_id', async (req, res) => {
             let exerciseGroup = await db.get("exercisegroups", exercise.exercisegroup, true);
             if (exerciseGroup.user == req.session.email) {
 
-                let sampleData = [
-                    { date: '01/01', value: 15 },
-                    { date: '01/02', value: 15 },
-                    { date: '01/03', value: 25 },
-                    { date: '01/04', value: 25 },
-                    { date: '01/05', value: 35 },
-                    { date: '01/06', value: 45 },
-                    { date: '01/07', value: 45 },
-                ];
+                dailymax = null;
+                if (exercise.dailymax) {
+                    for (let i = 0; i < exercise.dailymax.length; i++) {
+                        exercise.dailymax[i].date = exercise.dailymax[i].date.toLocaleDateString();
+                    }
+                    dailymax = exercise.dailymax;
+                }
 
-                res.render('index', { layout: 'exercise', title: exercise.name, exercise: exercise, data: sampleData});
+                res.render('index', { layout: 'exercise', title: exercise.name, exercise: exercise, dailymax: dailymax});
+            } else {
+                error(req, res, 403);
+            }
+        } else {
+            error(req, res, 404);
+        }
+    }
+});
+
+app.post('/exercise/:_id/:action', urlencodedParser, async (req, res) => {
+    if (auth(req, res)) {
+        let exercise = await db.get("exercises", req.params._id, true);
+        if (exercise) {
+            let exerciseGroup = await db.get("exercisegroups", exercise.exercisegroup, true);
+            if (exerciseGroup.user == req.session.email) {
+                switch (req.params.action) {
+                    case 'dailymax': {
+                        let dailymax = { date: new Date(), value: req.body.value};
+                        await db.updateArray("exercises", req.params._id, "dailymax", dailymax, true);
+                        break;
+                    }
+                    default: {
+                        error(req, res, 422);
+                        break;
+                    }
+                }
+                res.redirect('/exercise/' + req.params._id);
             } else {
                 error(req, res, 403);
             }

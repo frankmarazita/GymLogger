@@ -19,6 +19,36 @@
         <div class="container" style="max-width: 80%; min-width: 375px;">
             <div id="chart"></div>
         </div>
+
+        <div class="container" style="max-width: 40%; min-width: 350px;">
+            <form action="/exercise/{{exercise._id}}/dailymax" method="post">
+                {{#if (or (equals exercise.exercisetype 1) (equals exercise.exercisetype 2))}}
+                <label for="value">Enter Daily Max kg</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="value" name="value" placeholder="Max kg" min="0" required>
+                    <button type="submit" class="btn btn-primary btn-md btn-block ml-3" style="max-width: 70px;">Add</button>
+                </div>
+                {{else if (equals exercise.exercisetype 3)}}
+                <label for="value">Enter Daily Max Reps</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="value" name="value" placeholder="Max Reps" min="0" required>
+                    <button type="submit" class="btn btn-primary btn-md btn-block ml-3" style="max-width: 70px;">Add</button>
+                </div>
+                {{else if (equals exercise.exercisetype 4)}}
+                <label for="value">Enter Daily Max km</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="value" name="value" placeholder="Max km" min="0" required>
+                    <button type="submit" class="btn btn-primary btn-md btn-block ml-3" style="max-width: 70px;">Add</button>
+                </div>
+                {{/if}}
+            </form>
+        </div>
+
+        <div class="container" style="max-width: 40%; min-width: 350px;">
+            <div class="p-3 text-center">
+                <a href="/exercise/{{exercise._id}}/data" class="btn btn-secondary my-2">View All Data</a>
+            </div>
+        </div>
     </main>
 
     {{>footer}}
@@ -32,16 +62,22 @@
     function drawChart() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Day');
+        {{#if (or (equals exercise.exercisetype 1) (equals exercise.exercisetype 2))}}
         data.addColumn('number', 'Daily Max kg');
+        {{else if (equals exercise.exercisetype 3)}}
+        data.addColumn('number', 'Daily Max Reps');
+        {{else if (equals exercise.exercisetype 4)}}
+        data.addColumn('number', 'Daily Max km');
+        {{/if}}
 
         data.addRows([
-            {{#data}}
+            {{#dailymax}}
             ["{{date}}", {{value}}],
-            {{/data}}
+            {{/dailymax}}
         ]);
 
         var options = {
-            title: "Weekly Analysis",
+            title: "Progress Analysis",
             {{!-- curveType: 'function', --}}
             legend: { position: 'bottom' },
             height: 400,
