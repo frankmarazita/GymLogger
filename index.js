@@ -354,7 +354,7 @@ app.post('/exercise/:_id/:action', urlencodedParser, async (req, res) => {
             if (exerciseGroup.user == req.session.email) {
                 switch (req.params.action) {
                     case 'dailymax': {
-                        let dailymax = { date: new Date(), value: req.body.value};
+                        let dailymax = { date: new Date(), value: parseFloat(req.body.value) };
                         await db.updateArray("exercises", req.params._id, "dailymax", dailymax, true);
                         break;
                     }
@@ -370,6 +370,29 @@ app.post('/exercise/:_id/:action', urlencodedParser, async (req, res) => {
         } else {
             error(req, res, 404);
         }
+    }
+});
+
+app.get('/weight', async (req, res) => {
+    if (auth(req, res)) {
+        let user = await db.get("users", { _id: req.session.email });
+        let weight = null;
+        if (user.weight) {
+            for (let i = 0; i < user.weight.length; i++) {
+                user.weight[i].date = user.weight[i].date.toLocaleDateString();
+            }
+            weight = user.weight;
+        }
+        res.render('index', { layout: 'weight', title: "Weight", weight: weight });
+    }
+});
+
+app.post('/weight', urlencodedParser, async (req, res) => {
+    if (auth(req, res)) {
+        console.log(req.body);
+        let weight = { date: new Date(), value: parseFloat(req.body.value) };
+        await db.updateArray("users", req.session.email, "weight", weight, false);
+        res.redirect('/weight');
     }
 });
 

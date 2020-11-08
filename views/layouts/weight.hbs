@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{> head}}
+</head>
+
+<body>
+    {{>header}}
+
+    <main>
+        <div class="container" style="max-width: 40%; min-width: 350px;">
+            <div class="pt-5 text-center">
+                <h2>Weight</h2>
+            </div>
+        </div>
+        <div class="container" style="max-width: 80%; min-width: 375px;">
+            <div id="chart"></div>
+        </div>
+
+        <div class="container" style="max-width: 40%; min-width: 350px;">
+            <form action="/weight" method="post">
+                <label for="value">Log Weight</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="value" name="value" placeholder="Weight kg" min="0" step="0.1" required>
+                    <button type="submit" class="btn btn-primary btn-md btn-block ml-3" style="max-width: 70px;">Log</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="container" style="max-width: 40%; min-width: 350px;">
+            <div class="p-3 text-center">
+                <a href="/weight/data" class="btn btn-secondary my-2">View All Data</a>
+            </div>
+        </div>
+    </main>
+
+    {{>footer}}
+</body>
+
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Day');
+        data.addColumn('number', 'Weight');
+
+        data.addRows([
+            {{#weight}}
+            ["{{date}}", {{ value }}],
+            {{/weight}}
+        ]);
+
+        var options = {
+            title: "Log Summary",
+            {{!-- curveType: 'function', --}}
+            legend: { position: 'bottom' },
+            height: 400,
+        }
+
+        resize();
+
+        function resize() {
+            var chart = new google.visualization.LineChart(document.getElementById('chart'));
+            chart.draw(data, options);
+        }
+
+        window.onload = resize;
+        window.onresize = resize;
+    }
+</script>
+
+</html>
