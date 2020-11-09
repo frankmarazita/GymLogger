@@ -356,6 +356,14 @@ app.post('/exercise/:_id/:action', urlencodedParser, async (req, res) => {
                     case 'dailymax': {
                         let dailymax = { date: new Date(), value: parseFloat(req.body.value) };
                         await db.updateArray("exercises", req.params._id, "dailymax", dailymax, true);
+                        res.redirect('/exercise/' + req.params._id);
+                        break;
+                    }
+                    case 'goal': {
+                        let goal = { goal: { date: new Date(), value: parseFloat(req.body.value) } };
+                        console.log(goal);
+                        await db.update("exercises", req.params._id, goal, true);
+                        res.redirect('/exercise/' + req.params._id);
                         break;
                     }
                     default: {
@@ -363,7 +371,6 @@ app.post('/exercise/:_id/:action', urlencodedParser, async (req, res) => {
                         break;
                     }
                 }
-                res.redirect('/exercise/' + req.params._id);
             } else {
                 error(req, res, 403);
             }

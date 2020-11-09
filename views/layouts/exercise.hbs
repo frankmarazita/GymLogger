@@ -21,27 +21,52 @@
         </div>
 
         <div class="container" style="max-width: 40%; min-width: 350px;">
-            <form action="/exercise/{{exercise._id}}/dailymax" method="post">
-                {{#if (or (equals exercise.exercisetype 1) (equals exercise.exercisetype 2))}}
+            {{#if (or (equals exercise.exercisetype 1) (equals exercise.exercisetype 2))}}
+            <form action="/exercise/{{exercise._id}}/dailymax" method="post" class="mb-3">
                 <label for="value">Enter Daily Max kg</label>
                 <div class="input-group">
                     <input type="number" class="form-control" id="value" name="value" placeholder="Max kg" min="0" required>
                     <button type="submit" class="btn btn-primary btn-md btn-block ml-3" style="max-width: 70px;">Add</button>
                 </div>
-                {{else if (equals exercise.exercisetype 3)}}
+            </form>
+            <form action="/exercise/{{exercise._id}}/goal" method="post"  class="mb-3">
+                <label for="value">Set Goal</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="value" name="value" placeholder="Goal kg" min="0" required>
+                    <button type="submit" class="btn btn-primary btn-md btn-block ml-3" style="max-width: 70px;">Set</button>
+                </div>
+            </form>
+            {{else if (equals exercise.exercisetype 3)}}
+            <form action="/exercise/{{exercise._id}}/dailymax" method="post" class="mb-3">
                 <label for="value">Enter Daily Max Reps</label>
                 <div class="input-group">
                     <input type="number" class="form-control" id="value" name="value" placeholder="Max Reps" min="0" required>
                     <button type="submit" class="btn btn-primary btn-md btn-block ml-3" style="max-width: 70px;">Add</button>
                 </div>
-                {{else if (equals exercise.exercisetype 4)}}
+            </form>
+            <form action="/exercise/{{exercise._id}}/goal" method="post" class="mb-3">
+                <label for="value">Set Goal</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="value" name="value" placeholder="Goal Reps" min="0" required>
+                    <button type="submit" class="btn btn-primary btn-md btn-block ml-3" style="max-width: 70px;">Set</button>
+                </div>
+            </form>
+            {{else if (equals exercise.exercisetype 4)}}
+            <form action="/exercise/{{exercise._id}}/dailymax" method="post" class="mb-3">
                 <label for="value">Enter Daily Max km</label>
                 <div class="input-group">
                     <input type="number" class="form-control" id="value" name="value" placeholder="Max km" min="0" step="0.1" required>
                     <button type="submit" class="btn btn-primary btn-md btn-block ml-3" style="max-width: 70px;">Add</button>
                 </div>
-                {{/if}}
             </form>
+            <form action="/exercise/{{exercise._id}}/goal" method="post" class="mb-3">
+                <label for="value">Set Goal</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="value" name="value" placeholder="Goal km" min="0" required>
+                    <button type="submit" class="btn btn-primary btn-md btn-block ml-3" style="max-width: 70px;">Set</button>
+                </div>
+            </form>
+            {{/if}}
         </div>
 
         <div class="container" style="max-width: 40%; min-width: 350px;">
@@ -69,10 +94,17 @@
         {{else if (equals exercise.exercisetype 4)}}
         data.addColumn('number', 'Daily Max km');
         {{/if}}
+        data.addColumn('number', 'Goal');
+
+        {{#if exercise.goal.value }}
+        let goal = {{exercise.goal.value}};
+        {{else}}
+        let goal = null;
+        {{/if}}
 
         data.addRows([
             {{#dailymax}}
-            ["{{date}}", {{value}}],
+            ["{{date}}", {{value}}, goal],
             {{/dailymax}}
         ]);
 
