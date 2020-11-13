@@ -27,7 +27,7 @@
                         {{else if (equals exercisetype 3)}}
                         <i class="las la-hand-rock" style="font-size:48px;"></i>
                         {{else if (equals exercisetype 4)}}
-                        <i class="las la-running"style="font-size:48px;"></i>
+                        <i class="las la-running" style="font-size:48px;"></i>
                         {{/if}}
                     </div>
                     <p class="card-text">{{note}}</p>
@@ -36,7 +36,9 @@
                             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='/exercise/{{_id}}'">View</button>
                             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='/edit/exercise/{{_id}}'">Edit</button>
                         </div>
-                        {{!-- <small class="text-muted"> --}}
+                        {{#if done}}
+                        <i class="las la-check" style="font-size:48px;"></i>
+                        {{/if}}
                     </div>
                 </div>
             </div>

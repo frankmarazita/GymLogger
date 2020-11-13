@@ -9,6 +9,15 @@ module.exports = function (app, urlencodedParser, db) {
             if (exerciseGroup) {
                 if (exerciseGroup.user == req.session.email) {
                     let exercises = await db.getAll("exercises", { exercisegroup: String(exerciseGroup._id) });
+                    let today = new Date().setHours(0, 0, 0, 0);
+                    for (let i = 0; i < exercises.length; i++) {
+                        let dailymax = exercises[i].dailymax;
+                        if (dailymax) {
+                            if (dailymax[dailymax.length - 1].date.setHours(0, 0, 0, 0) === today) {
+                                exercises[i].done = true;
+                            }
+                        }
+                    }
                     res.render('index', { layout: 'group', title: exerciseGroup.name, exerciseGroup: exerciseGroup, exercises: exercises });
                 } else {
                     error.render(req, res, 403);
