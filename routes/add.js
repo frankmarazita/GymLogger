@@ -15,10 +15,9 @@ module.exports = function (app, urlencodedParser, db) {
                 case 'exercise': {
                     let exerciseGroups = await db.getAll("exercisegroups", { user: req.session.email });
                     let types = [];
-                    for (const [value, key] of Object.entries(exerciseTypes)) {
+                    for (const [key, value] of Object.entries(exerciseTypes)) {
                         types.push({ key: key, value: value });
                     }
-                    types.splice(0, types.length / 2);
                     res.render('index', { layout: 'add', title: 'Add Exercise', type: req.params.item, exerciseGroups: exerciseGroups, exerciseTypes: types });
                     break;
                 }

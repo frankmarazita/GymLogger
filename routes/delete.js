@@ -8,6 +8,7 @@ module.exports = function (app, urlencodedParser, db) {
             switch (req.params.item) {
                 case 'group': {
                     // TODO Check user owns that group
+                    // TODO Iterate through and delete containing exercises
                     break;
                 }
                 case 'exercise': {

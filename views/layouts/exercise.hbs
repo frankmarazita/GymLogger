@@ -38,6 +38,21 @@
             </form>
             {{else if (equals exercise.exercisetype 3)}}
             <form action="/exercise/{{exercise._id}}/dailymax" method="post" class="mb-3">
+                <label for="value">Enter Daily Max Level</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="value" name="value" placeholder="Max Level" min="0" required>
+                    <button type="submit" class="btn btn-primary btn-md btn-block ml-3" style="max-width: 70px;">Add</button>
+                </div>
+            </form>
+            <form action="/exercise/{{exercise._id}}/goal" method="post" class="mb-3">
+                <label for="value">Set Goal</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="value" name="value" placeholder="Goal Level" min="0" required>
+                    <button type="submit" class="btn btn-primary btn-md btn-block ml-3" style="max-width: 70px;">Set</button>
+                </div>
+            </form>
+            {{else if (equals exercise.exercisetype 4)}}
+            <form action="/exercise/{{exercise._id}}/dailymax" method="post" class="mb-3">
                 <label for="value">Enter Daily Max Reps</label>
                 <div class="input-group">
                     <input type="number" class="form-control" id="value" name="value" placeholder="Max Reps" min="0" required>
@@ -51,7 +66,7 @@
                     <button type="submit" class="btn btn-primary btn-md btn-block ml-3" style="max-width: 70px;">Set</button>
                 </div>
             </form>
-            {{else if (equals exercise.exercisetype 4)}}
+            {{else if (equals exercise.exercisetype 5)}}
             <form action="/exercise/{{exercise._id}}/dailymax" method="post" class="mb-3">
                 <label for="value">Enter Daily Max km</label>
                 <div class="input-group">
@@ -90,8 +105,10 @@
         {{#if (or (equals exercise.exercisetype 1) (equals exercise.exercisetype 2))}}
         data.addColumn('number', 'Daily Max kg');
         {{else if (equals exercise.exercisetype 3)}}
-        data.addColumn('number', 'Daily Max Reps');
+        data.addColumn('number', 'Daily Max Level');
         {{else if (equals exercise.exercisetype 4)}}
+        data.addColumn('number', 'Daily Max Reps');
+        {{else if (equals exercise.exercisetype 5)}}
         data.addColumn('number', 'Daily Max km');
         {{/if}}
         data.addColumn('number', 'Goal');
