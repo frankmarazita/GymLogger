@@ -7,7 +7,7 @@ module.exports = function (app, urlencodedParser, db) {
         if (auth.verify(req, res)) {
             let exerciseGroup = await db.get("exercisegroups", req.params._id, true);
             if (exerciseGroup) {
-                if (exerciseGroup.user == req.session.email) {
+                if (exerciseGroup.user == req.session._id) {
                     let exercises = await db.getAll("exercises", { exercisegroup: String(exerciseGroup._id) });
                     let today = new Date().setHours(0, 0, 0, 0);
                     for (let i = 0; i < exercises.length; i++) {

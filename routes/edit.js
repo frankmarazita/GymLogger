@@ -9,7 +9,7 @@ module.exports = function (app, urlencodedParser, db) {
                 case 'group': {
                     let exerciseGroup = await db.get("exercisegroups", req.params._id, true);
                     if (exerciseGroup) {
-                        if (exerciseGroup.user == req.session.email) {
+                        if (exerciseGroup.user == req.session._id) {
                             res.render('index', { layout: 'edit', title: 'Edit Exercise Group', type: req.params, exerciseGroup: exerciseGroup });
                         } else {
                             error.render(req, res, 403);
@@ -23,7 +23,7 @@ module.exports = function (app, urlencodedParser, db) {
                     let exercise = await db.get("exercises", req.params._id, true)
                     if (exercise) {
                         let exerciseGroup = await db.get("exercisegroups", exercise.exercisegroup, true);
-                        if (exerciseGroup.user == req.session.email) {
+                        if (exerciseGroup.user == req.session._id) {
                             res.render('index', { layout: 'edit', title: 'Edit Exercise', type: req.params, exercise: exercise });
                         } else {
                             error.render(req, res, 403);

@@ -8,7 +8,7 @@ module.exports = function (app, urlencodedParser, db) {
             let exercise = await db.get("exercises", req.params._id, true);
             if (exercise) {
                 let exerciseGroup = await db.get("exercisegroups", exercise.exercisegroup, true);
-                if (exerciseGroup.user == req.session.email) {
+                if (exerciseGroup.user == req.session._id) {
 
                     dailymax = null;
                     if (exercise.dailymax) {
@@ -33,7 +33,7 @@ module.exports = function (app, urlencodedParser, db) {
             let exercise = await db.get("exercises", req.params._id, true);
             if (exercise) {
                 let exerciseGroup = await db.get("exercisegroups", exercise.exercisegroup, true);
-                if (exerciseGroup.user == req.session.email) {
+                if (exerciseGroup.user == req.session._id) {
                     switch (req.params.action) {
                         case 'dailymax': {
                             let dailymax = { date: new Date(), value: parseFloat(req.body.value) };

@@ -3,7 +3,7 @@ const bcrypt = require('../controllers/bcrypt');
 module.exports = function (app, urlencodedParser, db) {
 
     app.get('/signup', (req, res) => {
-        if (req.session.email) {
+        if (req.session._id) {
             res.redirect('/');
         } else {
             res.render('index', { layout: 'signup', title: 'Signup' });
@@ -12,7 +12,7 @@ module.exports = function (app, urlencodedParser, db) {
 
     app.post('/signup', urlencodedParser, async (req, res) => {
         let error = null;
-        let result = await db.get("users", { _id: req.body.email });
+        let result = await db.get("users", { email: req.body.email });
 
         if (result != null) {
             error = "Email already in use"
@@ -22,7 +22,8 @@ module.exports = function (app, urlencodedParser, db) {
 
         if (error == null) {
             const password_hash = await bcrypt.hash(req.body.password);
-            await db.set("users", { _id: req.body.email, name: req.body.name, passwordhash: password_hash });
+            let result = await db.set("users", { email: req.body.email, name: req.body.name, passwordhash: password_hash });
+            req.session._id = result['ops'][0]['_id'];
             req.session.email = req.body.email;
             req.session.name = req.body.name;
             res.redirect('/');
@@ -32,7 +33,7 @@ module.exports = function (app, urlencodedParser, db) {
     });
 
     app.get('/login', (req, res) => {
-        if (req.session.email) {
+        if (req.session._id) {
             res.redirect('/');
         } else {
             res.render('index', { layout: 'login', title: 'Login' });
@@ -41,7 +42,7 @@ module.exports = function (app, urlencodedParser, db) {
 
     app.post('/login', urlencodedParser, async (req, res) => {
         let error = null;
-        let result = await db.get("users", { _id: req.body.email });
+        let result = await db.get("users", { email: req.body.email });
 
         if (result == null) {
             error = "Incorrect Email or Password"
@@ -53,7 +54,8 @@ module.exports = function (app, urlencodedParser, db) {
         }
 
         if (error == null) {
-            req.session.email = result['_id'];
+            req.session._id = result['_id'];
+            req.session.email = result['email'];
             req.session.name = result['name'];
             res.redirect('/');
         } else {
@@ -63,6 +65,7 @@ module.exports = function (app, urlencodedParser, db) {
     });
 
     app.get('/logout', (req, res) => {
+        delete req.session._id;
         delete req.session.email;
         delete req.session.name;
         res.redirect('/login');
