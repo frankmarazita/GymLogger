@@ -1,3 +1,5 @@
+require('dotenv').config({ path: __dirname + '/gymlogger.env' });
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -7,8 +9,7 @@ const db = require('./controllers/db'); // Import Database
 
 // Initialise MongoDB
 
-let databaseName = "gymlogger";
-db.init(process.env.MONGODB_SECRET, databaseName);
+db.init(process.env.MONGODB_SECRET, process.env.DB_NAME);
 
 // Initialise Express
 
