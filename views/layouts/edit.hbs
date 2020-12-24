@@ -16,7 +16,18 @@
             </div>
             <div class="form">
                 <form action="/edit/{{type.item}}/{{type._id}}" method="post">
-                    {{#if (equals type.item 'group')}}
+                    {{#if (equals type.item 'account')}}
+                    {{#user}}
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{name}}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{email}}" required>
+                    </div>
+                    {{/user}}
+                    {{else if (equals type.item 'group')}}
                     {{#exerciseGroup}}
                     <div class="form-group">
                         <label for="name">Group Name</label>

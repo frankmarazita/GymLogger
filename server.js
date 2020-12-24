@@ -54,6 +54,7 @@ app.engine('hbs', handlebars.engine);
 // Routes
 require('./routes/auth')(app, urlencodedParser, db);
 require('./routes/home')(app, urlencodedParser, db);
+require('./routes/account')(app, urlencodedParser, db);
 require('./routes/add')(app, urlencodedParser, db);
 require('./routes/edit')(app, urlencodedParser, db);
 require('./routes/delete')(app, urlencodedParser, db);

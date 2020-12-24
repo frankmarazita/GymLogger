@@ -1,5 +1,5 @@
 exports.verify = function (req, res) {
-    if (!req.session.email) {
+    if (!req.session.user) {
         res.redirect('/login');
         return false;
     }

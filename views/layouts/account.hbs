@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{> head}}
+</head>
+
+<body>
+    {{>header}}
+
+    <main>
+        <div class="container" style="max-width: 40%; min-width: 350px;">
+            <div class="pt-5 text-center">
+                <h2>{{title}}</h2>
+            </div>
+        </div>
+
+        <div class="container" style="max-width: 40%; min-width: 350px;">
+            <div class="p-3 text-center">
+                <h5>Name: {{user.name}}</h5>
+                <h5>Email: {{user.email}}</h5>
+                <a href="/edit/account" class="">Edit</a>
+
+            </div>
+        </div>
+    </main>
+
+    {{>footer}}
+</body>
+
+</html>

@@ -3,7 +3,7 @@ const bcrypt = require('../controllers/bcrypt');
 module.exports = function (app, urlencodedParser, db) {
 
     app.get('/signup', (req, res) => {
-        if (req.session._id) {
+        if (req.session.user) {
             res.redirect('/');
         } else {
             res.render('index', { layout: 'signup', title: 'Signup' });
@@ -23,9 +23,11 @@ module.exports = function (app, urlencodedParser, db) {
         if (error == null) {
             const password_hash = await bcrypt.hash(req.body.password);
             let result = await db.set("users", { email: req.body.email, name: req.body.name, passwordhash: password_hash });
-            req.session._id = result['ops'][0]['_id'];
-            req.session.email = req.body.email;
-            req.session.name = req.body.name;
+            req.session.user = {
+                _id: result['ops'][0]['_id'],
+                email: req.body.email,
+                name: req.body.name
+            };
             res.redirect('/');
         } else {
             res.render('index', { layout: 'signup', title: 'Signup', error: error });
@@ -33,7 +35,7 @@ module.exports = function (app, urlencodedParser, db) {
     });
 
     app.get('/login', (req, res) => {
-        if (req.session._id) {
+        if (req.session.user) {
             res.redirect('/');
         } else {
             res.render('index', { layout: 'login', title: 'Login' });
@@ -54,9 +56,11 @@ module.exports = function (app, urlencodedParser, db) {
         }
 
         if (error == null) {
-            req.session._id = result['_id'];
-            req.session.email = result['email'];
-            req.session.name = result['name'];
+            req.session.user = {
+                _id: result['_id'],
+                email: result['email'],
+                name: result['name']
+            };
             res.redirect('/');
         } else {
             res.render('index', { layout: 'login', title: 'Login', error: error });
@@ -65,9 +69,7 @@ module.exports = function (app, urlencodedParser, db) {
     });
 
     app.get('/logout', (req, res) => {
-        delete req.session._id;
-        delete req.session.email;
-        delete req.session.name;
+        delete req.session.user;
         res.redirect('/login');
     });
 

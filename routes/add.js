@@ -13,7 +13,7 @@ module.exports = function (app, urlencodedParser, db) {
                     break;
                 }
                 case 'exercise': {
-                    let exerciseGroups = await db.getAll("exercisegroups", { user: req.session._id });
+                    let exerciseGroups = await db.getAll("exercisegroups", { user: req.session.user['_id'] });
                     let types = [];
                     for (const [key, value] of Object.entries(exerciseTypes)) {
                         types.push({ key: key, value: value });
@@ -35,7 +35,7 @@ module.exports = function (app, urlencodedParser, db) {
                 case 'group': {
                     // TODO Check integrity of request
                     let group = {};
-                    group.user = req.session._id;
+                    group.user = req.session.user['_id'];
                     group.name = req.body.name;
                     group.note = req.body.note;
                     let exercise = await db.set("exercisegroups", group);
