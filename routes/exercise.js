@@ -13,7 +13,10 @@ module.exports = function (app, urlencodedParser, db) {
                     dailymax = null;
                     if (exercise.dailymax) {
                         for (let i = 0; i < exercise.dailymax.length; i++) {
-                            exercise.dailymax[i].date = exercise.dailymax[i].date.toLocaleDateString();
+                            let d = exercise.dailymax[i].date.getDate();
+                            let m = exercise.dailymax[i].date.getMonth() + 1;
+                            let y = exercise.dailymax[i].date.getFullYear();
+                            exercise.dailymax[i].date = d + '/' + m + '/' + y;
                         }
                         dailymax = exercise.dailymax;
                     }

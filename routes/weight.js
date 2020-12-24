@@ -9,7 +9,10 @@ module.exports = function (app, urlencodedParser, db) {
             let weight = null;
             if (user.weight) {
                 for (let i = 0; i < user.weight.length; i++) {
-                    user.weight[i].date = user.weight[i].date.toLocaleDateString();
+                    let d = user.weight[i].date.getDate();
+                    let m = user.weight[i].date.getMonth() + 1;
+                    let y = user.weight[i].date.getFullYear();
+                    user.weight[i].date = d + '/' + m + '/' + y;
                 }
                 weight = user.weight;
             }
