@@ -1,4 +1,4 @@
-require('dotenv').config({ path: __dirname + '/gymlogger.env' });
+require('dotenv').config({ path: __dirname + '/vars.env' });
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -16,7 +16,7 @@ db.init(process.env.MONGODB_SECRET, process.env.DB_NAME);
 const app = express();
 app.use(session({
     secret: process.env.SESSION_SECRET,
-    key: 'myCookieSessionId',
+    key: process.env.SESSION_KEY,
     cookie: {
         httpOnly: true,
         // secure: true,
@@ -26,7 +26,7 @@ app.use(session({
 // const jsonParser = bodyParser.json();
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
 app.use(express.static('public'));
-const port = 3000;
+const port = parseInt(process.env.PORT);
 
 // Initialise Handlebars
 
