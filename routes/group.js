@@ -16,6 +16,12 @@ module.exports = function (app, urlencodedParser, db) {
                             if (dailymax[dailymax.length - 1].date.setHours(0, 0, 0, 0) === today) {
                                 exercises[i].done = true;
                             }
+                            exercises[i].lastmax = 0;
+                            for (let j = 0; j < dailymax.length; j++) {
+                                if (dailymax[j].value > exercises[i].lastmax) {
+                                    exercises[i].lastmax = dailymax[j].value;
+                                }
+                            }
                         }
                     }
                     res.render('index', { layout: 'group', title: exerciseGroup.name, exerciseGroup: exerciseGroup, exercises: exercises });
