@@ -16,9 +16,21 @@ module.exports = function (app, urlencodedParser, db) {
                             let d = exercise.dailymax[i].date.getDate();
                             let m = exercise.dailymax[i].date.getMonth() + 1;
                             let y = exercise.dailymax[i].date.getFullYear();
-                            exercise.dailymax[i].date = d + '/' + m + '/' + y;
+                            exercise.dailymax[i].dateformat = d + '/' + m + '/' + y;
+                            exercise.dailymax[i].goal = null;
+                            for (let j = exercise.goal.length - 1; j >= 0; j--) {
+                                if (exercise.goal[j].date.getTime() < exercise.dailymax[i].date.getTime()) {
+                                    exercise.dailymax[i].goal = exercise.goal[j].value;
+                                    break;
+                                }
+                            }
                         }
                         dailymax = exercise.dailymax;
+                    }
+
+                    exercise.currentgoal = null;
+                    if (exercise.goal.length > 0) {
+                        exercise.currentgoal = exercise.goal[exercise.goal.length - 1].value;
                     }
 
                     res.render('index', { layout: 'exercise', title: exercise.name, exercise: exercise, dailymax: dailymax });
@@ -45,8 +57,8 @@ module.exports = function (app, urlencodedParser, db) {
                             break;
                         }
                         case 'goal': {
-                            let goal = { goal: { date: new Date(), value: parseFloat(req.body.value) } };
-                            await db.update("exercises", req.params._id, goal, true);
+                            let goal = { date: new Date(), value: parseFloat(req.body.value) };
+                            await db.updateArray("exercises", req.params._id, "goal", goal, true);
                             res.redirect('/exercise/' + req.params._id);
                             break;
                         }
