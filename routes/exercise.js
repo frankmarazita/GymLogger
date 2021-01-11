@@ -18,10 +18,12 @@ module.exports = function (app, urlencodedParser, db) {
                             let y = exercise.dailymax[i].date.getFullYear();
                             exercise.dailymax[i].dateformat = d + '/' + m + '/' + y;
                             exercise.dailymax[i].goal = null;
-                            for (let j = exercise.goal.length - 1; j >= 0; j--) {
-                                if (exercise.goal[j].date.getTime() < exercise.dailymax[i].date.getTime()) {
-                                    exercise.dailymax[i].goal = exercise.goal[j].value;
-                                    break;
+                            if (exercise.goal) {
+                                for (let j = exercise.goal.length - 1; j >= 0; j--) {
+                                    if (exercise.goal[j].date.getTime() < exercise.dailymax[i].date.getTime()) {
+                                        exercise.dailymax[i].goal = exercise.goal[j].value;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -29,8 +31,10 @@ module.exports = function (app, urlencodedParser, db) {
                     }
 
                     exercise.currentgoal = null;
-                    if (exercise.goal.length > 0) {
-                        exercise.currentgoal = exercise.goal[exercise.goal.length - 1].value;
+                    if (exercise.goal) {
+                        if (exercise.goal.length > 0) {
+                            exercise.currentgoal = exercise.goal[exercise.goal.length - 1].value;
+                        }
                     }
 
                     res.render('index', { layout: 'exercise', title: exercise.name, exercise: exercise, dailymax: dailymax });
