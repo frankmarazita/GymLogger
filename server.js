@@ -60,6 +60,7 @@ require('./routes/edit')(app, urlencodedParser, db);
 require('./routes/delete')(app, urlencodedParser, db);
 require('./routes/group')(app, urlencodedParser, db);
 require('./routes/exercise')(app, urlencodedParser, db);
+require('./routes/exercise_data')(app, urlencodedParser, db);
 require('./routes/weight')(app, urlencodedParser, db);
 
 const auth = require('./controllers/auth');
