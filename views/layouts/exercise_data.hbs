@@ -18,8 +18,9 @@
         <div class="container" style="max-width: 40%; min-width: 450px;">
             <label for="value">Daily Max Data</label>
             {{#exercise.dailymax}}
-            <form action="/exercise/{{exercise._id}}/data/dailymax" method="post" class="mb-3">
+            <form action="/exercise/{{../exercise._id}}/data/dailymax" method="post" class="mb-3 dailymax">
                 <div class="input-group">
+                    <input type="number" id="index" name="index" value={{@index}} required hidden>
                     <input type="datetime-local" class="form-control" id="date" name="date" value="{{dateformat}}" required style="min-width: 250px;">
                     <input type="number" class="form-control" id="value" name="value" value={{value}} placeholder="Max kg" min="0" required style="max-width: 100px;">
                     <button type="submit" class="btn btn-outline-primary btn-md btn-block ml-3" style="max-width: 70px;">Edit</button>
@@ -30,8 +31,9 @@
         <div class="container" style="max-width: 40%; min-width: 450px;">
             <label for="value">Goals Data</label>
             {{#exercise.goal}}
-            <form action="/exercise/{{exercise._id}}/data/goal" method="post" class="mb-3">
+            <form action="/exercise/{{../exercise._id}}/data/goal" method="post" class="mb-3 goal">
                 <div class="input-group">
+                    <input type="number" id="index" name="index" value={{@index}} required hidden>
                     <input type="datetime-local" class="form-control" id="date" name="date" value="{{dateformat}}" required style="min-width: 250px;">
                     <input type="number" class="form-control" id="value" name="value" value={{value}} placeholder="Max kg" min="0" required style="max-width: 100px;">
                     <button type="submit" class="btn btn-outline-primary btn-md btn-block ml-3" style="max-width: 70px;">Edit</button>
@@ -40,6 +42,25 @@
             {{/exercise.goal}}
         </div>
     </main>
+
+    <script>
+        $('.dailymax').ajaxForm({
+            success: function (response) {
+                alert("Edit successful");
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+        $('.goal').ajaxForm({
+            success: function (response) {
+                alert("Edit successful");
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    </script>
 
     {{>footer}}
 </body>

@@ -97,6 +97,26 @@
     {{>footer}}
 </body>
 
+<script>
+    $('.dailymax').ajaxForm({
+        success: function (response) {
+            location.reload();
+        },
+        error: function (response) {
+            console.log(response);
+        }
+    });
+
+    $('.goal').ajaxForm({
+        success: function (response) {
+            location.reload();
+        },
+        error: function (response) {
+            console.log(response);
+        }
+    });
+</script>
+
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
     google.charts.load('current', { 'packages': ['corechart'] });

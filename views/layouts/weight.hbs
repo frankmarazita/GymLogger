@@ -19,7 +19,7 @@
         </div>
 
         <div class="container" style="max-width: 40%; min-width: 350px;">
-            <form action="/weight" method="post">
+            <form action="/weight" method="post" class="weight">
                 <label for="value">Log Weight</label>
                 <div class="input-group">
                     <input type="number" class="form-control" id="value" name="value" placeholder="Weight kg" min="0" step="0.1" required>
@@ -37,6 +37,17 @@
 
     {{>footer}}
 </body>
+
+<script>
+    $('.weight').ajaxForm({
+        success: function (response) {
+            location.reload();
+        },
+        error: function (response) {
+            console.log(response);
+        }
+    });
+</script>
 
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script>

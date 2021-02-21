@@ -35,7 +35,23 @@ module.exports = function (app, urlencodedParser, db) {
             if (exercise) {
                 let exerciseGroup = await db.get("exercisegroups", exercise.exercisegroup, true);
                 if (exerciseGroup.user == req.session.user['_id']) {
-                    // TODO Handle post requests
+                    // TODO Check integrity of request
+                    switch (req.params.action) {
+                        case 'dailymax': {
+                            // TODO Update entry in database
+                            res.end();
+                            break;
+                        }
+                        case 'goal': {
+                            // TODO Update entry in database
+                            res.end();
+                            break;
+                        }
+                        default: {
+                            res.status(400).send({ message: 'Bad request' });
+                            break;
+                        }
+                    };
                 } else {
                     error.render(req, res, 403);
                 }

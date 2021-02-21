@@ -22,9 +22,13 @@ module.exports = function (app, urlencodedParser, db) {
 
     app.post('/weight', urlencodedParser, async (req, res) => {
         if (auth.verify(req, res)) {
-            let weight = { date: new Date(), value: parseFloat(req.body.value) };
-            await db.updateArray("users", req.session.user['_id'], "weight", weight, true);
-            res.redirect('/weight');
+            if (parseFloat(req.body.value) >= 1) {
+                let weight = { date: new Date(), value: parseFloat(req.body.value) };
+                await db.updateArray("users", req.session.user['_id'], "weight", weight, true);
+                res.end();
+            } else {
+                res.status(400).send({ message: 'Bad request' });
+            }
         }
     });
 

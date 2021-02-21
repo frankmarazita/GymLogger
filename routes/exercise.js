@@ -57,13 +57,13 @@ module.exports = function (app, urlencodedParser, db) {
                         case 'dailymax': {
                             let dailymax = { date: new Date(), value: parseFloat(req.body.value) };
                             await db.updateArray("exercises", req.params._id, "dailymax", dailymax, true);
-                            res.redirect('/exercise/' + req.params._id);
+                            res.end();
                             break;
                         }
                         case 'goal': {
                             let goal = { date: new Date(), value: parseFloat(req.body.value) };
                             await db.updateArray("exercises", req.params._id, "goal", goal, true);
-                            res.redirect('/exercise/' + req.params._id);
+                            res.end();
                             break;
                         }
                         default: {
