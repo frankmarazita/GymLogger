@@ -17,6 +17,8 @@ const app = express();
 app.use(session({
     secret: process.env.SESSION_SECRET,
     key: process.env.SESSION_KEY,
+    resave: true,
+    saveUninitialized: true,
     cookie: {
         httpOnly: true,
         // secure: true,
@@ -35,17 +37,7 @@ const handlebars = handlebars_express.create({
     layoutsDir: __dirname + '/views/layouts',
     partialsDir: __dirname + '/views/partials',
     extname: 'hbs',
-    helpers: {
-        equals: function (a, b) {
-            return a == b;
-        },
-        greater: function (a, b) {
-            return a > b;
-        },
-        or: function (a, b) {
-            return a || b;
-        }
-    }
+    helpers: require('./handlers/handlebars_helpers.js')
 });
 
 app.set('view engine', 'hbs');
