@@ -1,7 +1,7 @@
 const auth = require('../controllers/auth');
 const error = require('../controllers/error');
 
-module.exports = function (app, urlencodedParser, db) {
+module.exports = function (app, db) {
 
     app.get('/group/:_id', async (req, res) => {
         if (auth.verify(req, res)) {

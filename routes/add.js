@@ -3,7 +3,7 @@ const error = require('../controllers/error');
 
 const exerciseTypes = require('../enums/exercise-types');
 
-module.exports = function (app, urlencodedParser, db) {
+module.exports = function (app, db) {
 
     app.get('/add/:item', async (req, res) => {
         if (auth.verify(req, res)) {
@@ -29,7 +29,7 @@ module.exports = function (app, urlencodedParser, db) {
         }
     });
 
-    app.post('/add/:item', urlencodedParser, async (req, res) => {
+    app.post('/add/:item', async (req, res) => {
         if (auth.verify(req, res)) {
             switch (req.params.item) {
                 case 'group': {

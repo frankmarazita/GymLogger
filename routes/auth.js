@@ -1,6 +1,6 @@
 const bcrypt = require('../controllers/bcrypt');
 
-module.exports = function (app, urlencodedParser, db) {
+module.exports = function (app, db) {
 
     app.get('/signup', (req, res) => {
         if (req.session.user) {
@@ -10,7 +10,7 @@ module.exports = function (app, urlencodedParser, db) {
         }
     });
 
-    app.post('/signup', urlencodedParser, async (req, res) => {
+    app.post('/signup', async (req, res) => {
         let error = null;
         let result = await db.get("users", { email: req.body.email });
 
@@ -42,7 +42,7 @@ module.exports = function (app, urlencodedParser, db) {
         }
     });
 
-    app.post('/login', urlencodedParser, async (req, res) => {
+    app.post('/login', async (req, res) => {
         let error = null;
         let result = await db.get("users", { email: req.body.email });
 

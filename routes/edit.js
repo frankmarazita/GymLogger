@@ -1,7 +1,7 @@
 const auth = require('../controllers/auth');
 const error = require('../controllers/error');
 
-module.exports = function (app, urlencodedParser, db) {
+module.exports = function (app, db) {
 
     app.get('/edit/:item', async (req, res) => {
         if (auth.verify(req, res)) {
@@ -18,7 +18,7 @@ module.exports = function (app, urlencodedParser, db) {
         }
     });
 
-    app.post('/edit/:item', urlencodedParser, async (req, res) => {
+    app.post('/edit/:item', async (req, res) => {
         if (auth.verify(req, res)) {
             switch (req.params.item) {
                 case 'account': {
@@ -86,7 +86,7 @@ module.exports = function (app, urlencodedParser, db) {
         }
     });
 
-    app.post('/edit/:item/:_id', urlencodedParser, async (req, res) => {
+    app.post('/edit/:item/:_id', async (req, res) => {
         if (auth.verify(req, res)) {
             switch (req.params.item) {
                 case 'group': {

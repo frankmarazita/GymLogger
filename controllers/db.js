@@ -1,10 +1,8 @@
-const response = require('express');
-const request = require('express');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectID;
 
 let db = null;
-let databaseName = null;
+let dbName = null;
 let dbo = null;
 
 exports.init = async function (uri, name) {
@@ -12,8 +10,8 @@ exports.init = async function (uri, name) {
     try {
         await client.connect().then(response => {
             db = response;
-            databaseName = name;
-            dbo = db.db(databaseName);
+            dbName = name;
+            dbo = db.db(dbName);
             console.log("Connected to MongoDB");
         });
     } catch (e) {

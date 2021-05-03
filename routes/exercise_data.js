@@ -1,7 +1,7 @@
 const auth = require('../controllers/auth');
 const error = require('../controllers/error');
 
-module.exports = function (app, urlencodedParser, db) {
+module.exports = function (app, db) {
 
     app.get('/exercise/:_id/data', async (req, res) => {
         if (auth.verify(req, res)) {
@@ -29,7 +29,7 @@ module.exports = function (app, urlencodedParser, db) {
         }
     });
 
-    app.post('/exercise/:_id/data/:action', urlencodedParser, async (req, res) => {
+    app.post('/exercise/:_id/data/:action', async (req, res) => {
         if (auth.verify(req, res)) {
             let exercise = await db.get("exercises", req.params._id, true);
             if (exercise) {

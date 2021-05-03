@@ -1,9 +1,9 @@
 const auth = require('../controllers/auth');
 const error = require('../controllers/error');
 
-module.exports = function (app, urlencodedParser, db) {
+module.exports = function (app, db) {
 
-    app.post('/delete/:item/:_id', urlencodedParser, async (req, res) => {
+    app.post('/delete/:item/:_id', async (req, res) => {
         if (auth.verify(req, res)) {
             switch (req.params.item) {
                 case 'group': {

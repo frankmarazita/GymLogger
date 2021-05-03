@@ -1,6 +1,6 @@
 const auth = require('../controllers/auth');
 
-module.exports = function (app, urlencodedParser, db) {
+module.exports = function (app, db) {
 
     app.get('/account', async (req, res) => {
         if (auth.verify(req, res)) {

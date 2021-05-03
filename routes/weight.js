@@ -1,7 +1,7 @@
 const auth = require('../controllers/auth');
 const error = require('../controllers/error');
 
-module.exports = function (app, urlencodedParser, db) {
+module.exports = function (app, db) {
 
     app.get('/weight', async (req, res) => {
         if (auth.verify(req, res)) {
@@ -20,7 +20,7 @@ module.exports = function (app, urlencodedParser, db) {
         }
     });
 
-    app.post('/weight', urlencodedParser, async (req, res) => {
+    app.post('/weight', async (req, res) => {
         if (auth.verify(req, res)) {
             if (parseFloat(req.body.value) >= 1) {
                 let weight = { date: new Date(), value: parseFloat(req.body.value) };
