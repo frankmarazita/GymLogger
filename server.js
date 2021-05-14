@@ -1,4 +1,4 @@
-require('dotenv').config({ path: __dirname + '/.env' });
+const config = require('./config/config')
 
 const development = process.env.NODE_ENV === 'development';
 
@@ -11,9 +11,6 @@ const helmet = require("helmet");
 
 // Import Database
 const db = require('./controllers/db');
-
-// Initialise MongoDB
-db.init(process.env.MONGODB_SECRET, process.env.DB_NAME);
 
 // Initialise Express
 const app = express();
@@ -45,7 +42,43 @@ app.set('view engine', 'hbs');
 app.engine('hbs', handlebars.engine);
 
 // Initialise Helmet
-app.use(helmet());
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            directives: {
+                defaultSrc: [
+                    "'self'"
+                ],
+                scriptSrc: [
+                    "'self'",
+                    "https://cdnjs.cloudflare.com",
+                    "https://www.gstatic.com",
+                    "'unsafe-inline'" // Avoid this
+                ],
+                connectSrc: [
+                    "'self'",
+                ],
+                styleSrc: [
+                    "'self'",
+                    "https://stackpath.bootstrapcdn.com",
+                    "https://maxcdn.bootstrapcdn.com",
+                    "https://maxst.icons8.com",
+                    "https://www.gstatic.com",
+                    "'unsafe-inline'" // Avoid this
+                ],
+                fontSrc: [
+                    "'self'",
+                    "https://maxcdn.bootstrapcdn.com",
+                    "https://maxst.icons8.com"
+                ],
+                imgSrc: [
+                    "'self'",
+                    "data:" // Avoid this
+                ]
+            }
+        },
+    })
+);
 
 // Routes
 require('./routes/auth')(app, db);
@@ -69,4 +102,37 @@ app.use(function (req, res) {
     }
 });
 
-app.listen(port, () => console.log(`App listening to port ${port}`));
+// Initialise MongoDB and Start Server
+let server;
+db.init(process.env.MONGODB_SECRET, process.env.DB_NAME).then(() => {
+    server = app.listen(port, () => {
+        console.log(`Server listening to port ${port}`)
+    });
+});
+
+const exitHandler = async () => {
+    server.close();
+    console.info('Server Closed');
+    await db.close();
+    process.exit(1);
+};
+
+const unexpectedErrorHandler = (error) => {
+    console.error(error);
+    exitHandler();
+};
+
+process.on('uncaughtException', unexpectedErrorHandler);
+process.on('unhandledRejection', unexpectedErrorHandler);
+
+process.on('SIGTERM', async () => {
+    server.close();
+    console.log('Server Closed');
+    await db.close();
+});
+
+process.on('SIGINT', async () => {
+    server.close();
+    console.log('Server Closed');
+    await db.close();
+});

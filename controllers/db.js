@@ -5,10 +5,24 @@ let db = null;
 let dbName = null;
 let dbo = null;
 
+/**
+ * Checks if the database is connected
+ * @returns {boolean}
+ */
+exports.connected = function () {
+    return db.isConnected();
+};
+
+/**
+ * Initialises MongoDB database
+ * @param {string} uri - Uniform resource identifier
+ * @param {*} name - Database name
+ * @returns {Promise<void>}
+ */
 exports.init = async function (uri, name) {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     try {
-        await client.connect().then(response => {
+        return await client.connect().then(response => {
             db = response;
             dbName = name;
             dbo = db.db(dbName);
@@ -19,14 +33,24 @@ exports.init = async function (uri, name) {
     }
 }
 
+/**
+ * Close MongoDB database connection
+ * @returns
+ */
 exports.close = async function () {
-    db.close();
+    return await db.close().then(response => {
+        console.log("Disconnected from MongoDB")
+    });
 }
 
-exports.get = async function (collection, data, objectID=false) {
-    // collection - name of database collection
-    // data - dictionary of search fields
-    // objectID - set to true, and treats data as a object ID string
+/**
+ * Get data from the database
+ * @param {string} collection - Name of database collection
+ * @param {object} data - Dictionary of search terms {email: "me@email.com"}
+ * @param {boolean} [objectID=false] - If set to true, treats data as a object ID string
+ * @returns {object}
+ */
+exports.get = async function (collection, data, objectID = false) {
     if (db) {
         if (objectID) {
             data = { '_id': new ObjectId(data) };
@@ -35,10 +59,14 @@ exports.get = async function (collection, data, objectID=false) {
     }
 }
 
-exports.getAll = async function (collection, data, objectID=false) {
-    // collection - name of database collection
-    // data - dictionary of search fields
-    // objectID - set to true, and treats data as a object ID string
+/**
+ * Get all data from the database
+ * @param {string} collection - Name of database collection
+ * @param {object} data - Dictionary of search terms {email: "me@email.com"}
+ * @param {boolean} [objectID=false] - If set to true, treats data as a object ID string
+ * @returns {object}
+ */
+exports.getAll = async function (collection, data, objectID = false) {
     if (db) {
         if (objectID) {
             data = { '_id': new ObjectId(data) };
@@ -47,18 +75,27 @@ exports.getAll = async function (collection, data, objectID=false) {
     }
 }
 
+/**
+ * Set data in the database
+ * @param {string} collection - Name of database collection
+ * @param {object} data - Dictionary of search terms {email: "me@email.com"}
+ * @returns
+ */
 exports.set = async function (collection, data) {
-    // collection - name of database collection
-    // data - dictionary of search fields
     if (db) {
         return await dbo.collection(collection).insertOne(data);
     }
 }
 
-exports.update = async function (collection, _id, data, objectID=false) {
-    // collection - name of database collection
-    // _id - id of collection entry
-    // data - dictionary of edit fields
+/**
+ * Update data in the database
+ * @param {string} collection - Name of database collection
+ * @param {string} _id - Id of collection entry
+ * @param {object} data - Dictionary of update fields {email: "me@email.com"}
+ * @param {boolean} [objectID=false] - If set to true, treats data as a object ID string
+ * @returns
+ */
+exports.update = async function (collection, _id, data, objectID = false) {
     if (db) {
         if (objectID) {
             _id = new ObjectId(_id);
@@ -67,11 +104,16 @@ exports.update = async function (collection, _id, data, objectID=false) {
     }
 }
 
+/**
+ * Update data array in database
+ * @param {string} collection - Name of database collection
+ * @param {string} _id - Id of collection entry
+ * @param {string} field - Array field to add to
+ * @param {*} parameter - The new value to set
+ * @param {boolean} [objectID=false] - If set to true, treats data as a object ID string
+ * @returns
+ */
 exports.updateArray = async function (collection, _id, field, parameter, objectID = false) {
-    // collection - name of database collection
-    // _id - id of collection entry
-    // field - array field to add to
-    // parameter - the value to add
     if (db) {
         let item = {};
         item[field] = parameter;
@@ -82,9 +124,14 @@ exports.updateArray = async function (collection, _id, field, parameter, objectI
     }
 }
 
+/**
+ * Delete data in the database
+ * @param {string} collection - Name of database collection
+ * @param {string} _id - Id of collection entry
+ * @param {boolean} [objectID=false] - If set to true, treats data as a object ID string
+ * @returns
+ */
 exports.delete = async function (collection, _id, objectID = false) {
-    // collection - name of database collection
-    // _id - id of collection entry
     if (db) {
         if (objectID) {
             _id = new ObjectId(_id);
