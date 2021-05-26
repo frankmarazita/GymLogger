@@ -47,7 +47,7 @@ const handlebars = handlebars_express.create({
     layoutsDir: __dirname + '/views/layouts',
     partialsDir: __dirname + '/views/partials',
     // defaultLayout: 'default',
-    helpers: require('./handlers/handlebars_helpers.js')
+    helpers: require('./helpers/handlebars_helpers.js')
 });
 
 app.set('view engine', 'hbs');
