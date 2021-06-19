@@ -1,4 +1,4 @@
-const mathrandom = require('math-random');
+const mathrandom = require('math-random')
 
 module.exports = {
     /**

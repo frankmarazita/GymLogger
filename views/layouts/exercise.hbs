@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    {{> head}}
+    {{>head}}
 </head>
 
 <body>
@@ -100,41 +100,41 @@
 <script>
     $('.dailymax').ajaxForm({
         success: function (response) {
-            location.reload();
+            location.reload()
         },
         error: function (response) {
-            console.log(response);
+            console.log(response)
         }
-    });
+    })
 
     $('.goal').ajaxForm({
         success: function (response) {
-            location.reload();
+            location.reload()
         },
         error: function (response) {
-            console.log(response);
+            console.log(response)
         }
-    });
+    })
 </script>
 
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(drawChart);
+    google.charts.load('current', { 'packages': ['corechart'] })
+    google.charts.setOnLoadCallback(drawChart)
 
     function drawChart() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Day');
+        var data = new google.visualization.DataTable()
+        data.addColumn('string', 'Day')
         {{#if (or (equals exercise.exercisetype 1) (equals exercise.exercisetype 2))}}
-        data.addColumn('number', 'Daily Max kg');
+        data.addColumn('number', 'Daily Max kg')
         {{else if (equals exercise.exercisetype 3)}}
-        data.addColumn('number', 'Daily Max Level');
+        data.addColumn('number', 'Daily Max Level')
         {{else if (equals exercise.exercisetype 4)}}
-        data.addColumn('number', 'Daily Max Reps');
+        data.addColumn('number', 'Daily Max Reps')
         {{else if (equals exercise.exercisetype 5)}}
-        data.addColumn('number', 'Daily Max km');
+        data.addColumn('number', 'Daily Max km')
         {{/if}}
-        data.addColumn('number', 'Goal');
+        data.addColumn('number', 'Goal')
 
         data.addRows([
             {{#dailymax}}
@@ -144,7 +144,7 @@
             ["{{dateformat}}", {{value}}, {{goal}}],
             {{/if}}
             {{/dailymax}}
-        ]);
+        ])
 
         var options = {
             title: "Progress Analysis",
@@ -153,15 +153,15 @@
             height: 400,
         }
 
-        resize();
+        resize()
 
         function resize() {
-            var chart = new google.visualization.LineChart(document.getElementById('chart'));
-            chart.draw(data, options);
+            var chart = new google.visualization.LineChart(document.getElementById('chart'))
+            chart.draw(data, options)
         }
 
-        window.onload = resize;
-        window.onresize = resize;
+        window.onload = resize
+        window.onresize = resize
     }
 </script>
 

@@ -58,8 +58,8 @@ SESSION_KEY=mysessionkey
 src\
  |--config\         # Configuration files
  |--controllers\    # Controller utilities
- |--enums\          # Variable constants
- |--helpers\       # Helper methods
+ |--constants\      # Variable constants
+ |--helpers\        # Helper methods
  |--public\         # Static files
  |--routes\         # Route controllers
  |--tests\          # Test cases

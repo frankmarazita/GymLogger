@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    {{> head}}
+    {{>head}}
 </head>
 
 <body>
@@ -81,7 +81,7 @@
         if (result == true) {
             $.post('/delete/{{type.item}}/{{type._id}}', function (response, status) {
                 window.location.replace(response.url);
-            });
+            })
         }
     }
 </script>

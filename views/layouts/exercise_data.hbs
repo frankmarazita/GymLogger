@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    {{> head}}
+    {{>head}}
 </head>
 
 <body>
@@ -46,20 +46,20 @@
     <script>
         $('.dailymax').ajaxForm({
             success: function (response) {
-                alert("Edit successful");
+                alert("Edit successful")
             },
             error: function (response) {
-                console.log(response);
+                console.log(response)
             }
-        });
+        })
         $('.goal').ajaxForm({
             success: function (response) {
-                alert("Edit successful");
+                alert("Edit successful")
             },
             error: function (response) {
-                console.log(response);
+                console.log(response)
             }
-        });
+        })
     </script>
 
     {{>footer}}

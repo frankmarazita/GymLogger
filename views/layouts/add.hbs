@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    {{> head}}
+    {{>head}}
 </head>
 
 <body>
@@ -47,9 +47,9 @@
                         <label for="exercisetype">Exercise Type</label>
                         <select class="form-control" id="exercisetype" name="exercisetype" required>
                             <option value="" selected disabled hidden>...</option>
-                            {{#exerciseTypes}}
-                            <option value="{{key}}">{{value}}</option>
-                            {{/exerciseTypes}}
+                            {{#each exerciseTypes}}
+                            <option value="{{@key}}">{{this}}</option>
+                            {{/each}}
                         </select>
                     </div>
                     {{/if}}

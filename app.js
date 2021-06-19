@@ -1,14 +1,14 @@
-const config = require('./config/config');
-const production = process.env.NODE_ENV === 'production';
-const development = process.env.NODE_ENV === 'development';
+const config = require('./config/config')
+const production = process.env.NODE_ENV === 'production'
+const development = process.env.NODE_ENV === 'development'
 
-const express = require('express');
-const session = require('express-session');
-const handlebars_express = require('express-handlebars');
-const helmet = require("helmet");
+const express = require('express')
+const session = require('express-session')
+const handlebars_express = require('express-handlebars')
+const helmet = require('helmet')
 
 // Initialise Express
-const app = express();
+const app = express()
 
 // Initialise Helmet
 app.use(
@@ -24,7 +24,7 @@ app.use(
             }
         },
     })
-);
+)
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -36,10 +36,10 @@ app.use(session({
         secure: production,
         domain: process.env.DOMAIN
     }
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+}))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static('public'))
 
 // Initialise Handlebars
 const handlebars = handlebars_express.create({
@@ -48,9 +48,9 @@ const handlebars = handlebars_express.create({
     partialsDir: __dirname + '/views/partials',
     // defaultLayout: 'default',
     helpers: require('./helpers/handlebars_helpers.js')
-});
+})
 
-app.set('view engine', 'hbs');
-app.engine('hbs', handlebars.engine);
+app.set('view engine', 'hbs')
+app.engine('hbs', handlebars.engine)
 
-module.exports = app;
+module.exports = app

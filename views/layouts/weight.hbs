@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    {{> head}}
+    {{>head}}
 </head>
 
 <body>
@@ -41,29 +41,29 @@
 <script>
     $('.weight').ajaxForm({
         success: function (response) {
-            location.reload();
+            location.reload()
         },
         error: function (response) {
-            console.log(response);
+            console.log(response)
         }
-    });
+    })
 </script>
 
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(drawChart);
+    google.charts.load('current', { 'packages': ['corechart'] })
+    google.charts.setOnLoadCallback(drawChart)
 
     function drawChart() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Day');
-        data.addColumn('number', 'Weight');
+        var data = new google.visualization.DataTable()
+        data.addColumn('string', 'Day')
+        data.addColumn('number', 'Weight')
 
         data.addRows([
             {{#weight}}
             ["{{date}}", {{ value }}],
             {{/weight}}
-        ]);
+        ])
 
         var options = {
             title: "Log Summary",
@@ -72,15 +72,15 @@
             height: 400,
         }
 
-        resize();
+        resize()
 
         function resize() {
-            var chart = new google.visualization.LineChart(document.getElementById('chart'));
-            chart.draw(data, options);
+            var chart = new google.visualization.LineChart(document.getElementById('chart'))
+            chart.draw(data, options)
         }
 
-        window.onload = resize;
-        window.onresize = resize;
+        window.onload = resize
+        window.onresize = resize
     }
 </script>
 

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    {{> head}}
+    {{>head}}
 </head>
 
 <body>
@@ -19,6 +19,7 @@
             <div class="p-3 text-center">
                 <h5>Name: {{user.name}}</h5>
                 <h5>Email: {{user.email}}</h5>
+                <h5>Timezone: </h5><p id="timezone"></p>
                 <a href="/edit/account" class="">Edit</a>
 
             </div>
@@ -27,5 +28,9 @@
 
     {{>footer}}
 </body>
+
+<script>
+    document.getElementById("timezone").innerText = new Date().toTimeString().slice(9)
+</script>
 
 </html>
