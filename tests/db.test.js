@@ -1,4 +1,5 @@
 const config = require('../config/config')
+const { connected } = require('../controllers/db')
 const db = require('../controllers/db')
 
 describe('Database', () => {
@@ -7,9 +8,10 @@ describe('Database', () => {
 
   test('connect / disconnect database', async () => {
     await db.init(process.env.MONGODB_SECRET, process.env.DB_NAME)
-    expect(db.connected()).toBe(true)
+    expect(await db.connected()).toBe(true)
+
     await db.close()
-    expect(db.connected()).toBe(false)
+    expect(await db.connected()).toBe(false)
   })
 
   afterAll(async () => {
