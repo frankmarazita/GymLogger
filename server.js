@@ -1,29 +1,18 @@
 const app = require('./app')
-const db = require('./controllers/db')
-const auth = require('./controllers/auth')
-const error = require('./controllers/error')
+const db = require('./db/db')
+const auth = require('./middleware/auth')
+const error = require('./middleware/error')
 const port = parseInt(process.env.PORT)
 
-const CT = require('./constants/code_tables')
-const EM = require('./constants/error_messages')
 const LM = require('./constants/log_messages')
 
 // Routes
-require('./routes/auth')(app, db)
-require('./routes/home')(app, db)
-require('./routes/account')(app, db)
-require('./routes/add')(app, db)
-require('./routes/edit')(app, db)
-require('./routes/delete')(app, db)
-require('./routes/group')(app, db)
-require('./routes/exercise')(app, db)
-require('./routes/exercise_data')(app, db)
-require('./routes/weight')(app, db)
+require('./routes')
 
 // Default Route
-app.use(function (req, res) {
-    if (auth.verify(req, res)) {
-        error.render(req, res, 404)
+app.use(function (req, res, next) {
+    if (auth.verifyDefault(req, res)) {
+        return error.render(req, res, 404)
     }
 })
 

@@ -57,15 +57,21 @@ SESSION_KEY=mysessionkey
 ```
 src\
  |--config\         # Configuration files
- |--controllers\    # Controller utilities
  |--constants\      # Variable constants
+ |--controllers\    # Controller methods
+ |--db\             # Database methods
  |--helpers\        # Helper methods
+ |--middleware\     # Middleware
+ |--models\         # Models
  |--public\         # Static files
  |--routes\         # Route controllers
+ |--scripts\        # Management scripts
  |--tests\          # Test cases
+ |--utils\          # Utilities
  |--views\          # Handlebars views
  |--.env            # Environment variables
  |--app.js          # Express app
+ |--routes.js       # Route imports
  |--server.js       # App entry point
 ```
 

@@ -1,6 +1,5 @@
 const config = require('../config/config')
-const { connected } = require('../controllers/db')
-const db = require('../controllers/db')
+const db = require('../db/db')
 
 describe('Database', () => {
   beforeAll(async () => {

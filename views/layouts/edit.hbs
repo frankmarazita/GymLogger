@@ -15,7 +15,7 @@
                 <p class="lead">Edit {{type.item}} by changing the fields.</p>
             </div>
             <div class="form">
-                <form action="/edit/{{type.item}}/{{type._id}}" method="post">
+                <form action="/edit/{{type.item}}/{{type.id}}" method="post">
                     {{#if (equals type.item 'account')}}
                     {{#user}}
                     <div class="form-group">
@@ -53,7 +53,7 @@
                         <select class="form-control" id="exercisegroup" name="exercisegroup" required>
                             <option value="" selected disabled hidden>...</option>
                             {{#exerciseGroups}}
-                            <option value="{{_id}}">{{name}}</option>
+                            <option value="{{id}}">{{name}}</option>
                             {{/exerciseGroups}}
                         </select>
                     </div> --}}
@@ -79,8 +79,12 @@
     function deleteItem() {
         let result = confirm("Confirm Delete");
         if (result == true) {
-            $.post('/delete/{{type.item}}/{{type._id}}', function (response, status) {
-                window.location.replace(response.url);
+            $.ajax({
+                url: '/delete/{{type.item}}/{{type.id}}',
+                type: 'DELETE',
+                success: function (response, status) {
+                    window.location.replace(response.url);
+                }
             })
         }
     }

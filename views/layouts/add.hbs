@@ -35,17 +35,17 @@
                         <textarea class="form-control" id="note" name="note" rows="3" placeholder="I need to work on ..."></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="exercisegroup">Exercise Group</label>
-                        <select class="form-control" id="exercisegroup" name="exercisegroup" required>
+                        <label for="exerciseGroup">Exercise Group</label>
+                        <select class="form-control" id="exerciseGroup" name="exerciseGroup" required>
                             <option value="" selected disabled hidden>...</option>
                             {{#exerciseGroups}}
-                            <option value="{{_id}}">{{name}}</option>
+                            <option value="{{id}}">{{name}}</option>
                             {{/exerciseGroups}}
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="exercisetype">Exercise Type</label>
-                        <select class="form-control" id="exercisetype" name="exercisetype" required>
+                        <label for="exerciseType">Exercise Type</label>
+                        <select class="form-control" id="exerciseType" name="exerciseType" required>
                             <option value="" selected disabled hidden>...</option>
                             {{#each exerciseTypes}}
                             <option value="{{@key}}">{{this}}</option>

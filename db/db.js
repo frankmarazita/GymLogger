@@ -1,7 +1,6 @@
 const MongoClient = require('mongodb').MongoClient
 const ObjectId = require('mongodb').ObjectID
 
-const CT = require('../constants/code_tables')
 const EM = require('../constants/error_messages')
 const LM = require('../constants/log_messages')
 
@@ -59,15 +58,15 @@ module.exports = {
      * Get data from the database
      * @param {string} collection - Name of database collection
      * @param {object} data - Dictionary of search terms {email: "me@email.com"}
-     * @param {boolean} [objectID=false] - If set to true, treats data as a object ID string
+     * @param {object} filter - Dictionary of query 'projection' {email: 1}
      * @returns {object}
      */
-    get: async function (collection, data, objectID = false) {
+    getOne: async function (collection, data, filter=null) {
         if (db) {
-            if (objectID) {
-                data = { '_id': new ObjectId(data) }
+            if (filter) {
+                filter = { projection: filter }
             }
-            return await dbo.collection(collection).findOne(data)
+            return await dbo.collection(collection).findOne(data, filter)
         }
     },
     /**
@@ -104,46 +103,42 @@ module.exports = {
      * @param {boolean} [objectID=false] - If set to true, treats data as a object ID string
      * @returns
      */
-    update: async function (collection, _id, data, objectID = false) {
+    update: async function (collection, data, item) {
         if (db) {
-            if (objectID) {
-                _id = new ObjectId(_id)
-            }
-            return await dbo.collection(collection).updateOne({ _id: _id }, { $set: data })
+            return await dbo.collection(collection).updateOne(data, { $set: item })
         }
     },
     /**
-     * Update data array in database
+     * Update data array in database if entry doesn't already exist
      * @param {string} collection - Name of database collection
-     * @param {string} _id - Id of collection entry
-     * @param {string} field - Array field to add to
-     * @param {*} parameter - The new value to set
-     * @param {boolean} [objectID=false] - If set to true, treats data as a object ID string
+     * @param {object} data - Dictionary of search terms {_id: "id"}
+     * @param {object} item - Dictionary of items to add {exercisegroups: "id"}
      * @returns
      */
-    updateArray: async function (collection, _id, field, parameter, objectID = false) {
+    addArrayItem: async function (collection, data, item) {
         if (db) {
-            let item = {}
-            item[field] = parameter
-            if (objectID) {
-                _id = new ObjectId(_id)
-            }
-            return await dbo.collection(collection).updateOne({ _id: _id }, { $addToSet: item })
+            return await dbo.collection(collection).updateOne(data, { $addToSet: item })
         }
+    },
+    /**
+     * Remove an item form an array collection
+     * @param {string} collection - Name of database collection
+     * @param {object} data - Dictionary of search terms {_id: "id"}
+     * @param {object} item - Dictionary of items to remove {exercisegroups: "id"}
+     * @returns
+     */
+    removeArrayItem: async function (collection, data, item) {
+        return await dbo.collection(collection).updateOne(data, { $pull: item })
     },
     /**
      * Delete data in the database
      * @param {string} collection - Name of database collection
-     * @param {string} _id - Id of collection entry
-     * @param {boolean} [objectID=false] - If set to true, treats data as a object ID string
+     * @param {object} data - Dictionary of search terms {_id: "1234"}
      * @returns
      */
-    delete: async function (collection, _id, objectID = false) {
+    delete: async function (collection, data) {
         if (db) {
-            if (objectID) {
-                _id = new ObjectId(_id)
-            }
-            return await dbo.collection(collection).deleteOne({ _id: _id })
+            return await dbo.collection(collection).deleteOne(data)
         }
     }
 }

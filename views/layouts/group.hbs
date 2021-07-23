@@ -13,33 +13,33 @@
             <div class="pt-5 text-center">
                 <h2>{{exerciseGroup.name}}</h2>
                 <p class="lead">{{exerciseGroup.note}}</p>
-                <a href="/edit/group/{{exerciseGroup._id}}" class="">Edit</a>
+                <a href="/edit/group/{{exerciseGroup.id}}" class="">Edit</a>
             </div>
             {{#exercises}}
             <div class="card m-3">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="card-title">{{name}}</h5>
-                        {{#if (equals exercisetype 1)}}
+                        {{#if (equals exerciseType 1)}}
                         <i class="las la-dumbbell" style="font-size:48px;"></i>
-                        {{else if (equals exercisetype 2)}}
+                        {{else if (equals exerciseType 2)}}
                         <i class="las la-cog" style="font-size:48px;"></i>
-                        {{else if (equals exercisetype 3)}}
+                        {{else if (equals exerciseType 3)}}
                         <i class="las la-cog" style="font-size:48px;"></i>
-                        {{else if (equals exercisetype 4)}}
+                        {{else if (equals exerciseType 4)}}
                         <i class="las la-hand-rock" style="font-size:48px;"></i>
-                        {{else if (equals exercisetype 5)}}
+                        {{else if (equals exerciseType 5)}}
                         <i class="las la-running" style="font-size:48px;"></i>
                         {{/if}}
                     </div>
                     <p class="card-text">{{note}}</p>
-                    {{#if lastmax}}
-                    <p class="card-text">Max: {{lastmax}}</p>
+                    {{#if dailyMaxRecord}}
+                    <p class="card-text">Max: {{dailyMaxRecord}}</p>
                     {{/if}}
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='/exercise/{{_id}}'">View</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='/edit/exercise/{{_id}}'">Edit</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='/exercise/{{id}}'">View</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='/edit/exercise/{{id}}'">Edit</button>
                         </div>
                         {{#if done}}
                         <i class="las la-check" style="font-size:48px;"></i>
