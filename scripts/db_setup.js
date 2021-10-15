@@ -1,5 +1,5 @@
-const config = require('../config/config')
-const db = require('../controllers/db/db')
+const config = require('../server/config/config')
+const db = require('../server/db/db')
 
 db.init(process.env.MONGODB_SECRET, process.env.DB_NAME).then(() => {
     // TODO

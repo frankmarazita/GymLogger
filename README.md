@@ -32,7 +32,6 @@ npm test
 - Node.js
 - Express
     - Express Session
-    - Express Handlebars
 - MongoDB
 - Jest
 - bcrypt
