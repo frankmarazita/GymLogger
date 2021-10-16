@@ -1,7 +1,7 @@
 const EM = require('../constants/errorMessages')
 
 const error = require('../middleware/error')
-const jwt = require('../utils/jwt')
+const utility = require('../utils/utility')
 
 const User = require('../models/User')
 
@@ -23,7 +23,7 @@ module.exports = {
             return error.status(req, res, 401, EM.Auth.InvalidEmailPassword)
         }
 
-        let token = await jwt.createNewSessionToken(user.sessionData())
+        let token = await utility.jwt.createNewSessionToken(user.sessionData())
 
         return res.status(200).send({ token: token })
     }

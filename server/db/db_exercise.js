@@ -2,9 +2,7 @@ const { ObjectID } = require('bson')
 const DT = require('../constants/databaseTables')
 
 const db = require('./db')
-const args = require('../utils/args')
-const date = require('../utils/date')
-const id = require('../utils/id')
+const utility = require('../utils/utility')
 
 module.exports = {
 
@@ -14,7 +12,7 @@ module.exports = {
      * @returns
      */
     getDataWithID: async function (exerciseID) {
-        if (args.verify(arguments, 1)) {
+        if (utility.args.verify(arguments, 1)) {
             return await db.getOne(DT.Exercise.T, {
                 [DT.Exercise.C.ID]: exerciseID
             })
@@ -31,10 +29,10 @@ module.exports = {
      * @returns
      */
     addExercise: async function (userID, exerciseGroupID, name, note, exerciseType) {
-        if (args.verify(arguments, 5)) {
+        if (utility.args.verify(arguments, 5)) {
             return await db.set(DT.Exercise.T, {
-                [DT.Exercise.C.ID]: ObjectID(id.new(24)),
-                [DT.Exercise.C.DateCreated]: date.now(),
+                [DT.Exercise.C.ID]: ObjectID(utility.id.new(24)),
+                [DT.Exercise.C.DateCreated]: utility.date.now(),
                 [DT.Exercise.C.User]: userID,
                 [DT.Exercise.C.ExerciseGroup]: exerciseGroupID,
                 [DT.Exercise.C.Name]: name,
@@ -50,7 +48,7 @@ module.exports = {
      * @returns
      */
     removeExercise: async function (exerciseID) {
-        if (args.verify(arguments, 1)) {
+        if (utility.args.verify(arguments, 1)) {
             return await db.delete(DT.Exercise.T, {
                 [DT.Exercise.C.ID]: exerciseID
             })
@@ -64,12 +62,12 @@ module.exports = {
      * @returns
      */
     addDailyMaxRecord: async function (exerciseID, value) {
-        if (args.verify(arguments, 2)) {
+        if (utility.args.verify(arguments, 2)) {
             return await db.addArrayItem(DT.Exercise.T, {
                 [DT.Exercise.C.ID]: exerciseID
             }, {
                 [DT.Exercise.C.DailyMax.T]: {
-                    [DT.Exercise.C.DailyMax.C.Date]: date.now(),
+                    [DT.Exercise.C.DailyMax.C.Date]: utility.date.now(),
                     [DT.Exercise.C.DailyMax.C.Value]: value,
                 }
             })
@@ -85,7 +83,7 @@ module.exports = {
      * @returns
      */
     updateDailyMaxRecord: async function (exerciseID, index, date, value) {
-        if (args.verify(arguments, 4)) {
+        if (utility.args.verify(arguments, 4)) {
             return await db.update(DT.Exercise.T, {
                 [DT.Exercise.C.ID]: exerciseID
             }, {
@@ -103,7 +101,7 @@ module.exports = {
      * @returns
      */
     getDailyMax: async function (exerciseID) {
-        if (args.verify(arguments, 1)) {
+        if (utility.args.verify(arguments, 1)) {
             return await db.getOne(DT.Exercise.T, {
                 [DT.Exercise.C.ID]: exerciseID
             }, {
@@ -119,12 +117,12 @@ module.exports = {
      * @returns
      */
     addGoalRecord: async function (exerciseID, value) {
-        if (args.verify(arguments, 2)) {
+        if (utility.args.verify(arguments, 2)) {
             return await db.addArrayItem(DT.Exercise.T, {
                 [DT.Exercise.C.ID]: exerciseID
             }, {
                 [DT.Exercise.C.Goal.T]: {
-                    [DT.Exercise.C.Goal.C.Date]: date.now(),
+                    [DT.Exercise.C.Goal.C.Date]: utility.date.now(),
                     [DT.Exercise.C.Goal.C.Value]: value,
                 }
             })
@@ -140,7 +138,7 @@ module.exports = {
      * @returns
      */
     updateGoalRecord: async function (exerciseID, index, date, value) {
-        if (args.verify(arguments, 4)) {
+        if (utility.args.verify(arguments, 4)) {
             return await db.update(DT.Exercise.T, {
                 [DT.Exercise.C.ID]: exerciseID
             }, {
@@ -158,7 +156,7 @@ module.exports = {
      * @returns
      */
     getGoal: async function (exerciseID) {
-        if (args.verify(arguments, 1)) {
+        if (utility.args.verify(arguments, 1)) {
             return await db.getOne(DT.Exercise.T, {
                 [DT.Exercise.C.ID]: exerciseID
             }, {
@@ -174,7 +172,7 @@ module.exports = {
      * @returns
      */
     updateName: async function (exerciseID, name) {
-        if (args.verify(arguments, 2)) {
+        if (utility.args.verify(arguments, 2)) {
             return await db.update(DT.Exercise.T, {
                 [DT.Exercise.C.ID]: exerciseID
             }, {
@@ -190,7 +188,7 @@ module.exports = {
      * @returns
      */
     updateNote: async function (exerciseID, note) {
-        if (args.verify(arguments, 2)) {
+        if (utility.args.verify(arguments, 2)) {
             return await db.update(DT.Exercise.T, {
                 [DT.Exercise.C.ID]: exerciseID
             }, {

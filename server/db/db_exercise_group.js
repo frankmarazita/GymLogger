@@ -2,9 +2,7 @@ const { ObjectID } = require('bson')
 const DT = require('../constants/databaseTables')
 
 const db = require('./db')
-const args = require('../utils/args')
-const date = require('../utils/date')
-const id = require('../utils/id')
+const utility = require('../utils/utility')
 
 module.exports = {
 
@@ -14,7 +12,7 @@ module.exports = {
      * @returns
      */
     getDataWithID: async function (exerciseGroupID) {
-        if (args.verify(arguments, 1)) {
+        if (utility.args.verify(arguments, 1)) {
             return await db.getOne(DT.ExerciseGroup.T, {
                 [DT.ExerciseGroup.C.ID]: exerciseGroupID
             })
@@ -29,10 +27,10 @@ module.exports = {
      * @returns
      */
     addExerciseGroup: async function (userID, name, note) {
-        if (args.verify(arguments, 3)) {
+        if (utility.args.verify(arguments, 3)) {
             return await db.set(DT.ExerciseGroup.T, {
-                [DT.ExerciseGroup.C.ID]: ObjectID(id.new(24)),
-                [DT.ExerciseGroup.C.DateCreated]: date.now(),
+                [DT.ExerciseGroup.C.ID]: ObjectID(utility.id.new(24)),
+                [DT.ExerciseGroup.C.DateCreated]: utility.date.now(),
                 [DT.ExerciseGroup.C.User]: userID,
                 [DT.ExerciseGroup.C.Name]: name,
                 [DT.ExerciseGroup.C.Note]: note,
@@ -48,7 +46,7 @@ module.exports = {
      * @returns
      */
     addExerciseID: async function (exerciseGroupID, exerciseID) {
-        if (args.verify(arguments, 2)) {
+        if (utility.args.verify(arguments, 2)) {
             return await db.addArrayItem(DT.ExerciseGroup.T, {
                 [DT.ExerciseGroup.C.ID]: exerciseGroupID
             }, {
@@ -63,7 +61,7 @@ module.exports = {
      * @returns
      */
     getExerciseIDs: async function (exerciseGroupID) {
-        if (args.verify(arguments, 1)) {
+        if (utility.args.verify(arguments, 1)) {
             return await db.getOne(DT.ExerciseGroup.T, {
                 [DT.ExerciseGroup.C.ID]: exerciseGroupID
             }, {
@@ -79,7 +77,7 @@ module.exports = {
      * @returns
      */
     removeExerciseID: async function (exerciseGroupID, exerciseID) {
-        if (args.verify(arguments, 2)) {
+        if (utility.args.verify(arguments, 2)) {
             return await db.removeArrayItem(DT.ExerciseGroup.T, {
                 [DT.ExerciseGroup.C.ID]: exerciseGroupID
             }, {
@@ -95,7 +93,7 @@ module.exports = {
      * @returns
      */
     updateName: async function (exerciseGroupID, name) {
-        if (args.verify(arguments, 2)) {
+        if (utility.args.verify(arguments, 2)) {
             return await db.update(DT.ExerciseGroup.T, {
                 [DT.ExerciseGroup.C.ID]: exerciseGroupID
             }, {
@@ -111,7 +109,7 @@ module.exports = {
      * @returns
      */
     updateNote: async function (exerciseGroupID, note) {
-        if (args.verify(arguments, 2)) {
+        if (utility.args.verify(arguments, 2)) {
             return await db.update(DT.ExerciseGroup.T, {
                 [DT.ExerciseGroup.C.ID]: exerciseGroupID
             }, {

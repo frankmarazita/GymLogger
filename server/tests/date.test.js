@@ -9,7 +9,7 @@ describe('Date', () => {
   test('new date', async () => {
 
     let newDate = new Date('2020-01-01')
-    date.setDate(newDate)
+    date.setAppDate(newDate)
     console.log(date.now())
 
   })

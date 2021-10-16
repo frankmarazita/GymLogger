@@ -2,7 +2,8 @@ const { ObjectID } = require('bson')
 const DT = require('../constants/databaseTables')
 
 const db_user = require('../db/db_user')
-const bcrypt = require('../utils/bcrypt')
+
+const utility = require('../utils/utility')
 
 const ExerciseGroup = require('./ExerciseGroup')
 
@@ -71,7 +72,7 @@ module.exports = class User {
      */
     async authenticate(password) {
         let user = await db_user.getPasswordHash(this.id)
-        let valid = await bcrypt.check(password, user[DT.User.C.PasswordHash])
+        let valid = await utility.bcrypt.check(password, user[DT.User.C.PasswordHash])
         this.authenticated = valid === true
         return this.authenticated
     }
@@ -83,7 +84,7 @@ module.exports = class User {
      * @param {*} password - Password
      */
     async new(email, name, password) {
-        const passwordHash = await bcrypt.hash(password)
+        const passwordHash = await utility.bcrypt.hash(password)
         let result = await db_user.addUser(email, name, passwordHash)
         let resultData = result['ops'][0]
         await this.loadWithData(resultData)

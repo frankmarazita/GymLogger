@@ -1,4 +1,3 @@
-const date = require('../utils/date')
 const jwt = require('../utils/jwt')
 
 describe('JWT', () => {
@@ -14,7 +13,7 @@ describe('JWT', () => {
 
         let token = await jwt.createNewSessionToken(sessionData)
         console.log(token)
-        let valid = await jwt.check(token)
+        let valid = await jwt.check(token) !== false
         expect(valid).toBe(true)
     })
 

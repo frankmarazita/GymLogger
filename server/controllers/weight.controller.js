@@ -1,6 +1,5 @@
-const date = require('../utils/date')
-
 const error = require('../middleware/error')
+const utility = require('../utils/utility')
 
 const User = require('../models/User')
 
@@ -33,7 +32,7 @@ module.exports = {
         // TODO Check integrity of request
         let userID = req.session.user.id
         let index = req.body.index
-        let newDate = date.stringToDate(req.body.date)
+        let newDate = utility.date.stringToDate(req.body.date)
         let value = parseFloat(req.body.value)
         let timezoneOffset = req.body.timezoneOffset
 

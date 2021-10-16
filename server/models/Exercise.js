@@ -3,7 +3,7 @@ const DT = require('../constants/databaseTables')
 
 const db_exercise = require('../db/db_exercise')
 
-const date = require('../utils/date')
+const utility = require('../utils/utility')
 
 module.exports = class Exercise {
     constructor() {
@@ -147,7 +147,7 @@ module.exports = class Exercise {
      * @param {Date} dateDone - Completed Date
      * @returns {Boolean}
      */
-    async getDailyMaxDone(dateDone = date.today()) {
+    async getDailyMaxDone(dateDone = utility.date.today()) {
         if (!this.dailyMax) {
             await this.getDailyMax()
         }

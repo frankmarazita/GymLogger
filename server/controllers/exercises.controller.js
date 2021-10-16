@@ -1,5 +1,5 @@
 const error = require('../middleware/error')
-const date = require('../utils/date')
+const utility = require('../utils/utility')
 
 const Exercise = require('../models/Exercise')
 const ExerciseGroup = require('../models/ExerciseGroup')
@@ -142,7 +142,7 @@ module.exports = {
         let userID = req.session.user.id
         let exerciseID = req.params.id
         let index = req.body.index
-        let newDate = date.stringToDate(req.body.date)
+        let newDate = utility.date.stringToDate(req.body.date)
         let value = parseFloat(req.body.value)
         let timezoneOffset = req.body.timezoneOffset
 
@@ -164,7 +164,7 @@ module.exports = {
         let userID = req.session.user.id
         let exerciseID = req.params.id
         let index = req.body.index
-        let newDate = date.stringToDate(req.body.date)
+        let newDate = utility.date.stringToDate(req.body.date)
         let value = parseFloat(req.body.value)
         let timezoneOffset = req.body.timezoneOffset
 

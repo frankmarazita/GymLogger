@@ -1,21 +1,23 @@
 const CT = require('../constants/codeTables')
 
 const IS_PRODUCTION = process.env.NODE_ENV === CT.System.C.Production
+const IS_DEVELOPMENT = process.env.NODE_ENV === CT.System.C.Development
 
-// TODO Determine a good way to set the dateOffset for the system
 let dateOffsetEnabled = false
 let dateOffset = 0
 
 module.exports = {
 
-    toggleDateOffset: function () {
-        if (!IS_PRODUCTION) {
-            if (dateOffsetEnabled) {
-                dateOffset = 0
-                dateOffsetEnabled = false
-            } else {
-                dateOffsetEnabled = true
-            }
+    enableDateOffset: function () {
+        if (IS_DEVELOPMENT) {
+            dateOffsetEnabled = true
+        }
+    },
+
+    disableDateOffset: function () {
+        if (IS_DEVELOPMENT) {
+            dateOffsetEnabled = false
+            dateOffset = 0
         }
     },
 
