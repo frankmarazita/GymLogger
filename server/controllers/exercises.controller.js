@@ -9,7 +9,7 @@ module.exports = {
 
     get: async function (req, res) {
         let userID = req.session.user.id
-        let exerciseID = req.params.id
+        let exerciseID = req.params.exerciseID
 
         let exercise = new Exercise()
         await exercise.loadWithID(exerciseID)
@@ -56,7 +56,7 @@ module.exports = {
         let note = req.body.note
         // let exerciseGroupID = req.body.exerciseGroup
         // let exerciseType = req.body.exerciseType
-        let exerciseID = req.params.id
+        let exerciseID = req.params.exerciseID
 
         let exercise = new Exercise()
         await exercise.loadWithID(exerciseID)
@@ -80,7 +80,7 @@ module.exports = {
     delete: async function (req, res) {
         // TODO Check integrity of request
         let userID = req.session.user.id
-        let exerciseID = req.params.id
+        let exerciseID = req.params.exerciseID
 
         let exercise = new Exercise()
         await exercise.loadWithID(exerciseID)
@@ -102,7 +102,7 @@ module.exports = {
     logDailyMax: async function (req, res) {
         // TODO Check integrity of request
         let userID = req.session.user.id
-        let exerciseID = req.params.id
+        let exerciseID = req.params.exerciseID
         let dailyMax = parseFloat(req.body.dailyMax)
 
         let exercise = new Exercise()
@@ -121,7 +121,7 @@ module.exports = {
     logGoal: async function (req, res) {
         // TODO Check integrity of request
         let userID = req.session.user.id
-        let exerciseID = req.params.id
+        let exerciseID = req.params.exerciseID
         let goal = parseFloat(req.body.goal)
 
         let exercise = new Exercise()
@@ -140,8 +140,8 @@ module.exports = {
     updateDailyMax: async function (req, res) {
         // TODO Check integrity of request
         let userID = req.session.user.id
-        let exerciseID = req.params.id
-        let index = req.body.index
+        let exerciseID = req.params.exerciseID
+        let index = req.params.dailymaxID
         let newDate = utility.date.stringToDate(req.body.date)
         let value = parseFloat(req.body.value)
         let timezoneOffset = req.body.timezoneOffset
@@ -162,8 +162,8 @@ module.exports = {
     updateGoal: async function (req, res) {
         // TODO Check integrity of request
         let userID = req.session.user.id
-        let exerciseID = req.params.id
-        let index = req.body.index
+        let exerciseID = req.params.exerciseID
+        let index = req.params.goalID
         let newDate = utility.date.stringToDate(req.body.date)
         let value = parseFloat(req.body.value)
         let timezoneOffset = req.body.timezoneOffset

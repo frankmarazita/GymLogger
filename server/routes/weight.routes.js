@@ -6,6 +6,6 @@ module.exports = function () {
 
     app.get('/weight', auth.verify, controller.get)
     app.post('/weight', auth.verify, controller.logWeight)
-    app.put('/weight', auth.verify, controller.updateWeight)
+    app.put('/weight/:id', auth.verify, controller.updateWeight)
 
 }

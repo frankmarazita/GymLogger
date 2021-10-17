@@ -4,14 +4,14 @@ const controller = require('../controllers/exercises.controller')
 
 module.exports = function () {
 
-    app.get('/exercises/:id', auth.verify, controller.get)
+    app.get('/exercises/:exerciseID', auth.verify, controller.get)
     app.post('/exercises', auth.verify, controller.add)
-    app.put('/exercises/:id', auth.verify, controller.update)
-    app.delete('/exercises/:id', auth.verify, controller.delete)
+    app.put('/exercises/:exerciseID', auth.verify, controller.update)
+    app.delete('/exercises/:exerciseID', auth.verify, controller.delete)
 
-    app.post('/exercises/:id/dailymax', auth.verify, controller.logDailyMax)
-    app.post('/exercises/:id/goal', auth.verify, controller.logGoal)
-    app.put('/exercises/:id/dailymax', auth.verify, controller.updateDailyMax)
-    app.put('/exercises/:id/goal', auth.verify, controller.updateGoal)
+    app.post('/exercises/:exerciseID/dailymax', auth.verify, controller.logDailyMax)
+    app.post('/exercises/:exerciseID/goal', auth.verify, controller.logGoal)
+    app.put('/exercises/:exerciseID/dailymax/:dailymaxID', auth.verify, controller.updateDailyMax)
+    app.put('/exercises/:exerciseID/goal/:goalID', auth.verify, controller.updateGoal)
 
 }

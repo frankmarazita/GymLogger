@@ -108,7 +108,7 @@ class EditInputGroup extends React.Component {
                 timezoneOffset: dateUtility.getTimezoneOffset()
             }
 
-            http.put('/exercises/' + this.state.exerciseID + '/' + this.state.type, data)
+            http.put('/exercises/' + this.state.exerciseID + '/' + this.state.type + '/' + this.state.index, data)
                 .then((response) => {
                     alert('Edit Successful')
                     // window.location.reload()

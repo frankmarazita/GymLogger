@@ -100,7 +100,7 @@ class EditInputGroup extends React.Component {
                 timezoneOffset: dateUtility.getTimezoneOffset()
             }
 
-            http.put('/weight', data)
+            http.put('/weight/' + this.state.index, data)
             .then((response) => {
                 alert('Edit Successful')
                 // window.location.reload()
