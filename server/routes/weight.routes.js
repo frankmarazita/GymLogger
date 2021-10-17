@@ -1,11 +1,9 @@
-const app = require('../app')
+const routes = require('express').Router()
 const auth = require('../middleware/auth')
 const controller = require('../controllers/weight.controller')
 
-module.exports = function () {
+routes.get('/weight', auth.verify, controller.get)
+routes.post('/weight', auth.verify, controller.logWeight)
+routes.put('/weight/:id', auth.verify, controller.updateWeight)
 
-    app.get('/weight', auth.verify, controller.get)
-    app.post('/weight', auth.verify, controller.logWeight)
-    app.put('/weight/:id', auth.verify, controller.updateWeight)
-
-}
+module.exports = routes

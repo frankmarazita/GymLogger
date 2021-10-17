@@ -1,9 +1,7 @@
-const app = require('../app')
+const routes = require('express').Router()
 const auth = require('../middleware/auth')
 const controller = require('../controllers/login.controller')
 
-module.exports = function () {
+routes.post('/login', auth.verifyFalse, controller.login)
 
-    app.post('/login', auth.verifyFalse, controller.login)
-
-}
+module.exports = routes

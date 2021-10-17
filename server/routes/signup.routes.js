@@ -1,9 +1,7 @@
-const app = require('../app')
+const routes = require('express').Router()
 const auth = require('../middleware/auth')
 const controller = require('../controllers/signup.controller')
 
-module.exports = function () {
+routes.post('/signup', auth.verifyFalse, controller.signup)
 
-    app.post('/signup', auth.verifyFalse, controller.signup)
-
-}
+module.exports = routes

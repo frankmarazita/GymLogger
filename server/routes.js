@@ -11,11 +11,13 @@ if (IS_DEVELOPMENT) {
     })
 }
 
-require('./routes/exercises.routes')()
-require('./routes/groups.routes')()
-require('./routes/login.routes')()
-require('./routes/signup.routes')()
-require('./routes/users.routes')()
-require('./routes/weight.routes')()
+const preRoute = '' // '/api'
+
+app.use(preRoute, require('./routes/exercises.routes'))
+app.use(preRoute, require('./routes/groups.routes'))
+app.use(preRoute, require('./routes/login.routes'))
+app.use(preRoute, require('./routes/signup.routes'))
+app.use(preRoute, require('./routes/users.routes'))
+app.use(preRoute, require('./routes/weight.routes'))
 
 require('./routes/error.routes')()

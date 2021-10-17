@@ -1,11 +1,9 @@
-const app = require('../app')
+const routes = require('express').Router()
 const auth = require('../middleware/auth')
 const controller = require('../controllers/users.controller')
 
-module.exports = function () {
+routes.get('/users', auth.verify, controller.get)
+routes.post('/users', controller.add) // TODO implement add method
+routes.put('/users', auth.verify, controller.update)
 
-    app.get('/users', auth.verify, controller.get)
-    app.post('/users', controller.add) // TODO implement add method
-    app.put('/users', auth.verify, controller.update)
-
-}
+module.exports = routes

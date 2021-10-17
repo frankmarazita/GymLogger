@@ -1,13 +1,11 @@
-const app = require('../app')
+const routes = require('express').Router()
 const auth = require('../middleware/auth')
 const controller = require('../controllers/groups.controller')
 
-module.exports = function () {
+routes.get('/groups/:id', auth.verify, controller.getGroup)
+routes.post('/groups', auth.verify, controller.add)
+routes.put('/groups/:id', auth.verify, controller.update)
 
-    app.get('/groups/:id', auth.verify, controller.getGroup)
-    app.post('/groups', auth.verify, controller.add)
-    app.put('/groups/:id', auth.verify, controller.update)
+routes.get('/groups', auth.verify, controller.getGroups)
 
-    app.get('/groups', auth.verify, controller.getGroups)
-
-}
+module.exports = routes
