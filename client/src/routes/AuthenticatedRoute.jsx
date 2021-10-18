@@ -1,6 +1,6 @@
 import { Redirect } from 'react-router-dom';
 import React from 'react';
-import session from '../../utils/session';
+import session from '../utils/session';
 
 class AuthenticatedRoute extends React.Component {
 

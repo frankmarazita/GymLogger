@@ -2,6 +2,7 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import http from '../../utils/http';
 
+import Back from '../../components/Navigation/Back'
 import FormExercise from '../../components/Form/Exercise/FormExercise';
 
 class ExerciseEdit extends React.Component {
@@ -29,8 +30,9 @@ class ExerciseEdit extends React.Component {
         let containerStyle = { maxWidth: '40%', minWidth: '350px' }
         return (
             <>
+                <Back/>
                 <Container style={containerStyle}>
-                    <div className="pt-5 text-center">
+                    <div className="text-center">
                         <h2>Edit Exercise</h2>
                         <p className="lead">Edit exercise by changing the fields.</p>
                     </div>

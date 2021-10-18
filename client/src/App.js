@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import AuthenticatedRoute from './containers/Routes/AuthenticatedRoute';
+import AuthenticatedRoute from './routes/AuthenticatedRoute';
 
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'

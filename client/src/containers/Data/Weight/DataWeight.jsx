@@ -4,6 +4,7 @@ import { Container, InputGroup, FormControl, Button } from 'react-bootstrap';
 import http from '../../../utils/http';
 import dateUtility from '../../../utils/date'
 
+import Back from '../../../components/Navigation/Back'
 import Loading from '../../../components/Loading/Loading'
 
 class DataWeight extends React.Component {
@@ -45,8 +46,9 @@ class DataWeight extends React.Component {
         let containerStyleData = {maxWidth: '40%', minWidth: '450px'}
         return (
             <>
+                <Back/>
                 <Container>
-                    <div className="pt-5 text-center">
+                    <div className="text-center">
                         <h2>Weight Data</h2>
                     </div>
                 </Container>

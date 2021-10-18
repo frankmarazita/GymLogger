@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Button } from 'react-bootstrap';
 import http from '../../utils/http';
 
+import Back from '../../components/Navigation/Back';
 import CardExercise from '../../components/Card/Exercise/CardExercise'
 import Loading from '../../components/Loading/Loading'
 
@@ -37,8 +38,9 @@ class ExerciseGroup extends React.Component {
         let containerStyle = { maxWidth: '40%', minWidth: '350px' }
         return (
             <>
+                <Back path='/'/>
                 <Container style={containerStyle}>
-                    <div className="pt-5 text-center">
+                    <div className="text-center">
                         <h2>{this.state.exerciseGroup ? this.state.exerciseGroup.name : ''}</h2>
                         <p className="lead">{this.state.exerciseGroup ? this.state.exerciseGroup.note : ''}</p>
                         <Button href={this.state.exerciseGroup ? '/edit/group/' + this.state.exerciseGroup.id : ''} variant="link">Edit</Button>

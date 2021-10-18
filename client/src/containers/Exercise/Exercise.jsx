@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Button } from 'react-bootstrap';
 import http from '../../utils/http';
 
+import Back from '../../components/Navigation/Back';
 import ChartExercise from '../../components/Chart/ChartExercise';
 import FormExerciseDailyMax from '../../components/Form/Exercise/FormExerciseDailyMax'
 import FormExerciseGoal from '../../components/Form/Exercise/FormExerciseGoal'
@@ -37,8 +38,9 @@ class Exercise extends React.Component {
         let containerStyle = { maxWidth: '40%', minWidth: '350px' }
         return (
             <>
+                <Back path={'/group/' + this.state.exercise.exerciseGroup}/>
                 <Container style={containerStyle}>
-                    <div className="pt-5 text-center">
+                    <div className="text-center">
                         <h2>{this.state.exercise ? this.state.exercise.name : ''}</h2>
                         <p className="lead">{this.state.exercise ? this.state.exercise.note : ''}</p>
                         <Button href={this.state.exercise ? '/edit/exercise/' + this.state.exercise.id : ''} variant="link">Edit</Button>

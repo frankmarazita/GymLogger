@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Button } from 'react-bootstrap';
 import http from '../../utils/http';
 
+import Back from '../../components/Navigation/Back'
 import FormWeight from '../../components/Form/Weight/FormWeight';
 import ChartWeight from '../../components/Chart/ChartWeight';
 
@@ -29,8 +30,9 @@ class Weight extends React.Component {
         let containerStyle = { maxWidth: '40%', minWidth: '350px' }
         return (
             <>
+                <Back path={'/'}/>
                 <Container style={containerStyle}>
-                    <div className="pt-5 text-center">
+                    <div className="text-center">
                         <h2>Weight</h2>
                     </div>
                 </Container>
