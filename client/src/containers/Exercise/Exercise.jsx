@@ -5,6 +5,7 @@ import http from '../../utils/http';
 import ChartExercise from '../../components/Chart/ChartExercise';
 import FormExerciseDailyMax from '../../components/Form/Exercise/FormExerciseDailyMax'
 import FormExerciseGoal from '../../components/Form/Exercise/FormExerciseGoal'
+import Loading from '../../components/Loading/Loading'
 
 class Exercise extends React.Component {
 
@@ -30,7 +31,7 @@ class Exercise extends React.Component {
     render = () => {
 
         if (!this.state.exercise) {
-            return (<></>)
+            return (<><Loading /></>)
         }
 
         let containerStyle = { maxWidth: '40%', minWidth: '350px' }

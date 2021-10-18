@@ -4,6 +4,8 @@ import http from '../../../utils/http';
 
 import CT from '../../../constants/codeTables'
 
+import Loading from '../../Loading/Loading'
+
 class FormExercise extends React.Component {
 
     constructor(props) {
@@ -127,7 +129,7 @@ class FormExercise extends React.Component {
     render() {
 
         if (!this.state.exercise && this.state.action === 'EDIT') {
-            return (<></>)
+            return (<><Loading /></>)
         }
 
         let buttonStyle = { maxWidth: '150px' }

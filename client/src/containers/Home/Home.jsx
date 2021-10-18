@@ -5,6 +5,7 @@ import http from '../../utils/http';
 import CardExerciseGroup from '../../components/Card/ExerciseGroup/CardExerciseGroup'
 import CardExerciseGroupNew from '../../components/Card/ExerciseGroup/CardExerciseGroupNew'
 import IconExerciseType from '../../components/Icon/IconExerciseType'
+import Loading from '../../components/Loading/Loading'
 
 class Home extends React.Component {
 
@@ -38,7 +39,7 @@ class Home extends React.Component {
     render = () => {
 
         if (!this.state.user || !this.state.exerciseGroups) {
-            return (<></>)
+            return (<><Loading /></>)
         }
 
         return (

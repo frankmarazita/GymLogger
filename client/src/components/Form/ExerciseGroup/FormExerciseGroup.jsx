@@ -2,6 +2,8 @@ import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import http from '../../../utils/http';
 
+import Loading from '../../Loading/Loading'
+
 class FormExerciseGroup extends React.Component {
 
     constructor(props) {
@@ -83,7 +85,7 @@ class FormExerciseGroup extends React.Component {
     render() {
 
         if (!this.state.exerciseGroup && this.state.action === 'EDIT') {
-            return (<></>)
+            return (<><Loading /></>)
         }
 
         let buttonStyle = { maxWidth: '150px' }

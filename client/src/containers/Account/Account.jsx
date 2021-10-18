@@ -2,6 +2,8 @@ import React from 'react';
 import { Container, Button } from 'react-bootstrap';
 import http from '../../utils/http';
 
+import Loading from '../../components/Loading/Loading'
+
 class Account extends React.Component {
 
     constructor(props) {
@@ -25,7 +27,7 @@ class Account extends React.Component {
     render = () => {
 
         if (!this.state.user) {
-            return (<></>)
+            return (<><Loading /></>)
         }
 
         let containerStyle = { maxWidth: '40%', minWidth: '350px' }

@@ -2,6 +2,8 @@ import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import http from '../../../utils/http';
 
+import Loading from '../../Loading/Loading'
+
 class FormAccount extends React.Component {
 
     constructor(props) {
@@ -65,7 +67,7 @@ class FormAccount extends React.Component {
     render() {
 
         if (!this.state.user) {
-            return (<></>)
+            return (<><Loading /></>)
         }
 
         let buttonStyle = { maxWidth: '150px' }

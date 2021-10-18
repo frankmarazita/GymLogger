@@ -3,6 +3,7 @@ import { Container, Button } from 'react-bootstrap';
 import http from '../../utils/http';
 
 import CardExercise from '../../components/Card/Exercise/CardExercise'
+import Loading from '../../components/Loading/Loading'
 
 class ExerciseGroup extends React.Component {
 
@@ -30,7 +31,7 @@ class ExerciseGroup extends React.Component {
     render = () => {
 
         if (!this.state.exerciseGroup || !this.state.exercises) {
-            return (<></>)
+            return (<><Loading /></>)
         }
 
         let containerStyle = { maxWidth: '40%', minWidth: '350px' }

@@ -3,6 +3,8 @@ import { Container, InputGroup, FormControl, Button } from 'react-bootstrap';
 import http from '../../../utils/http';
 import dateUtility from '../../../utils/date'
 
+import Loading from '../../../components/Loading/Loading'
+
 class DataExercise extends React.Component {
 
     constructor(props) {
@@ -38,7 +40,7 @@ class DataExercise extends React.Component {
     render = () => {
 
         if (!this.state.exercise) {
-            return (<></>)
+            return (<><Loading /></>)
         }
 
         let containerStyleData = {maxWidth: '40%', minWidth: '450px'}
