@@ -1,5 +1,7 @@
 const CT = require('../constants/codeTables')
 
+const config = require('../config/config')
+
 const IS_PRODUCTION = process.env.NODE_ENV === CT.System.C.Production
 const IS_DEVELOPMENT = process.env.NODE_ENV === CT.System.C.Development
 
@@ -94,4 +96,14 @@ module.exports = {
         return new Date(date.getTime() + hours * 3600000)
     }
 
+}
+
+// Server Date Offset Config
+if (config.date.appDate) {
+    if (config.date.appDate !== '') {
+        module.exports.enableDateOffset()
+        let appDate = new Date(config.date.appDate)
+        module.exports.setAppDate(appDate)
+        console.log('Server Date Set to: ' + config.date.appDate)
+    }
 }

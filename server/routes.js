@@ -1,6 +1,7 @@
-const app = require('./app')
-
 const CT = require('./constants/codeTables')
+
+const app = require('./app')
+const config = require('./config/config')
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === CT.System.C.Development
 
@@ -11,7 +12,7 @@ if (IS_DEVELOPMENT) {
     })
 }
 
-const preRoute = '' // '/api'
+const preRoute = config.routes.preRoute
 
 app.use(preRoute, require('./routes/exercises.routes'))
 app.use(preRoute, require('./routes/groups.routes'))

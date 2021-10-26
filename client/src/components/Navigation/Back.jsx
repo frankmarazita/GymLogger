@@ -14,7 +14,7 @@ class Back extends React.Component {
                 <Container style={containerStyle}>
                     <div className="pt-3" style={{ fontSize: '48px' }}>
                         <a href={path} style={{ color: 'inherit' }}>
-                            <i class="las la-arrow-circle-left"></i>
+                            <i className="las la-arrow-circle-left"></i>
                         </a>
                     </div>
                 </Container>
