@@ -15,7 +15,7 @@ class AuthenticatedRoute extends React.Component {
     }
 
     render = () => {
-        let isLoggedIn = session.getToken();
+        let isLoggedIn = session.isLoggedIn();
 
         if (!isLoggedIn) {
             return (

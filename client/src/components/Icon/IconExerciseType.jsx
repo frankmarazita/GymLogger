@@ -1,5 +1,7 @@
 import React from 'react';
 
+import CT from '../../constants/codeTables'
+
 class ExerciseType extends React.Component {
     render() {
         let exerciseType = this.props.exerciseType
@@ -9,14 +11,18 @@ class ExerciseType extends React.Component {
 
         if (exerciseType && exerciseType !== '') {
             let className = 'las'
-            if (exerciseType === '1') {
+            if (exerciseType === CT.IconExerciseType.C.Dumbbell) {
                 className += ' la-dumbbell'
-            } else if (exerciseType === '2' || exerciseType === '3') {
+            } else if (exerciseType === CT.IconExerciseType.C.Cog) {
                 className += ' la-cog'
-            } else if (exerciseType === '4') {
+            } else if (exerciseType === CT.IconExerciseType.C.HandRock) {
                 className += ' la-hand-rock'
-            } else if (exerciseType === '5') {
+            } else if (exerciseType === CT.IconExerciseType.C.Running) {
                 className += ' la-running'
+            } else if (exerciseType === CT.IconExerciseType.C.WeightHanging) {
+                className += ' la-weight-hanging'
+            } else if (exerciseType === CT.IconExerciseType.C.Weight) {
+                className += ' la-weight'
             } else {
                 className = ''
             }

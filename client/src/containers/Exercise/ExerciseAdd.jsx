@@ -1,6 +1,8 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 
+import CT from '../../constants/codeTables'
+
 import Back from '../../components/Navigation/Back';
 import FormExercise from '../../components/Form/Exercise/FormExercise';
 
@@ -16,7 +18,7 @@ class ExerciseAdd extends React.Component {
                         <h2>Add Exercise</h2>
                         <p className="lead">Add a new exercise by completing the fields.</p>
                     </div>
-                    <FormExercise action={"ADD"}/>
+                    <FormExercise action={CT.Form.C.Action.C.Add}/>
                 </Container>
             </>
         )

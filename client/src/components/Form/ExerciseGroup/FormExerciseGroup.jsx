@@ -2,6 +2,8 @@ import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import http from '../../../utils/http';
 
+import CT from '../../../constants/codeTables'
+
 import Loading from '../../Loading/Loading'
 
 class FormExerciseGroup extends React.Component {
@@ -21,7 +23,7 @@ class FormExerciseGroup extends React.Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             exerciseGroup: nextProps.exerciseGroup,
-            action: 'EDIT',
+            action: CT.Form.C.Action.C.Edit,
             name: nextProps.exerciseGroup.name
         })
         if (nextProps.exerciseGroup.note) {
@@ -54,9 +56,9 @@ class FormExerciseGroup extends React.Component {
                 data['note'] = this.state.note
             }
 
-            if (this.state.action === 'ADD') {
+            if (this.state.action === CT.Form.C.Action.C.Add) {
                 this.post(data)
-            } else if (this.state.action === 'EDIT') {
+            } else if (this.state.action === CT.Form.C.Action.C.Edit) {
                 this.put(data, this.state.exerciseGroup.id)
             }
         }
@@ -84,15 +86,15 @@ class FormExerciseGroup extends React.Component {
 
     render() {
 
-        if (!this.state.exerciseGroup && this.state.action === 'EDIT') {
+        if (!this.state.exerciseGroup && this.state.action === CT.Form.C.Action.C.Edit) {
             return (<><Loading /></>)
         }
 
         let buttonStyle = { maxWidth: '150px' }
         let buttonText = ''
-        if (this.state.action === 'ADD') {
+        if (this.state.action === CT.Form.C.Action.C.Add) {
             buttonText = 'Add'
-        } else if (this.state.action === 'EDIT') {
+        } else if (this.state.action === CT.Form.C.Action.C.Edit) {
             buttonText = 'Edit'
         }
         return (

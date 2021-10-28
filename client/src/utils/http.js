@@ -14,6 +14,17 @@ axios.interceptors.request.use((config) => {
     return config;
 }, (error) => Promise.reject(error));
 
+axios.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response.status === 401) {
+            session.deleteToken();
+            window.location.href = '/login';
+        }
+        return Promise.reject(error);
+    }
+);
+
 axios.defaults.baseURL = API_URL;
 
 export default axios;

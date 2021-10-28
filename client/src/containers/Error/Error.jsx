@@ -1,6 +1,8 @@
 import React from 'react';
 import { Container, Button } from 'react-bootstrap';
 
+import CT from '../../constants/codeTables';
+
 import './Error.scss';
 
 class Error extends React.Component {
@@ -8,10 +10,11 @@ class Error extends React.Component {
     constructor(props) {
         super(props);
 
-        // TODO Make error page able to handle any error code
+        let defaultCode = 404;
+
         this.state = {
-            code: '404',
-            message: 'Page Not Found',
+            code: props.computedMatch.params.code ? props.computedMatch.params.code : defaultCode,
+            message: props.computedMatch.params.code ? CT.Status.C[props.computedMatch.params.code] : CT.Status.C[defaultCode],
         }
     }
 
@@ -22,7 +25,7 @@ class Error extends React.Component {
                     <div className="text-center">
                         <h1>{this.state.code}</h1>
                         <h4>{this.state.message}</h4>
-                        <p className="lead text-muted">An error occurred. Press the following button to return to the home page.</p>
+                        <p className="lead text-muted">Press the following button to return to the home page.</p>
                         <Button href="/" variant="secondary">Go Home</Button>
                     </div>
                 </Container>

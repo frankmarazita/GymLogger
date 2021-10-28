@@ -2,6 +2,8 @@ import React from 'react';
 import { Jumbotron, Container, Button } from 'react-bootstrap';
 import http from '../../utils/http';
 
+import CT from '../../constants/codeTables'
+
 import CardExerciseGroup from '../../components/Card/ExerciseGroup/CardExerciseGroup'
 import CardExerciseGroupNew from '../../components/Card/ExerciseGroup/CardExerciseGroupNew'
 import IconExerciseType from '../../components/Icon/IconExerciseType'
@@ -54,12 +56,12 @@ class Home extends React.Component {
                         {this.state.exerciseGroups.length > 0 ? <Button href="/add/exercise" variant="secondary" className="m-1">Add New Exercise</Button> : ''}
                     </Container>
                     <Container className="pt-2">
-                        <IconExerciseType exerciseType={'1'} />
-                        <IconExerciseType exerciseType={'2'} />
-                        <IconExerciseType exerciseType={'4'} />
-                        <IconExerciseType exerciseType={'5'} />
-                        <i className="las la-weight-hanging" style={{ fontSize: "48px" }}></i>
-                        <i className="las la-weight" style={{ fontSize: "48px" }}></i>
+                        <IconExerciseType exerciseType={CT.IconExerciseType.C.Dumbbell} />
+                        <IconExerciseType exerciseType={CT.IconExerciseType.C.Cog} />
+                        <IconExerciseType exerciseType={CT.IconExerciseType.C.HandRock} />
+                        <IconExerciseType exerciseType={CT.IconExerciseType.C.Running} />
+                        <IconExerciseType exerciseType={CT.IconExerciseType.C.WeightHanging} />
+                        <IconExerciseType exerciseType={CT.IconExerciseType.C.Weight} />
                     </Container>
                     <Container className="pt-4">
                         <Button href="/weight" variant="outline-secondary">Log Weight</Button>

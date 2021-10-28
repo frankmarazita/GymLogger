@@ -3,6 +3,8 @@ import { Container, InputGroup, FormControl, Button } from 'react-bootstrap';
 import http from '../../../utils/http';
 import dateUtility from '../../../utils/date'
 
+import DT from '../../../constants/databaseTables'
+
 import Back from '../../../components/Navigation/Back'
 import Loading from '../../../components/Loading/Loading'
 
@@ -56,12 +58,12 @@ class DataExercise extends React.Component {
 
                 <Container style={containerStyleData}>
                     <b><label htmlFor="value" className="pt-2">Daily Max Data:</label></b>
-                    {this.state.exercise ? this.recordInputGroups(this.state.exercise.dailyMax, 'dailyMax') : []}
+                    {this.state.exercise ? this.recordInputGroups(this.state.exercise.dailyMax, DT.Exercise.C.DailyMax.T) : []}
                 </Container>
 
                 <Container style={containerStyleData}>
                     <b><label htmlFor="value" className="pt-2">Goals:</label></b>
-                    {this.state.exercise ? this.recordInputGroups(this.state.exercise.goal, 'goal') : []}
+                    {this.state.exercise ? this.recordInputGroups(this.state.exercise.goal, DT.Exercise.C.Goal.T) : []}
                 </Container>
            </>
         )
@@ -115,7 +117,6 @@ class EditInputGroup extends React.Component {
             http.put('/exercises/' + this.state.exerciseID + '/' + this.state.type + '/' + this.state.index, data)
                 .then((response) => {
                     alert('Edit Successful')
-                    // window.location.reload()
                 })
                 .catch((error) => {
                     console.error(error)

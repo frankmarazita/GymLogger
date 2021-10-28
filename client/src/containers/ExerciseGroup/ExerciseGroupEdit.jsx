@@ -2,6 +2,8 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import http from '../../utils/http';
 
+import CT from '../../constants/codeTables'
+
 import Back from '../../components/Navigation/Back';
 import FormExerciseGroup from '../../components/Form/ExerciseGroup/FormExerciseGroup';
 
@@ -36,7 +38,7 @@ class ExerciseGroupEdit extends React.Component {
                         <h2>Edit Exercise Group</h2>
                         <p className="lead">Edit group by changing the fields.</p>
                     </div>
-                    <FormExerciseGroup action={'EDIT'} exerciseGroup={this.state.exerciseGroup}/>
+                    <FormExerciseGroup action={CT.Form.C.Action.C.Edit} exerciseGroup={this.state.exerciseGroup}/>
                 </Container>
             </>
         )

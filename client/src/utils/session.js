@@ -12,6 +12,10 @@ let session = {
 
     deleteToken: function () {
         return sessionStorage.removeItem(SESSION_ATTRIBUTE_NAME)
+    },
+
+    isLoggedIn: function () {
+        return !!sessionStorage.getItem(SESSION_ATTRIBUTE_NAME)
     }
 
 }
