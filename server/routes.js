@@ -6,7 +6,7 @@ const config = require('./config/config')
 const IS_DEVELOPMENT = process.env.NODE_ENV === CT.System.C.Development
 
 app.use(function (req, res, next) {
-    if (IS_DEVELOPMENT && config.development.logRequests) console.log(req.path)
+    if (IS_DEVELOPMENT && config.development.logRequests) console.log(req.method, req.url)
     next()
 })
 
