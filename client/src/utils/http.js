@@ -1,16 +1,17 @@
 import axios from 'axios';
 import session from './session';
+import config from '../config/config';
 
 const API_URL = process.env.REACT_APP_API_URL
 
-const preRoute = '/api';
+const preRoute = config.routes.preRoute;
 
-axios.interceptors.request.use((config) => {
+axios.interceptors.request.use((conf) => {
     const token = session.getToken()
     if (token) {
-        config.headers.token = token;
+        conf.headers.token = token;
     }
-    return config;
+    return conf;
 }, (error) => Promise.reject(error));
 
 axios.interceptors.response.use(

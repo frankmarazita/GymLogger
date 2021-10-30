@@ -5,12 +5,10 @@ const config = require('./config/config')
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === CT.System.C.Development
 
-if (IS_DEVELOPMENT) {
-    app.use(function (req, res, next) {
-        console.log(req.path)
-        next()
-    })
-}
+app.use(function (req, res, next) {
+    if (IS_DEVELOPMENT && config.development.logRequests) console.log(req.path)
+    next()
+})
 
 const preRoute = config.routes.preRoute
 
