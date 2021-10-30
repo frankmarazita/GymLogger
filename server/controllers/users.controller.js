@@ -1,6 +1,7 @@
 const EM = require('../constants/errorMessages')
 
 const error = require('../middleware/error')
+const utility = require('../utils/utility')
 
 const User = require('../models/User')
 
@@ -13,9 +14,21 @@ module.exports = {
     },
 
     add: async function (req, res) {
-        // TODO Move add over from sign up
+        // TODO Check integrity of request
         let user = new User()
-        return res.status(201).send({ user: user })
+        await user.loadWithEmail(req.body.email)
+
+        if (user.valid) {
+            return error.status(req, res, 400, EM.Auth.EmailExists)
+        } else if (req.body.password != req.body.confirmPassword) {
+            return error.status(req, res, 400, EM.Auth.NoMatchPassword)
+        }
+
+        await user.new(req.body.email, req.body.name, req.body.password)
+
+        let token = await utility.jwt.createNewSessionToken(user.sessionData())
+
+        return res.status(201).send({ token: token })
     },
 
     update: async function (req, res) {

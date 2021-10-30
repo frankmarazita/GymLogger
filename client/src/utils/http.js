@@ -3,10 +3,9 @@ import session from './session';
 
 const API_URL = process.env.REACT_APP_API_URL
 
-const preRoute = '/api'
+const preRoute = '/api';
 
 axios.interceptors.request.use((config) => {
-    config.url = preRoute + config.url
     const token = session.getToken()
     if (token) {
         config.headers.token = token;
@@ -19,12 +18,18 @@ axios.interceptors.response.use(
     error => {
         if (error.response.status === 401) {
             session.deleteToken();
-            window.location.href = '/login';
+            if (window.location.pathname !== '/login') {
+                window.location.href = '/login';
+            }
+        } else if (error.response.status === 403) {
+            window.location.href = '/error/403';
+        } else if (error.response.status === 404) {
+            window.location.href = '/error/404';
         }
         return Promise.reject(error);
     }
 );
 
-axios.defaults.baseURL = API_URL;
+axios.defaults.baseURL = API_URL + preRoute;
 
 export default axios;

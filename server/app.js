@@ -11,21 +11,7 @@ const cors = require('cors')
 // Initialise Express
 const app = express()
 
-// Initialise Helmet
-app.use(
-    helmet({
-        contentSecurityPolicy: {
-            directives: {
-                defaultSrc: ["'self'"],
-                scriptSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://www.gstatic.com", "'unsafe-inline'"],
-                connectSrc: ["'self'"],
-                styleSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://cdn.jsdelivr.net", "https://www.gstatic.com", "'unsafe-inline'"],
-                fontSrc: ["'self'", "https://cdnjs.cloudflare.com"],
-                imgSrc: ["'self'", "data:"]
-            }
-        },
-    })
-)
+app.use(helmet())
 
 app.use(session({
     secret: process.env.SESSION_SECRET,

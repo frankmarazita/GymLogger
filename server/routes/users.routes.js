@@ -3,7 +3,7 @@ const auth = require('../middleware/auth')
 const controller = require('../controllers/users.controller')
 
 routes.get('/users', auth.verify, controller.get)
-routes.post('/users', controller.add) // TODO implement add method
+routes.post('/users', controller.add)
 routes.put('/users', auth.verify, controller.update)
 
 module.exports = routes

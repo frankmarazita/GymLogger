@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonGroup, Button } from 'react-bootstrap';
+import { ButtonGroup, Button, Card } from 'react-bootstrap';
 
 import CT from '../../../constants/codeTables'
 
@@ -26,23 +26,25 @@ class CardExercise extends React.Component {
         }
 
         return (
-            <div className="card m-3" onClick={() => {window.location = exerciseLocation}}>
-                <div className="card-body">
-                    <div className="d-flex justify-content-between align-items-center">
-                        <h5 className="card-title">{exercise.name}</h5>
-                        <IconExerciseType exerciseType={exerciseType} />
-                    </div>
-                    <p className="card-text">{exercise.note}</p>
-                    {exercise.dailyMaxRecord ? <p className="card-text">Max: {exercise.dailyMaxRecord}</p> : ''}
-                    <div className="d-flex justify-content-between align-items-center">
-                        <ButtonGroup>
-                            <Button href={exerciseLocation} variant="outline-secondary">View</Button>
-                            <Button href={'/edit/exercise/' + exercise.id} variant="outline-secondary">Edit</Button>
-                        </ButtonGroup>
-                        {exercise.done ? <IconTick /> : ''}
-                    </div>
-                </div>
-            </div>
+            <>
+                <Card className="my-3 shadow-sm" onClick={() => {window.location = exerciseLocation}}>
+                    <Card.Body>
+                        <div className="d-flex justify-content-between align-items-center">
+                            <Card.Title>{exercise.name}</Card.Title>
+                            <IconExerciseType exerciseType={exerciseType} />
+                        </div>
+                        <Card.Text>{exercise.note}</Card.Text>
+                        {exercise.dailyMaxRecord ? <p className="card-text">Max: {exercise.dailyMaxRecord}</p> : ''}
+                        <div className="d-flex justify-content-between align-items-center">
+                            <ButtonGroup>
+                                <Button href={exerciseLocation} variant="outline-secondary">View</Button>
+                                <Button href={'/edit/exercise/' + exercise.id} variant="outline-secondary">Edit</Button>
+                            </ButtonGroup>
+                            {exercise.done ? <IconTick /> : ''}
+                        </div>
+                    </Card.Body>
+                </Card>
+            </>
         );
     }
 }

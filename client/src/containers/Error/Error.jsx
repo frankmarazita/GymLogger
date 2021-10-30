@@ -10,11 +10,12 @@ class Error extends React.Component {
     constructor(props) {
         super(props);
 
+        let paramsCode = props.computedMatch.params.code;
         let defaultCode = 404;
 
         this.state = {
-            code: props.computedMatch.params.code ? props.computedMatch.params.code : defaultCode,
-            message: props.computedMatch.params.code ? CT.Status.C[props.computedMatch.params.code] : CT.Status.C[defaultCode],
+            code: paramsCode ? paramsCode : defaultCode,
+            message: paramsCode ? CT.Status.C[paramsCode] : CT.Status.C[defaultCode],
         }
     }
 

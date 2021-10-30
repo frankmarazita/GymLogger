@@ -43,6 +43,7 @@ function App() {
                 <AuthenticatedRoute path="/edit/exercise/:id" exact component={ExerciseEdit} />
                 <AuthenticatedRoute path="/data/exercise/:id" exact component={DataExercise} />
                 <AuthenticatedRoute path="/data/weight" exact component={DataWeight} />
+                <AuthenticatedRoute path="/error/:code" component={Error} />
                 <AuthenticatedRoute exact component={Error} />
             </Switch>
             <Footer />

@@ -7,7 +7,7 @@ const User = require('../models/User')
 
 module.exports = {
 
-    login: async function (req, res) {
+    new: async function (req, res) {
         // TODO Check integrity of request
         let user = new User()
         await user.loadWithEmail(req.body.email)

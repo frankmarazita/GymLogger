@@ -3,16 +3,6 @@ const utility = require('../utils/utility')
 
 module.exports = {
 
-    // TODO Rethink this method and its use / need
-    verifyDefault: async function (req, res) {
-        if (req.body.token) {
-            if (await utility.jwt.check(req.body.token)) {
-                return true
-            }
-        }
-        return false
-    },
-
     verify: async function (req, res, next) {
         let token = req.headers.token
         if (token) {
@@ -28,18 +18,6 @@ module.exports = {
             }
         }
         return error.status(req, res, 401)
-    },
-
-    // TODO Rethink this method and its use / need
-    verifyFalse: async function (req, res, next) {
-        if (req.body.token) {
-            if (!await utility.jwt.check(req.body.token)) {
-                return next()
-            }
-        } else {
-            return next()
-        }
-        return res.redirect('/')
     }
 
 }
