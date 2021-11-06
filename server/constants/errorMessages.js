@@ -25,3 +25,7 @@ exports.Args = class {
 exports.Status = function (code) {
     return CT.Status.C[code]
 }
+
+exports.Schema = class {
+    static InvalidSchema(key) { return `Invalid ${key}` }
+}

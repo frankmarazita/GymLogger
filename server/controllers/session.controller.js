@@ -8,7 +8,6 @@ const User = require('../models/User')
 module.exports = {
 
     new: async function (req, res) {
-        // TODO Check integrity of request
         let user = new User()
         await user.loadWithEmail(req.body.email)
 
@@ -17,10 +16,10 @@ module.exports = {
             if (user.authenticated) {
                 req.session.user = user
             } else {
-                return error.status(req, res, 401, EM.Auth.InvalidEmailPassword)
+                return error.status(res, 401, EM.Auth.InvalidEmailPassword)
             }
         } else {
-            return error.status(req, res, 401, EM.Auth.InvalidEmailPassword)
+            return error.status(res, 401, EM.Auth.InvalidEmailPassword)
         }
 
         let token = await utility.jwt.createNewSessionToken(user.sessionData())

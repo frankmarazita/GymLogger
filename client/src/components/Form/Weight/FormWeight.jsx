@@ -36,13 +36,14 @@ class WeightForm extends React.Component {
             }
 
             http.post('/weight', data)
-                .then((response) => {
-                    alert('Daily Max Added Successfully')
-                    window.location.reload()
-                })
-                .catch((error) => {
-                    console.error(error)
-                });
+            .then((res) => {
+                alert('Daily Max Added Successfully')
+                window.location.reload()
+            })
+            .catch((error) => {
+                console.error(error)
+                alert(error.response.data.message)
+            });
         } else {
             alert(error)
         }

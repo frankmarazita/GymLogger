@@ -15,9 +15,9 @@ module.exports = {
         await exercise.loadWithID(exerciseID)
 
         if (!exercise.valid) {
-            return error.status(req, res, 404)
+            return error.status(res, 404)
         } else if (exercise.user != userID) {
-            return error.status(req, res, 403)
+            return error.status(res, 403)
         }
 
         await exercise.getDailyMax()
@@ -27,7 +27,6 @@ module.exports = {
     },
 
     add: async function (req, res) {
-        // TODO Check integrity of request
         let userID = req.session.user.id
         let name = req.body.name
         let note = req.body.note
@@ -50,7 +49,6 @@ module.exports = {
     },
 
     update: async function (req, res) {
-        // TODO Check integrity of request
         let userID = req.session.user.id
         let name = req.body.name
         let note = req.body.note
@@ -62,15 +60,15 @@ module.exports = {
         await exercise.loadWithID(exerciseID)
 
         if (!exercise.valid) {
-            return error.status(req, res, 400)
+            return error.status(res, 400)
         } else if (exercise.user != userID) {
-            return error.status(req, res, 403)
+            return error.status(res, 403)
         }
 
-        if (exercise.name != name) {
+        if (name && exercise.name != name) {
             await exercise.updateName(name)
         }
-        if (exercise.note != note) {
+        if (note && exercise.note != note) {
             await exercise.updateNote(note)
         }
 
@@ -78,7 +76,6 @@ module.exports = {
     },
 
     delete: async function (req, res) {
-        // TODO Check integrity of request
         let userID = req.session.user.id
         let exerciseID = req.params.exerciseID
 
@@ -86,9 +83,9 @@ module.exports = {
         await exercise.loadWithID(exerciseID)
 
         if (!exercise.valid) {
-            return error.status(req, res, 400)
+            return error.status(res, 400)
         } else if (exercise.user != userID) {
-            return error.status(req, res, 403)
+            return error.status(res, 403)
         }
 
         let exerciseGroup = new ExerciseGroup()
@@ -100,7 +97,6 @@ module.exports = {
     },
 
     logDailyMax: async function (req, res) {
-        // TODO Check integrity of request
         let userID = req.session.user.id
         let exerciseID = req.params.exerciseID
         let dailyMax = parseFloat(req.body.dailyMax)
@@ -109,9 +105,9 @@ module.exports = {
         await exercise.loadWithID(exerciseID)
 
         if (!exercise.valid) {
-            return error.status(req, res, 400)
+            return error.status(res, 400)
         } else if (exercise.user != userID) {
-            return error.status(req, res, 403)
+            return error.status(res, 403)
         }
 
         await exercise.addDailyMaxRecord(dailyMax)
@@ -119,7 +115,6 @@ module.exports = {
     },
 
     logGoal: async function (req, res) {
-        // TODO Check integrity of request
         let userID = req.session.user.id
         let exerciseID = req.params.exerciseID
         let goal = parseFloat(req.body.goal)
@@ -128,9 +123,9 @@ module.exports = {
         await exercise.loadWithID(exerciseID)
 
         if (!exercise.valid) {
-            return error.status(req, res, 400)
+            return error.status(res, 400)
         } else if (exercise.user != userID) {
-            return error.status(req, res, 403)
+            return error.status(res, 403)
         }
 
         await exercise.addGoalRecord(goal)
@@ -138,45 +133,43 @@ module.exports = {
     },
 
     updateDailyMax: async function (req, res) {
-        // TODO Check integrity of request
         let userID = req.session.user.id
         let exerciseID = req.params.exerciseID
-        let index = req.params.dailymaxID
+        let index = req.params.dailyMaxID
         let newDate = utility.date.stringToDate(req.body.date)
         let value = parseFloat(req.body.value)
-        let timezoneOffset = req.body.timezoneOffset
 
         let exercise = new Exercise()
         await exercise.loadWithID(exerciseID)
 
         if (!exercise.valid) {
-            return error.status(req, res, 400)
+            return error.status(res, 400)
         } else if (exercise.user != userID) {
-            return error.status(req, res, 403)
+            return error.status(res, 403)
         }
 
+        // TODO Ensure that body values can be updated separately
         await exercise.updateDailyMaxRecord(index, newDate, value)
         return res.status(204).send()
     },
 
     updateGoal: async function (req, res) {
-        // TODO Check integrity of request
         let userID = req.session.user.id
         let exerciseID = req.params.exerciseID
         let index = req.params.goalID
         let newDate = utility.date.stringToDate(req.body.date)
         let value = parseFloat(req.body.value)
-        let timezoneOffset = req.body.timezoneOffset
 
         let exercise = new Exercise()
         await exercise.loadWithID(exerciseID)
 
         if (!exercise.valid) {
-            return error.status(req, res, 400)
+            return error.status(res, 400)
         } else if (exercise.user != userID) {
-            return error.status(req, res, 403)
+            return error.status(res, 403)
         }
 
+        // TODO Ensure that body values can be updated separately
         await exercise.updateGoalRecord(index, newDate, value)
         return res.status(204).send()
     }

@@ -8,23 +8,31 @@ const User = require('../models/User')
 module.exports = {
 
     get: async function (req, res) {
+        let userID = req.session.user.id
+
         let user = new User()
-        await user.loadWithID(req.session.user.id)
+
+        await user.loadWithID(userID)
         return res.status(200).send({ user: user })
     },
 
     add: async function (req, res) {
-        // TODO Check integrity of request
+
+        let email = req.body.email
+        let password = req.body.password
+        let confirmPassword = req.body.confirmPassword
+        let name = req.body.name
+
         let user = new User()
-        await user.loadWithEmail(req.body.email)
+        await user.loadWithEmail(email)
 
         if (user.valid) {
-            return error.status(req, res, 400, EM.Auth.EmailExists)
-        } else if (req.body.password != req.body.confirmPassword) {
-            return error.status(req, res, 400, EM.Auth.NoMatchPassword)
+            return error.status(res, 400, EM.Auth.EmailExists)
+        } else if (password != confirmPassword) {
+            return error.status(res, 400, EM.Auth.NoMatchPassword)
         }
 
-        await user.new(req.body.email, req.body.name, req.body.password)
+        await user.new(email, name, password)
 
         let token = await utility.jwt.createNewSessionToken(user.sessionData())
 
@@ -32,7 +40,6 @@ module.exports = {
     },
 
     update: async function (req, res) {
-        // TODO Check integrity of request
         let userID = req.session.user.id
         let email = req.body.email
         let name = req.body.name
@@ -40,18 +47,17 @@ module.exports = {
         let user = new User()
         await user.loadWithID(userID)
 
-        if (user.email != email) {
+        if (email && user.email != email) {
             let userEmailExists = new User()
             await userEmailExists.loadWithEmail(email)
             if (userEmailExists.valid) {
-                return error.status(req, res, 403, EM.Auth.EmailExists)
+                return error.status(res, 400, EM.Auth.EmailExists)
             }
-        }
 
-        if (user.email != email) {
             await user.updateEmail(email)
         }
-        if (user.name != name) {
+
+        if (name && user.name != name) {
             await user.updateName(name)
         }
 

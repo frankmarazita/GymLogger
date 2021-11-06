@@ -103,6 +103,7 @@ class FormExercise extends React.Component {
         })
         .catch((error) => {
             console.error(error)
+            alert(error.response.data.message)
         });
     }
 
@@ -113,6 +114,7 @@ class FormExercise extends React.Component {
         })
         .catch((error) => {
             console.error(error)
+            alert(error.response.data.message)
         });
     }
 
@@ -123,6 +125,7 @@ class FormExercise extends React.Component {
         })
         .catch((error) => {
             console.error(error)
+            alert(error.response.data.message)
         });
     }
 

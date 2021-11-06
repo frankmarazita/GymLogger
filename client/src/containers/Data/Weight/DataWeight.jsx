@@ -98,19 +98,18 @@ class EditInputGroup extends React.Component {
 
         if (!error) {
             let data = {
-                index: this.state.index,
                 date: new Date(this.state.date),
                 value: this.state.value,
-                timezoneOffset: dateUtility.getTimezoneOffset()
+                // timezoneOffset: dateUtility.getTimezoneOffset()
             }
 
             http.put('/weight/' + this.state.index, data)
-            .then((response) => {
+            .then((res) => {
                 alert('Edit Successful')
-                // window.location.reload()
             })
             .catch((error) => {
                 console.error(error)
+                alert(error.response.data.message)
             });
         }
     }

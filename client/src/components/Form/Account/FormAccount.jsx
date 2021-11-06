@@ -60,7 +60,7 @@ class FormAccount extends React.Component {
         })
         .catch((error) => {
             console.error(error)
-            alert('Email already in use')
+            alert(error.response.data.message)
         });
     }
 

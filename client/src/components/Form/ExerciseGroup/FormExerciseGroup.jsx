@@ -71,6 +71,7 @@ class FormExerciseGroup extends React.Component {
         })
         .catch((error) => {
             console.error(error)
+            alert(error.response.data.message)
         });
     }
 
@@ -81,6 +82,7 @@ class FormExerciseGroup extends React.Component {
         })
         .catch((error) => {
             console.error(error)
+            alert(error.response.data.message)
         });
     }
 

@@ -13,7 +13,6 @@ module.exports = {
     },
 
     logWeight: async function (req, res) {
-        // TODO Check integrity of request
         let userID = req.session.user.id
         let value = parseFloat(req.body.value)
 
@@ -21,7 +20,7 @@ module.exports = {
         await user.loadWithID(userID)
 
         if (value < 1) {
-            return error.status(req, res, 400)
+            return error.status(res, 400)
         }
 
         await user.addWeightRecord(value)
@@ -29,20 +28,19 @@ module.exports = {
     },
 
     updateWeight: async function (req, res) {
-        // TODO Check integrity of request
         let userID = req.session.user.id
         let index = req.params.id
         let newDate = utility.date.stringToDate(req.body.date)
         let value = parseFloat(req.body.value)
-        let timezoneOffset = req.body.timezoneOffset
 
         let user = new User()
         await user.loadWithID(userID)
 
         if (value < 1) {
-            return error.status(req, res, 400)
+            return error.status(res, 400)
         }
 
+        // TODO Ensure that body values can be updated separately
         await user.updateWeightRecord(index, newDate, value)
         return res.status(204).send()
     }

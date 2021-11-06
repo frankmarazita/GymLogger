@@ -1,4 +1,5 @@
 {
     "logRequests": true,
-    "logErrors": true
+    "logErrors": true,
+    "sessionsExpire": true
 }

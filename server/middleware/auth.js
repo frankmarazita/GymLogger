@@ -1,5 +1,10 @@
+const CT = require('../constants/codeTables')
+
 const error = require('./error')
+const config = require('../config/config')
 const utility = require('../utils/utility')
+
+const IS_DEVELOPMENT = process.env.NODE_ENV === CT.System.C.Development
 
 module.exports = {
 
@@ -8,16 +13,25 @@ module.exports = {
         if (token) {
             let decoded = await utility.jwt.check(token)
             if (decoded) {
-                if (decoded.expires) {
-                    if (decoded.exp < utility.date.now().getTime() / 1000) {
-                        return error.status(req, res, 401)
-                    }
+                if (decoded.exp < utility.date.now().getTime() / 1000) {
+                    return error.status(res, 401)
                 }
                 req.session.user = decoded.user
                 return next()
             }
+            // Session expiry override for development mode
+            if (IS_DEVELOPMENT) {
+                decoded = await utility.jwt.decode(token)
+                if (decoded) {
+                    if (config.development.sessionsExpire) {
+                        return error.status(res, 401)
+                    }
+                    req.session.user = decoded.user
+                    return next()
+                }
+            }
         }
-        return error.status(req, res, 401)
+        return error.status(res, 401)
     }
 
 }

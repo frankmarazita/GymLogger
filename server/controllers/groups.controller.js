@@ -15,9 +15,9 @@ module.exports = {
         await exerciseGroup.loadWithID(exerciseGroupID)
 
         if (!exerciseGroup.valid) {
-            return error.status(req, res, 404)
+            return error.status(res, 404)
         } else if (exerciseGroup.user != userID) {
-            return error.status(req, res, 403)
+            return error.status(res, 403)
         }
 
         let exercises = await exerciseGroup.getExercises()
@@ -33,7 +33,6 @@ module.exports = {
     },
 
     add: async function (req, res) {
-        // TODO Check integrity of request
         let userID = req.session.user.id
         let name = req.body.name
         let note = req.body.note
@@ -47,7 +46,6 @@ module.exports = {
     },
 
     update: async function (req, res) {
-        // TODO Check integrity of request
         let userID = req.session.user.id
         let name = req.body.name
         let note = req.body.note
@@ -57,15 +55,15 @@ module.exports = {
         await exerciseGroup.loadWithID(exerciseGroupID)
 
         if (!exerciseGroup.valid) {
-            return error.status(req, res, 400)
+            return error.status(res, 400)
         } else if (exerciseGroup.user != userID) {
-            return error.status(req, res, 403)
+            return error.status(res, 403)
         }
 
-        if (exerciseGroup.name != name) {
+        if (name && exerciseGroup.name != name) {
             await exerciseGroup.updateName(name)
         }
-        if (exerciseGroup.note != note) {
+        if (note && exerciseGroup.note != note) {
             await exerciseGroup.updateNote(note)
         }
 
