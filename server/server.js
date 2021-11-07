@@ -4,6 +4,8 @@ const db = require('./db/db')
 
 const LM = require('./constants/logMessages')
 
+const utility = require('./utils/utility')
+
 const PORT = parseInt(process.env.PORT)
 
 // Routes
@@ -23,11 +25,13 @@ const exitHandler = async () => {
         console.log(LM.ServerClosed())
     }
     await db.close()
-    process.exit(1)
+    setTimeout(() => {
+        process.exit(1)
+    }, 3000)
 }
 
 const unexpectedErrorHandler = (err) => {
-    console.error(err)
+    utility.logger.error(JSON.stringify(err))
     exitHandler()
 }
 
