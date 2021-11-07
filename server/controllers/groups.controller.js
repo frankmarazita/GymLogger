@@ -6,7 +6,7 @@ const User = require('../models/User')
 module.exports = {
 
     getGroup: async function (req, res) {
-        let userID = req.session.user.id
+        let userID = req.userID
         let exerciseGroupID = req.params.id
         let user = new User()
         await user.loadWithID(userID)
@@ -33,7 +33,7 @@ module.exports = {
     },
 
     add: async function (req, res) {
-        let userID = req.session.user.id
+        let userID = req.userID
         let name = req.body.name
         let note = req.body.note
 
@@ -46,7 +46,7 @@ module.exports = {
     },
 
     update: async function (req, res) {
-        let userID = req.session.user.id
+        let userID = req.userID
         let name = req.body.name
         let note = req.body.note
         let exerciseGroupID = req.params.id
@@ -71,7 +71,7 @@ module.exports = {
     },
 
     getGroups: async function (req, res) {
-        let userID = req.session.user.id
+        let userID = req.userID
         let user = new User()
         await user.loadWithID(userID)
         let exerciseGroups = await user.getExerciseGroups()

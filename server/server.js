@@ -31,7 +31,7 @@ const exitHandler = async () => {
 }
 
 const unexpectedErrorHandler = (err) => {
-    utility.logger.error(JSON.stringify(err))
+    utility.logger.error(`${err} | ${JSON.stringify(err)}`)
     exitHandler()
 }
 

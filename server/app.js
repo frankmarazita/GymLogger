@@ -13,17 +13,6 @@ const app = express()
 
 app.use(helmet())
 
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    key: process.env.SESSION_KEY,
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-        httpOnly: true,
-        secure: IS_PRODUCTION,
-        domain: process.env.DOMAIN
-    }
-}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 

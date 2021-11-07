@@ -16,7 +16,7 @@ module.exports = {
                 if (decoded.exp < utility.date.now().getTime() / 1000) {
                     return error.status(res, 401)
                 }
-                req.session.user = decoded.user
+                req.userID = decoded.user.id
                 return next()
             }
             // Session expiry override for development mode

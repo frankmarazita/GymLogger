@@ -8,7 +8,7 @@ const User = require('../models/User')
 module.exports = {
 
     get: async function (req, res) {
-        let userID = req.session.user.id
+        let userID = req.userID
 
         let user = new User()
 
@@ -40,7 +40,7 @@ module.exports = {
     },
 
     update: async function (req, res) {
-        let userID = req.session.user.id
+        let userID = req.userID
         let email = req.body.email
         let name = req.body.name
 

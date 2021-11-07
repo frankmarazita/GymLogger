@@ -8,7 +8,7 @@ const User = require('../models/User')
 module.exports = {
 
     get: async function (req, res) {
-        let userID = req.session.user.id
+        let userID = req.userID
         let exerciseID = req.params.exerciseID
 
         let exercise = new Exercise()
@@ -27,7 +27,7 @@ module.exports = {
     },
 
     add: async function (req, res) {
-        let userID = req.session.user.id
+        let userID = req.userID
         let name = req.body.name
         let note = req.body.note
         let exerciseGroupID = req.body.exerciseGroupID
@@ -49,7 +49,7 @@ module.exports = {
     },
 
     update: async function (req, res) {
-        let userID = req.session.user.id
+        let userID = req.userID
         let name = req.body.name
         let note = req.body.note
         // let exerciseGroupID = req.body.exerciseGroup
@@ -76,7 +76,7 @@ module.exports = {
     },
 
     delete: async function (req, res) {
-        let userID = req.session.user.id
+        let userID = req.userID
         let exerciseID = req.params.exerciseID
 
         let exercise = new Exercise()
@@ -97,7 +97,7 @@ module.exports = {
     },
 
     logDailyMax: async function (req, res) {
-        let userID = req.session.user.id
+        let userID = req.userID
         let exerciseID = req.params.exerciseID
         let dailyMax = parseFloat(req.body.dailyMax)
 
@@ -115,7 +115,7 @@ module.exports = {
     },
 
     logGoal: async function (req, res) {
-        let userID = req.session.user.id
+        let userID = req.userID
         let exerciseID = req.params.exerciseID
         let goal = parseFloat(req.body.goal)
 
@@ -133,7 +133,7 @@ module.exports = {
     },
 
     updateDailyMax: async function (req, res) {
-        let userID = req.session.user.id
+        let userID = req.userID
         let exerciseID = req.params.exerciseID
         let index = req.params.dailyMaxID
         let newDate = utility.date.stringToDate(req.body.date)
@@ -154,7 +154,7 @@ module.exports = {
     },
 
     updateGoal: async function (req, res) {
-        let userID = req.session.user.id
+        let userID = req.userID
         let exerciseID = req.params.exerciseID
         let index = req.params.goalID
         let newDate = utility.date.stringToDate(req.body.date)
