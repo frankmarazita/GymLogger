@@ -8,16 +8,12 @@ const User = require('../models/User')
 module.exports = {
 
     get: async function (req, res) {
-        let userID = req.userID
-
         let user = new User()
-
-        await user.loadWithID(userID)
+        await user.loadWithID(req.userID)
         return res.status(200).send({ user: user })
     },
 
     add: async function (req, res) {
-
         let email = req.body.email
         let password = req.body.password
         let confirmPassword = req.body.confirmPassword
@@ -61,8 +57,6 @@ module.exports = {
             await user.updateName(name)
         }
 
-        await user.reload()
-        req.session.user = user
         return res.status(204).send()
     }
 

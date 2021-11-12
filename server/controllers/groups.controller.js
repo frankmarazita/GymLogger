@@ -3,6 +3,14 @@ const error = require('../middleware/error')
 const ExerciseGroup = require('../models/ExerciseGroup')
 const User = require('../models/User')
 
+function validate(res, exerciseGroup, userID) {
+    if (!exerciseGroup.valid) {
+        return error.status(res, 404)
+    } else if (exerciseGroup.user != userID) {
+        return error.status(res, 403)
+    }
+}
+
 module.exports = {
 
     getGroup: async function (req, res) {
@@ -14,11 +22,7 @@ module.exports = {
         let exerciseGroup = new ExerciseGroup()
         await exerciseGroup.loadWithID(exerciseGroupID)
 
-        if (!exerciseGroup.valid) {
-            return error.status(res, 404)
-        } else if (exerciseGroup.user != userID) {
-            return error.status(res, 403)
-        }
+        if (validate(res, exerciseGroup, userID)) return
 
         let exercises = await exerciseGroup.getExercises()
 
@@ -54,11 +58,7 @@ module.exports = {
         let exerciseGroup = new ExerciseGroup()
         await exerciseGroup.loadWithID(exerciseGroupID)
 
-        if (!exerciseGroup.valid) {
-            return error.status(res, 400)
-        } else if (exerciseGroup.user != userID) {
-            return error.status(res, 403)
-        }
+        if (validate(res, exerciseGroup, userID)) return
 
         if (name && exerciseGroup.name != name) {
             await exerciseGroup.updateName(name)

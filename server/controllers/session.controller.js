@@ -14,7 +14,7 @@ module.exports = {
         if (user.valid) {
             await user.authenticate(req.body.password)
             if (user.authenticated) {
-                req.session.user = user
+                req.userID = user.id
             } else {
                 return error.status(res, 401, EM.Auth.InvalidEmailPassword)
             }

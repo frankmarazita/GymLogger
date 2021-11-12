@@ -19,10 +19,6 @@ module.exports = {
         let user = new User()
         await user.loadWithID(userID)
 
-        if (value < 1) {
-            return error.status(res, 400)
-        }
-
         await user.addWeightRecord(value)
         return res.status(201).send()
     },
@@ -35,10 +31,6 @@ module.exports = {
 
         let user = new User()
         await user.loadWithID(userID)
-
-        if (value < 1) {
-            return error.status(res, 400)
-        }
 
         // TODO Ensure that body values can be updated separately
         await user.updateWeightRecord(index, newDate, value)

@@ -26,7 +26,7 @@ module.exports = {
                     if (config.development.sessionsExpire) {
                         return error.status(res, 401)
                     }
-                    req.session.user = decoded.user
+                    req.userID = decoded.user.id
                     return next()
                 }
             }

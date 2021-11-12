@@ -5,6 +5,14 @@ const Exercise = require('../models/Exercise')
 const ExerciseGroup = require('../models/ExerciseGroup')
 const User = require('../models/User')
 
+function validate(res, exercise, userID) {
+    if (!exercise.valid) {
+        return error.status(res, 404)
+    } else if (exercise.user != userID) {
+        return error.status(res, 403)
+    }
+}
+
 module.exports = {
 
     get: async function (req, res) {
@@ -14,11 +22,7 @@ module.exports = {
         let exercise = new Exercise()
         await exercise.loadWithID(exerciseID)
 
-        if (!exercise.valid) {
-            return error.status(res, 404)
-        } else if (exercise.user != userID) {
-            return error.status(res, 403)
-        }
+        if (validate(res, exercise, userID)) return
 
         await exercise.getDailyMax()
         await exercise.getGoal()
@@ -59,11 +63,7 @@ module.exports = {
         let exercise = new Exercise()
         await exercise.loadWithID(exerciseID)
 
-        if (!exercise.valid) {
-            return error.status(res, 400)
-        } else if (exercise.user != userID) {
-            return error.status(res, 403)
-        }
+        if (validate(res, exercise, userID)) return
 
         if (name && exercise.name != name) {
             await exercise.updateName(name)
@@ -82,11 +82,7 @@ module.exports = {
         let exercise = new Exercise()
         await exercise.loadWithID(exerciseID)
 
-        if (!exercise.valid) {
-            return error.status(res, 400)
-        } else if (exercise.user != userID) {
-            return error.status(res, 403)
-        }
+        if (validate(res, exercise, userID)) return
 
         let exerciseGroup = new ExerciseGroup()
         await exerciseGroup.loadWithID(exercise.exerciseGroup)
@@ -104,11 +100,7 @@ module.exports = {
         let exercise = new Exercise()
         await exercise.loadWithID(exerciseID)
 
-        if (!exercise.valid) {
-            return error.status(res, 400)
-        } else if (exercise.user != userID) {
-            return error.status(res, 403)
-        }
+        if (validate(res, exercise, userID)) return
 
         await exercise.addDailyMaxRecord(dailyMax)
         return res.status(201).send()
@@ -122,11 +114,7 @@ module.exports = {
         let exercise = new Exercise()
         await exercise.loadWithID(exerciseID)
 
-        if (!exercise.valid) {
-            return error.status(res, 400)
-        } else if (exercise.user != userID) {
-            return error.status(res, 403)
-        }
+        if (validate(res, exercise, userID)) return
 
         await exercise.addGoalRecord(goal)
         return res.status(201).send()
@@ -142,11 +130,7 @@ module.exports = {
         let exercise = new Exercise()
         await exercise.loadWithID(exerciseID)
 
-        if (!exercise.valid) {
-            return error.status(res, 400)
-        } else if (exercise.user != userID) {
-            return error.status(res, 403)
-        }
+        if (validate(res, exercise, userID)) return
 
         // TODO Ensure that body values can be updated separately
         await exercise.updateDailyMaxRecord(index, newDate, value)
@@ -163,11 +147,7 @@ module.exports = {
         let exercise = new Exercise()
         await exercise.loadWithID(exerciseID)
 
-        if (!exercise.valid) {
-            return error.status(res, 400)
-        } else if (exercise.user != userID) {
-            return error.status(res, 403)
-        }
+        if (validate(res, exercise, userID)) return
 
         // TODO Ensure that body values can be updated separately
         await exercise.updateGoalRecord(index, newDate, value)

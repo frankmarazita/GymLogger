@@ -4,10 +4,11 @@ const jwt = require('jsonwebtoken')
 
 const date = require('./date')
 
-// TODO Add a config file for JWT
+const config = require('../config/config')
+
 const privateKey = process.env.JWT_PRIVATE_KEY
-const algorithm = 'HS256'
-const expiryTimeSeconds = 3600
+const algorithm = config.jwt.algorithm
+const expiryTimeSeconds = config.jwt.expiryTimeSeconds
 
 /**
  * Creates a new JWT Session Token
