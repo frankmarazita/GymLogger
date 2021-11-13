@@ -9,7 +9,7 @@ const preRoute = config.routes.preRoute;
 axios.interceptors.request.use((conf) => {
     const token = session.getToken()
     if (token) {
-        conf.headers.token = token;
+        conf.headers.authorization = `Bearer ${token}`
     }
     return conf;
 }, (error) => Promise.reject(error));

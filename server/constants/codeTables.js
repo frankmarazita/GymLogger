@@ -15,6 +15,7 @@ exports.System = {
     C: {
         Production: 'production',
         Development: 'development',
+        Bearer: 'Bearer',
     }
 }
 
