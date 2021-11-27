@@ -6,21 +6,34 @@ module.exports = {
 
     logWeight: function (req, res, next) {
 
-        const schema = Joi.object().keys({
+        const schemaBody = Joi.object().keys({
             value: Joi.number().positive().required(),
         })
 
-        return utility.joi.validate(req, res, next, schema)
+        return utility.joi.validate(req, res, next, {body: schemaBody})
     },
 
     updateWeight: function (req, res, next) {
 
-        const schema = Joi.object().keys({
+        const schemaBody = Joi.object().keys({
             date: Joi.date().required(),
             value: Joi.number().positive().required(),
         })
 
-        return utility.joi.validate(req, res, next, schema)
-    }
+        const schemaParams = Joi.object().keys({
+            id: Joi.number().integer().min(0).required(),
+        })
+
+        return utility.joi.validate(req, res, next, {body: schemaBody, params: schemaParams})
+    },
+
+    deleteWeight: function (req, res, next) {
+
+        const schemaParams = Joi.object().keys({
+            id: Joi.number().integer().min(0).required(),
+        })
+
+        return utility.joi.validate(req, res, next, {params: schemaParams})
+    },
 
 }

@@ -35,6 +35,17 @@ module.exports = {
         // TODO Ensure that body values can be updated separately
         await user.updateWeightRecord(index, newDate, value)
         return res.status(204).send()
+    },
+
+    deleteWeight: async function (req, res) {
+        let userID = req.userID
+        let index = parseInt(req.params.id)
+
+        let user = new User()
+        await user.loadWithID(userID)
+
+        await user.deleteWeightRecord(index)
+        return res.status(204).send()
     }
 
 }

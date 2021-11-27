@@ -131,6 +131,29 @@ module.exports = {
         return await dbo.collection(collection).updateOne(data, { $pull: item })
     },
     /**
+     * Remove an item from an array collection by index
+     * @param {string} collection - Name of database collection
+     * @param {object} data - Dictionary of search terms {_id: "id"}
+     * @param {string} field - Name of array field
+     * @param {number} index - Index of item to remove
+     * @returns
+     */
+    removeArrayItemByIndex: async function (collection, data, field, index) {
+        let fieldParam = '$' + field
+        return await dbo.collection(collection).updateOne(data, [
+            {
+                $set: {
+                    [field]: {
+                        $concatArrays: [
+                            { $slice: [ fieldParam, index ] },
+                            { $slice: [ fieldParam, { $add: [1, index] }, { $size: fieldParam} ] }
+                        ]
+                    }
+                }
+            }
+        ])
+    },
+    /**
      * Delete data in the database
      * @param {string} collection - Name of database collection
      * @param {object} data - Dictionary of search terms {_id: "1234"}

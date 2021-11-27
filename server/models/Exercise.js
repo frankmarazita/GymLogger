@@ -7,6 +7,7 @@ const utility = require('../utils/utility')
 
 module.exports = class Exercise {
     constructor() {
+        this.valid = false
         this.id = null
         this.dateCreated = null
         this.user = null
@@ -14,8 +15,8 @@ module.exports = class Exercise {
         this.name = null
         this.note = null
         this.exerciseType = null
-
-        this.valid = false
+        this.dailyMax = null
+        this.goal = null
     }
 
     /**
@@ -32,6 +33,8 @@ module.exports = class Exercise {
             this.name = dbResult[DT.Exercise.C.Name]
             this.note = dbResult[DT.Exercise.C.Note]
             this.exerciseType = dbResult[DT.Exercise.C.ExerciseType]
+            this.dailyMax = dbResult[DT.Exercise.C.DailyMax.T]
+            this.goal = dbResult[DT.Exercise.C.Goal.T]
         }
         return this.valid
     }
@@ -44,6 +47,7 @@ module.exports = class Exercise {
     async loadWithID(id) {
         if (typeof (id) === 'string') {
             if (id.length != 24) {
+                // TODO Should not return null
                 return null
             }
             id = ObjectID(id)
@@ -101,17 +105,11 @@ module.exports = class Exercise {
     }
 
     /**
-     * Gets an Array of Daily Max objects
-     * @returns {Array.<Object>}
+     * Delete Daily Max Record
+     * @param {Number} index - Array Index to be Deleted
      */
-    async getDailyMax() {
-        let result = await db_exercise.getDailyMax(this.id)
-        if (result[DT.Exercise.C.DailyMax.T]) {
-            this.dailyMax = result[DT.Exercise.C.DailyMax.T]
-        } else {
-            this.dailyMax = []
-        }
-        return this.dailyMax
+    async deleteDailyMaxRecord(index) {
+        await db_exercise.deleteDailyMaxRecord(this.id, index)
     }
 
     /**
@@ -133,13 +131,11 @@ module.exports = class Exercise {
     }
 
     /**
-     * Gets an Array of Goal objects
-     * @returns {Array.<Object>}
+     * Delete Goal Record
+     * @param {Number} index - Array Index to be Deleted
      */
-    async getGoal() {
-        let result = await db_exercise.getGoal(this.id)
-        this.goal = result[DT.Exercise.C.Goal.T]
-        return this.goal
+    async deleteGoalRecord(index) {
+        await db_exercise.deleteGoalRecord(this.id, index)
     }
 
     /**
@@ -148,9 +144,6 @@ module.exports = class Exercise {
      * @returns {Boolean}
      */
     async getDailyMaxDone(dateDone = utility.date.today()) {
-        if (!this.dailyMax) {
-            await this.getDailyMax()
-        }
         if (this.dailyMax) {
             for (let i = 0; i < this.dailyMax.length; i++) {
                 if (this.dailyMax[i].date.setHours(0, 0, 0, 0) == dateDone) {
@@ -166,9 +159,6 @@ module.exports = class Exercise {
      * @returns
      */
     async getDailyMaxPersonalBest() {
-        if (!this.dailyMax) {
-            await this.getDailyMax()
-        }
         let dailyMaxRecord = null
         if (this.dailyMax) {
             for (let i = 0; i < this.dailyMax.length; i++) {
@@ -183,7 +173,7 @@ module.exports = class Exercise {
     /**
      * Update Exercise Name
      * @param {String} name - Name
-     * @returns
+     * @returns {String}
      */
     async updateName(name) {
         let result = await db_exercise.updateName(this.id, name)
@@ -196,7 +186,7 @@ module.exports = class Exercise {
     /**
      * Update Exercise Note
      * @param {String} note - Note
-     * @returns
+     * @returns {String}
      */
     async updateNote(note) {
         let result = await db_exercise.updateNote(this.id, note)

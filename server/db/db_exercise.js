@@ -96,17 +96,17 @@ module.exports = {
     },
 
     /**
-     * Gets the Daily Max Data
-     * @param {ObjectID} exerciseID - Exercise ID
+     * Removes an Exercise Daily Max Record
+     * @param {ObjectID} exerciseID
+     * @param {Number} index - Array Index to be Removed
      * @returns
      */
-    getDailyMax: async function (exerciseID) {
-        if (utility.args.verify(arguments, 1)) {
-            return await db.getOne(DT.Exercise.T, {
+    deleteDailyMaxRecord: async function (exerciseID, index) {
+        if (utility.args.verify(arguments, 2)) {
+            return await db.removeArrayItemByIndex(DT.Exercise.T, {
                 [DT.Exercise.C.ID]: exerciseID
-            }, {
-                [DT.Exercise.C.DailyMax.T]: 1
-            })
+            }, DT.Exercise.C.DailyMax.T, index
+            )
         }
     },
 
@@ -151,17 +151,17 @@ module.exports = {
     },
 
     /**
-     * Gets the Goal Data
-     * @param {ObjectID} exerciseID - Exercise ID
+     * Removes an Exercise Goal Record
+     * @param {ObjectID} exerciseID
+     * @param {Number} index - Array Index to be Removed
      * @returns
      */
-    getGoal: async function (exerciseID) {
-        if (utility.args.verify(arguments, 1)) {
-            return await db.getOne(DT.Exercise.T, {
+    deleteGoalRecord: async function (exerciseID, index) {
+        if (utility.args.verify(arguments, 2)) {
+            return await db.removeArrayItemByIndex(DT.Exercise.T, {
                 [DT.Exercise.C.ID]: exerciseID
-            }, {
-                [DT.Exercise.C.Goal.T]: 1
-            })
+            }, DT.Exercise.C.Goal.T, index
+            )
         }
     },
 

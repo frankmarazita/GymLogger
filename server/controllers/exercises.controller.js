@@ -24,9 +24,6 @@ module.exports = {
 
         if (validate(res, exercise, userID)) return
 
-        await exercise.getDailyMax()
-        await exercise.getGoal()
-
         return res.status(200).send({ exercise: exercise })
     },
 
@@ -151,6 +148,34 @@ module.exports = {
 
         // TODO Ensure that body values can be updated separately
         await exercise.updateGoalRecord(index, newDate, value)
+        return res.status(204).send()
+    },
+
+    deleteDailyMax: async function (req, res) {
+        let userID = req.userID
+        let exerciseID = req.params.exerciseID
+        let index = parseInt(req.params.dailyMaxID)
+
+        let exercise = new Exercise()
+        await exercise.loadWithID(exerciseID)
+
+        if (validate(res, exercise, userID)) return
+
+        await exercise.deleteDailyMaxRecord(index)
+        return res.status(204).send()
+    },
+
+    deleteGoal: async function (req, res) {
+        let userID = req.userID
+        let exerciseID = req.params.exerciseID
+        let index = parseInt(req.params.goalID)
+
+        let exercise = new Exercise()
+        await exercise.loadWithID(exerciseID)
+
+        if (validate(res, exercise, userID)) return
+
+        await exercise.deleteGoalRecord(index)
         return res.status(204).send()
     }
 

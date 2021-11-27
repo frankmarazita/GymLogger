@@ -1,17 +1,26 @@
 const EM = require('../constants/errorMessages')
 
+const config = require('../config/config')
+
 const error = require('../middleware/error')
 
 module.exports = {
 
-    validate: async function (req, res, next, schema) {
+    validate: async function (req, res, next, schemas) {
         try {
-            await schema.validateAsync(req.body)
+            schemas.params ? await schemas.params.validateAsync(req.params, config.joi) : null
+            schemas.body ? await schemas.body.validateAsync(req.body, config.joi) : null
         } catch (err) {
-            if (err.details[0].type === 'object.unknown') {
-                return error.status(res, 400, err.details[0].message)
+            let message = ''
+            for (let i = 0; i < err.details.length; i++) {
+                i > 0 ? message += '\n' : null
+                if (err.details[i].type === 'object.unknown') {
+                    message += err.details[i].message
+                } else {
+                    message += EM.Schema.InvalidSchema(err.details[i].context.key)
+                }
             }
-            return error.status(res, 400, EM.Schema.InvalidSchema(err.details[0].context.key))
+            return error.status(res, 400, message)
         }
         return next()
     }

@@ -56,21 +56,6 @@ module.exports = {
     },
 
     /**
-     * Returns the Group's Exercise IDs
-     * @param {String} exerciseGroupID - Exercise Group ID
-     * @returns
-     */
-    getExerciseIDs: async function (exerciseGroupID) {
-        if (utility.args.verify(arguments, 1)) {
-            return await db.getOne(DT.ExerciseGroup.T, {
-                [DT.ExerciseGroup.C.ID]: exerciseGroupID
-            }, {
-                [DT.ExerciseGroup.C.Exercises]: 1
-            })
-        }
-    },
-
-    /**
      * Removes an Exercise ID from the Group's exercise array
      * @param {String} exerciseGroupID - Exercise Group ID
      * @param {String} exerciseID - Exercise ID

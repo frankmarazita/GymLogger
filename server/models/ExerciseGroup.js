@@ -7,14 +7,13 @@ const Exercise = require('./Exercise')
 
 module.exports = class ExerciseGroup {
     constructor() {
+        this.valid = false
         this.id = null
         this.user = null
         this.dateCreated = null
         this.name = null
         this.note = null
         this.exercises = null
-
-        this.valid = false
     }
 
     /**
@@ -42,6 +41,7 @@ module.exports = class ExerciseGroup {
     async loadWithID(id) {
         if (typeof (id) === 'string') {
             if (id.length != 24) {
+                // TODO Should not return null
                 return null
             }
             id = ObjectID(id)
@@ -80,16 +80,6 @@ module.exports = class ExerciseGroup {
     }
 
     /**
-     * Gets an Array of exercise IDs
-     * @returns {Array.<String>}
-     */
-    async getExerciseIDs() {
-        let result = await db_exercise_group.getExerciseIDs(this.id)
-        this.exercises = result[DT.ExerciseGroup.C.Exercises]
-        return this.exercises
-    }
-
-    /**
      * Remove an Exercise from the Group
      * @param {*} exerciseID
      */
@@ -104,11 +94,11 @@ module.exports = class ExerciseGroup {
     async getExercises() {
         let exercises = []
         // TODO Instead of looping through exercise ids, bulk load exercises from a single query to exercises
+        // Also if cache is implemented, load each exercise separately into and out of cache
         if (this.valid) {
-            let exerciseIDs = await this.getExerciseIDs()
-            for (let i = 0; i < exerciseIDs.length; i++) {
+            for (let i = 0; i < this.exercises.length; i++) {
                 let exercise = new Exercise()
-                if (await exercise.loadWithID(exerciseIDs[i])) {
+                if (await exercise.loadWithID(this.exercises[i])) {
                     exercises.push(exercise)
                 }
             }

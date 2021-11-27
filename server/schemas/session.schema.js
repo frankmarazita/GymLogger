@@ -6,12 +6,12 @@ module.exports = {
 
     new: function (req, res, next) {
 
-        const schema = Joi.object().keys({
+        const schemaBody = Joi.object().keys({
             email: Joi.string().email().required(),
             password: Joi.string().required()
         })
 
-        return utility.joi.validate(req, res, next, schema)
+        return utility.joi.validate(req, res, next, {body: schemaBody})
     }
 
 }

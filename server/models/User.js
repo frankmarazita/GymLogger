@@ -9,13 +9,12 @@ const ExerciseGroup = require('./ExerciseGroup')
 
 module.exports = class User {
     constructor() {
+        this.valid = false
+        this.authenticated = false
         this.id = null
         this.dateCreated = null
         this.email = null
         this.name = null
-
-        this.valid = false
-        this.authenticated = false
     }
 
     /**
@@ -41,11 +40,12 @@ module.exports = class User {
     async loadWithID(id) {
         if (typeof (id) === 'string') {
             if (id.length != 24) {
+                // TODO Should not return null
                 return null
             }
             id = ObjectID(id)
         }
-        return await this.loadWithData(await db_user.getSessionDataWithID(id))
+        return await this.loadWithData(await db_user.getDataWithID(id))
     }
 
     /**
@@ -54,7 +54,7 @@ module.exports = class User {
      * @returns
      */
     async loadWithEmail(email) {
-        return await this.loadWithData(await db_user.getSessionDataWithEmail(email))
+        return await this.loadWithData(await db_user.getDataWithEmail(email))
     }
 
     /**
@@ -79,9 +79,9 @@ module.exports = class User {
 
     /**
      * Creates a new User
-     * @param {*} email - Email
-     * @param {*} name - Name
-     * @param {*} password - Password
+     * @param {String} email - Email
+     * @param {String} name - Name
+     * @param {String} password - Password
      */
     async new(email, name, password) {
         const passwordHash = await utility.bcrypt.hash(password)
@@ -91,12 +91,14 @@ module.exports = class User {
         this.authenticated = true
     }
 
+    /**
+     * Get User Session Data For Token
+     * @returns {Object}
+     */
     sessionData() {
         return {
-            id: this.id,
-            // dateCreated: this.dateCreated,
-            // name: this.name,
-            authenticated: this.authenticated
+            authenticated: this.authenticated,
+            id: this.id
         }
     }
 
@@ -162,8 +164,22 @@ module.exports = class User {
         await db_user.addWeightRecord(this.id, value)
     }
 
+    /**
+     * Update an existing User Weight Record
+     * @param {Number} index - Index
+     * @param {date} date - Date
+     * @param {Number} value - Value
+     */
     async updateWeightRecord(index, date, value) {
         await db_user.updateWeightRecord(this.id, index, date, value)
+    }
+
+    /**
+     * Delete Weight Record
+     * @param {Number} index - Index
+     */
+    async deleteWeightRecord(index) {
+        await db_user.deleteWeightRecord(this.id, index)
     }
 
     /**

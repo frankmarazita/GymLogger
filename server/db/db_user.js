@@ -16,7 +16,7 @@ module.exports = {
         }
     },
 
-    getSessionDataWithID: async function (userID) {
+    getDataWithID: async function (userID) {
         if (utility.args.verify(arguments, 1)) {
             return await db.getOne(DT.User.T, {
                 [DT.User.C.ID]: userID
@@ -29,7 +29,7 @@ module.exports = {
         }
     },
 
-    getSessionDataWithEmail: async function (email) {
+    getDataWithEmail: async function (email) {
         if (utility.args.verify(arguments, 1)) {
             return await db.getOne(DT.User.T, {
                 [DT.User.C.Email]: email
@@ -97,6 +97,15 @@ module.exports = {
                     [DT.Exercise.C.Goal.C.Value]: value
                 }
             })
+        }
+    },
+
+    deleteWeightRecord: async function (userID, index) {
+        if (utility.args.verify(arguments, 2)) {
+            return await db.removeArrayItemByIndex(DT.User.T, {
+                [DT.User.C.ID]: userID
+            }, DT.User.C.Weight.T, index
+            )
         }
     },
 
