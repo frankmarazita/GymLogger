@@ -1,80 +1,146 @@
 # GymLogger
-A web application for logging exercise progress and activity with Node.js, Express and MongoDB.
+A REST API for logging exercise progress and activity with Node.js, Express, MongoDB and React.
 
 ## Quick Start
 
-Clone Repository:
+**Clone Repository:**
 ```
 git clone https://github.com/frankmarazita/GymLogger
 cd GymLogger
 ```
 
-Install Dependencies:
+**Server:**
+
+```
+cd server
+```
+
+- Install Dependencies:
 ```
 npm install
 ```
 
-Set Environment Variables:
-- Rename `.env.example` file to `.env`
-- Modify the file contents as required
+- Set Environment Variables:
+    - Rename `.env.example` file to `.env`
+    - Modify the file contents as required
 
-Running Application:
+- Running Application:
 ```
 npm start
 ```
 
-Running Tests:
+- Running Tests:
 ```
 npm test
 ```
 
+**Client:**
+
+```
+cd client
+```
+
+- Install Dependencies:
+```
+npm install
+```
+
+- Set Environment Variables:
+    - Rename `.env.example` file to `.env`
+    - Modify the file contents as required
+
+- Running Application in Dev:
+```
+npm start
+```
+
+- Build Client Package:
+```
+npm build
+```
+
 ## Tools and Dependencies
+Server:
 - Node.js
 - Express
-    - Express Session
 - MongoDB
 - Jest
+- Joi
+- JWT
 - bcrypt
 - dotenv
 - helmet
 
+Client:
+- Node.js
+- Axios
+- React
+- React Bootstrap
+- Chart.js
+- SASS
+
 ## Environment Variables:
-The environment variables can be found and modified in the .env file in the project root.
+
+The environment variables can be found and modified in the .env file in the Server and Client project root directories.
+
+Server:
+
 ```
 NODE_ENV=production/development
 DOMAIN=example.com/localhost
-PORT=3000
+PORT=5000
 
 MONGODB_SECRET=mymongodbsecreturl
 DB_NAME=mydbname
 
-SESSION_SECRET=mysessionsecret
-SESSION_KEY=mysessionkey
+JWT_PRIVATE_KEY=testKey
+```
+
+Client:
+
+```
+BROWSER=none
+PORT=3000
+
+REACT_APP_API_URL='http://localhost:5000'
 ```
 
 ## Project Structure:
+
 ```
-src\
+client\
+ |--public\         # Static files
+ |--src\            # Client source code
+   |--assets\       # Static component specific files
+   |--components\   # React components
+   |--config\       # Configuration files
+   |--constants\    # Variable constants
+   |--containers\   # React pages
+   |--routes\       # React routes
+   |--utils\        # Project utilities
+   |--App.js        # Main React component
+   |--index.js      # App entry point
+ |--.env.example    # Environment variables example
+
+server\
  |--config\         # Configuration files
  |--constants\      # Variable constants
  |--controllers\    # Controller methods
  |--db\             # Database methods
- |--helpers\        # Helper methods
  |--middleware\     # Middleware
  |--models\         # Models
- |--public\         # Static files
  |--routes\         # Route controllers
- |--scripts\        # Management scripts
+ |--schemas\        # Schema definitions
  |--tests\          # Test cases
- |--utils\          # Utilities
- |--views\          # Handlebars views
- |--.env            # Environment variables
+ |--utils\          # Project utilities
+ |--.env.example    # Environment variables example
  |--app.js          # Express app
  |--routes.js       # Route imports
  |--server.js       # App entry point
 ```
 
 ## Issues and Features
+
 - Kanban project for issues and new features can be found [here](https://github.com/frankmarazita/GymLogger/projects/1).
 
 ## Licence
