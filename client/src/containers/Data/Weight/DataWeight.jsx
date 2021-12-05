@@ -43,7 +43,7 @@ class DataWeight extends React.Component {
             return (<><Loading /></>)
         }
 
-        let containerStyleData = {maxWidth: '40%', minWidth: '450px'}
+        let containerStyleData = {maxWidth: '40%', minWidth: '500px'}
         return (
             <>
                 <Back/>
@@ -53,7 +53,7 @@ class DataWeight extends React.Component {
                     </div>
                 </Container>
 
-                <Container style={containerStyleData}>
+                <Container className="pb-5" style={containerStyleData}>
                     <b><label htmlFor="value" className="pt-2">Weight Data:</label></b>
                     {this.state.weight ? this.recordInputGroups(this.state.weight) : []}
                 </Container>
@@ -82,7 +82,7 @@ class EditInputGroup extends React.Component {
         this.setState(stateData)
     }
 
-    handleSubmit = (event) => {
+    handleEdit = (event) => {
         let error = false
 
         if (!this.state.value) {
@@ -114,13 +114,28 @@ class EditInputGroup extends React.Component {
         }
     }
 
+    handleDelete = (event) => {
+        if (window.confirm('Are you sure you want to delete this Weight record?')) {
+            http.delete('/weight/' + this.state.index)
+            .then((res) => {
+                alert('Delete Successful')
+                window.location.reload()
+            })
+            .catch((error) => {
+                console.error(error)
+                alert(error.response.data.message)
+            });
+        }
+    }
+
     render = () => {
         return (
             <InputGroup className='p-1'>
                 <FormControl type="number" id="index" name="index" value={this.state.index} onChange={this.handleChange} required hidden />
                 <FormControl type="datetime-local" id="date" name="date" value={this.state.date} style={{ minWidth: '250px' }} onChange={this.handleChange} required />
-                <FormControl type="number" id="value" name="value" value={this.state.value} min="0" step="0.1" style={{ maxWidth: '100px' }} onChange={this.handleChange} required />
-                <Button className="btn-block ml-3" variant="outline-primary" style={{maxWidth: '70px'}} onClick={this.handleSubmit}>Edit</Button>
+                <FormControl type="number" id="value" name="value" value={this.state.value} min="0" step="0.1" style={{ minWidth: '70px', maxWidth: '75px' }} onChange={this.handleChange} required />
+                <Button className="ml-2" variant="outline-primary" onClick={this.handleEdit}>Edit</Button>
+                <Button className="ml-2" variant="outline-danger" onClick={this.handleDelete}>Delete</Button>
             </InputGroup>
         )
     }
