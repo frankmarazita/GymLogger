@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { Line } from 'react-chartjs-2';
+import 'chartjs-adapter-moment';
 
 import dateUtility from '../../utils/date'
 
@@ -11,8 +12,8 @@ class ChartExercise extends React.Component {
         if (exercise) {
             if (exercise.dailyMax) {
                 exercise.dailyMax.map(function (dailyMax) {
-                    let date = dateUtility.stringToDate(dailyMax.date)
-                    let dateString = dateUtility.toStringYMD(date)
+                    let date = dateUtility.applyTimezoneOffset(dateUtility.stringToDate(dailyMax.date))
+                    let dateString = dateUtility.toString(date)
                     return data.push({ x: dateString, y: dailyMax.value });
                 })
             }
@@ -25,8 +26,8 @@ class ChartExercise extends React.Component {
         if (exercise) {
             if (exercise.goal) {
                 exercise.goal.map(function (goal) {
-                    let date = dateUtility.stringToDate(goal.date)
-                    let dateString = dateUtility.toStringYMD(date)
+                    let date = dateUtility.applyTimezoneOffset(dateUtility.stringToDate(goal.date))
+                    let dateString = dateUtility.toString(date)
                     return data.push({ x: dateString, y: goal.value });
                 })
             }
@@ -68,16 +69,15 @@ class ChartExercise extends React.Component {
                             maintainAspectRatio: false,
                             scales: {
                                 x: {
-                                    // type: 'time',
+                                    type: 'time',
                                     time: {
-                                        // Luxon format string
-                                        tooltipFormat: 'DD T'
+                                        unit: 'day',
                                     },
                                 },
                                 y: {
                                     title: {
                                         display: true,
-                                        text: 'value'
+                                        text: 'Value'
                                     }
                                 }
                             }

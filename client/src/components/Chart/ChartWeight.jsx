@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { Line } from 'react-chartjs-2';
+import 'chartjs-adapter-moment';
 
 import dateUtility from '../../utils/date'
 
@@ -10,8 +11,8 @@ class ChartWeight extends React.Component {
         let data = []
         if (weight) {
             weight.map(function (weight) {
-                let date = dateUtility.stringToDate(weight.date)
-                let dateString = dateUtility.toStringYMD(date)
+                let date = dateUtility.applyTimezoneOffset(dateUtility.stringToDate(weight.date))
+                let dateString = dateUtility.toString(date)
                 return data.push({ x: dateString, y: weight.value });
             })
         }
@@ -44,16 +45,15 @@ class ChartWeight extends React.Component {
                             maintainAspectRatio: false,
                             scales: {
                                 x: {
-                                    // type: 'time',
+                                    type: 'time',
                                     time: {
-                                        // Luxon format string
-                                        tooltipFormat: 'DD T'
+                                        unit: 'day',
                                     },
                                 },
                                 y: {
                                     title: {
                                         display: true,
-                                        text: 'value'
+                                        text: 'Value'
                                     }
                                 }
                             }
