@@ -1,0 +1,17 @@
+{
+    "files": {
+        "log": {
+            "enabled": true,
+            "fileName": "general.log"
+        },
+        "error": {
+            "enabled": true,
+            "fileName": "error.log"
+        },
+        "warn": {
+            "enabled": true,
+            "fileName": "warn.log"
+        }
+    },
+    "folderName": "logs"
+}
