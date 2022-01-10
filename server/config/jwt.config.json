@@ -1,4 +1,4 @@
 {
     "algorithm": "HS256",
-    "expiryTimeSeconds": 3600
+    "expiryTimeSeconds": 14400
 }
