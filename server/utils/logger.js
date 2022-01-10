@@ -1,6 +1,7 @@
 let fs = require('fs')
 
 const date = require('./date')
+const id = require('./id')
 
 const config = require('../config/config')
 
@@ -14,7 +15,7 @@ try {
 }
 
 function logToFile(fileName, message) {
-    fs.appendFile(`${directoryPath}/${fileName}`, `[${date.now().toISOString()}]: ${message}\n`, (err) => {
+    fs.appendFile(`${directoryPath}/${fileName}`, `[${date.now().toISOString()}] ${id.new(24)}: ${message}\n`, (err) => {
         if (err) {
             console.log(err)
         }
