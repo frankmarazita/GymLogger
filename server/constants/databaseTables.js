@@ -1,3 +1,14 @@
+exports.DBConfig = {
+    T: 'dbconfig',
+    C: {
+        ID: '_id',
+        DateCreated: 'datecreated',
+        Name: 'name',
+        Version: 'version',
+        Environment: 'environment',
+    }
+}
+
 exports.Exercise = {
     T: 'exercise',
     C: {

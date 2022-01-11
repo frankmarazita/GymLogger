@@ -10,3 +10,9 @@ exports.ServerOpened = function (port) {
 exports.ServerClosed = function () {
     return 'Server Closed'
 }
+exports.DBConfigVersionMismatch = function (db, sys) {
+    return `Database version mismatch. Expected ${sys}, got ${db}`
+}
+exports.DBConfigEnvironmentMismatch = function (db, sys) {
+    return `Database environment mismatch. Expected ${sys}, got ${db}`
+}

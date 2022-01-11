@@ -10,5 +10,6 @@ config.jwt = require('./jwt.config.json')
 config.logger = require('./logger.config.json')
 config.production = require('./production.config.json')
 config.routes = require('./routes.config.json')
+config.system = require('./system.config.json')
 
 module.exports = config
