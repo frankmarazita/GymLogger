@@ -22,10 +22,13 @@ axios.interceptors.response.use(
             if (window.location.pathname !== '/login') {
                 window.location.href = '/login';
             }
-        } else if (error.response.status === 403) {
-            window.location.href = '/error/403';
-        } else if (error.response.status === 404) {
-            window.location.href = '/error/404';
+        }
+        if (error.response.config.method === 'get') {
+            if (error.response.status === 403) {
+                window.location.href = '/error/403';
+            } else if (error.response.status === 404) {
+                window.location.href = '/error/404';
+            }
         }
         return Promise.reject(error);
     }

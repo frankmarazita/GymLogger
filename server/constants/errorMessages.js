@@ -1,6 +1,7 @@
 const CT = require('../constants/codeTables')
 
 exports.Auth = class {
+    static get RegistrationDisabled() { return 'Registration is currently disabled' }
     static get InvalidEmailPassword() { return 'Incorrect Email or Password' }
     static get EmailExists() { return 'Email already in use' }
     static get NoMatchPassword() { return 'Passwords do not match' }

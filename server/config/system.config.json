@@ -1,4 +1,5 @@
 {
     "version": "2.0.0",
-    "exitDelay": 1000
+    "exitDelay": 1000,
+    "allowRegistration": true
 }

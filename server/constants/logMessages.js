@@ -1,5 +1,5 @@
-exports.DatabaseConnected = function () {
-    return 'Connected to MongoDB'
+exports.DatabaseConnected = function (dbName) {
+    return `Connected to MongoDB (${dbName})`
 }
 exports.DatabaseDisconnected = function () {
     return 'Disconnected from MongoDB'

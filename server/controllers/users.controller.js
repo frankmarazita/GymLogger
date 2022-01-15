@@ -1,5 +1,6 @@
 const EM = require('../constants/errorMessages')
 
+const config = require('../config/config')
 const error = require('../middleware/error')
 const utility = require('../utils/utility')
 
@@ -14,6 +15,11 @@ module.exports = {
     },
 
     add: async function (req, res) {
+
+        if (config.system.allowRegistration === false) {
+            return error.status(res, 403, EM.Auth.RegistrationDisabled)
+        }
+
         let email = req.body.email
         let password = req.body.password
         let confirmPassword = req.body.confirmPassword
