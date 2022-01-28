@@ -6,7 +6,7 @@ describe('Database', () => {
   })
 
   test('connect / disconnect database', async () => {
-    await db.init(process.env.MONGODB_SECRET, process.env.DB_NAME)
+    await db.init(process.env.MONGODB_URI, process.env.DB_NAME)
     expect(await db.connected()).toBe(true)
 
     await db.close()

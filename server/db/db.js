@@ -16,9 +16,9 @@ module.exports = {
     connected: async function () {
         try {
             if (db) {
-                return db.isConnected()
+                return await db.isConnected()
             }
-            throw new Error(EM.Database.NotInitialised)
+            throw new Error(EM.DB.NotInitialised)
         } catch (err) {
             console.error(err)
             return false
@@ -26,18 +26,18 @@ module.exports = {
     },
     /**
      * Initialises MongoDB database
-     * @param {string} uri - Uniform resource identifier
-     * @param {*} name - Database name
      * @returns {Promise<void>}
      */
-    init: async function (uri, name) {
+    init: async function () {
+        const uri = process.env.MONGODB_URI
+        const name = process.env.DB_NAME
         const client = new MongoClient(uri, { useUnifiedTopology: true })
         try {
             return await client.connect().then(response => {
                 db = response
                 dbName = name
                 dbo = db.db(dbName)
-                console.log(LM.DatabaseConnected())
+                console.log(LM.DB.Connected())
             })
         } catch (err) {
             console.error(err)
@@ -50,7 +50,7 @@ module.exports = {
     close: async function () {
         if (db) {
             return await db.close().then(response => {
-                console.log(LM.DatabaseDisconnected())
+                console.log(LM.DB.Disconnected())
             })
         }
     },

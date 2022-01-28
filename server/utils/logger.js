@@ -5,7 +5,12 @@ const id = require('./id')
 
 const config = require('../config/config')
 
-const directoryPath = `${__dirname}/../${config.logger.folderName}`
+let directoryPath = `${__dirname}/../${config.logger.folderName}`
+if (config.logger.relativePath !== '') {
+    directoryPath = __dirname + '/' + config.logger.relativePath + config.logger.folderName
+} else if (config.logger.staticPath !== '') {
+    directoryPath = config.logger.staticPath + config.logger.folderName
+}
 
 // Create the logger files directory if it doesn't exist
 try {

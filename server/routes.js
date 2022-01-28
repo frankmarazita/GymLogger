@@ -3,7 +3,7 @@ const CT = require('./constants/codeTables')
 const app = require('./app')
 const config = require('./config/config')
 
-const IS_DEVELOPMENT = process.env.NODE_ENV === CT.System.C.Development
+const IS_DEVELOPMENT = process.env.NODE_ENV === CT.System.Development
 
 if (IS_DEVELOPMENT && config.development.logRequests) {
     app.use(function (req, res, next) {

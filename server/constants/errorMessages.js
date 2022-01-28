@@ -1,20 +1,25 @@
 const CT = require('../constants/codeTables')
 
 exports.Auth = class {
-    static get InvalidEmailPassword() { return 'Incorrect Email or Password' }
-    static get EmailExists() { return 'Email already in use' }
-    static get NoMatchPassword() { return 'Passwords do not match' }
+    static InvalidEmailPassword() { return 'Incorrect Email or Password' }
+    static EmailExists() { return 'Email already in use' }
+    static NoMatchPassword() { return 'Passwords do not match' }
 }
 
-exports.Database = class {
-    static get NotInitialised() {
-        const code = 0
-        return `${code}: Database not initialised`
+exports.DB = class {
+    static NotInitialised() {
+        return 'Database not initialised'
+    }
+    static ConfigVersionMismatch(db, sys) {
+        return `Database version mismatch. Expected ${sys}, got ${db}`
+    }
+    static ConfigEnvironmentMismatch (db, sys) {
+        return `Database environment mismatch. Expected ${sys}, got ${db}`
     }
 }
 
 exports.Args = class {
-    static get IncorrectNumberOfArgs() { return 'Incorrect Number of Arguments' }
+    static IncorrectNumberOfArgs() { return 'Incorrect Number of Arguments' }
 }
 
 /**
@@ -23,7 +28,7 @@ exports.Args = class {
  * @returns {String}
  */
 exports.Status = function (code) {
-    return CT.Status.C[code]
+    return CT.Status[code]
 }
 
 exports.Schema = class {

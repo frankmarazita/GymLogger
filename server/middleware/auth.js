@@ -4,14 +4,14 @@ const error = require('./error')
 const config = require('../config/config')
 const utility = require('../utils/utility')
 
-const IS_DEVELOPMENT = process.env.NODE_ENV === CT.System.C.Development
+const IS_DEVELOPMENT = process.env.NODE_ENV === CT.System.Development
 
 module.exports = {
 
     verify: async function (req, res, next) {
         let token = req.headers.authorization
-        if (token.startsWith(CT.System.C.Bearer)) {
-            token = token.slice(CT.System.C.Bearer.length + 1, token.length)
+        if (token.startsWith(CT.System.Bearer)) {
+            token = token.slice(CT.System.Bearer.length + 1, token.length)
         }
         if (token) {
             let decoded = await utility.jwt.check(token)

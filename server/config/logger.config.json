@@ -13,5 +13,7 @@
             "fileName": "warn.log"
         }
     },
-    "folderName": "logs"
+    "folderName": "logs",
+    "relativePath": "",
+    "staticPath": ""
 }
