@@ -12,7 +12,7 @@ module.exports = {
         return res.status(200).send({ weight: weight })
     },
 
-    logWeight: async function (req, res) {
+    add: async function (req, res) {
         let userID = req.userID
         let value = parseFloat(req.body.value)
 
@@ -23,9 +23,9 @@ module.exports = {
         return res.status(201).send()
     },
 
-    updateWeight: async function (req, res) {
+    update: async function (req, res) {
         let userID = req.userID
-        let index = req.params.id
+        let index = parseInt(req.params.weightID)
         let newDate = utility.date.stringToDate(req.body.date)
         let value = parseFloat(req.body.value)
 
@@ -37,9 +37,9 @@ module.exports = {
         return res.status(204).send()
     },
 
-    deleteWeight: async function (req, res) {
+    delete: async function (req, res) {
         let userID = req.userID
-        let index = parseInt(req.params.id)
+        let index = parseInt(req.params.weightID)
 
         let user = new User()
         await user.loadWithID(userID)

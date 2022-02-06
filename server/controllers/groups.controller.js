@@ -13,9 +13,9 @@ function validate(res, exerciseGroup, userID) {
 
 module.exports = {
 
-    getGroup: async function (req, res) {
+    get: async function (req, res) {
         let userID = req.userID
-        let exerciseGroupID = req.params.id
+        let exerciseGroupID = req.params.groupID
         let user = new User()
         await user.loadWithID(userID)
 
@@ -53,7 +53,7 @@ module.exports = {
         let userID = req.userID
         let name = req.body.name
         let note = req.body.note
-        let exerciseGroupID = req.params.id
+        let exerciseGroupID = req.params.groupID
 
         let exerciseGroup = new ExerciseGroup()
         await exerciseGroup.loadWithID(exerciseGroupID)

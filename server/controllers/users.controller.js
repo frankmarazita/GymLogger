@@ -23,9 +23,9 @@ module.exports = {
         await user.loadWithEmail(email)
 
         if (user.valid) {
-            return error.status(res, 400, EM.Auth.EmailExists)
+            return error.status(res, 400, EM.Auth.EmailExists())
         } else if (password != confirmPassword) {
-            return error.status(res, 400, EM.Auth.NoMatchPassword)
+            return error.status(res, 400, EM.Auth.NoMatchPassword())
         }
 
         await user.new(email, name, password)
@@ -47,7 +47,7 @@ module.exports = {
             let userEmailExists = new User()
             await userEmailExists.loadWithEmail(email)
             if (userEmailExists.valid) {
-                return error.status(res, 400, EM.Auth.EmailExists)
+                return error.status(res, 400, EM.Auth.EmailExists())
             }
 
             await user.updateEmail(email)

@@ -4,8 +4,8 @@ const schema = require('../schemas/weight.schema')
 const controller = require('../controllers/weight.controller')
 
 routes.get('/weight', auth.verify, controller.get)
-routes.post('/weight', auth.verify, schema.logWeight, controller.logWeight)
-routes.put('/weight/:id', auth.verify, schema.updateWeight, controller.updateWeight)
-routes.delete('/weight/:id', auth.verify, schema.deleteWeight, controller.deleteWeight)
+routes.post('/weight', auth.verify, schema.add, controller.add)
+routes.put('/weight/:weightID', auth.verify, schema.update, controller.update)
+routes.delete('/weight/:weightID', auth.verify, schema.delete, controller.delete)
 
 module.exports = routes

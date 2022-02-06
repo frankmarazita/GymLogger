@@ -16,10 +16,10 @@ module.exports = {
             if (user.authenticated) {
                 req.userID = user.id
             } else {
-                return error.status(res, 401, EM.Auth.InvalidEmailPassword)
+                return error.status(res, 401, EM.Auth.InvalidEmailPassword())
             }
         } else {
-            return error.status(res, 401, EM.Auth.InvalidEmailPassword)
+            return error.status(res, 401, EM.Auth.InvalidEmailPassword())
         }
 
         let token = await utility.jwt.createNewSessionToken(user.sessionData())

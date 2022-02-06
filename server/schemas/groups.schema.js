@@ -7,7 +7,7 @@ module.exports = {
     get: function (req, res, next) {
 
         const schemaParams = Joi.object().keys({
-            id: Joi.string().required(),
+            groupID: Joi.string().required(),
         })
 
         return utility.joi.validate(req, res, next, {params: schemaParams})
@@ -31,7 +31,7 @@ module.exports = {
         })
 
         const schemaParams = Joi.object().keys({
-            id: Joi.string().required(),
+            groupID: Joi.string().required(),
         })
 
         return utility.joi.validate(req, res, next, {body: schemaBody, params: schemaParams})

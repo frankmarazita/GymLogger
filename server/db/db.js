@@ -18,7 +18,7 @@ module.exports = {
             if (db) {
                 return await db.isConnected()
             }
-            throw new Error(EM.DB.NotInitialised)
+            throw new Error(EM.DB.NotInitialised())
         } catch (err) {
             console.error(err)
             return false
