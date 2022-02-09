@@ -18,6 +18,9 @@ axios.interceptors.response.use(
     response => response,
     error => {
         if (error.response.status === 401) {
+            if (window.location.pathname === '/edit/account/password') {
+                return Promise.reject(error);
+            }
             session.deleteToken();
             if (window.location.pathname !== '/login') {
                 window.location.href = '/login';

@@ -24,6 +24,17 @@ module.exports = {
         })
 
         return utility.joi.validate(req, res, next, {body: schemaBody})
+    },
+
+    updatePassword: function (req, res, next) {
+
+        const schemaBody = Joi.object().keys({
+            oldPassword: Joi.string().required(),
+            newPassword: Joi.string().required(),
+            confirmPassword: Joi.string().required(),
+        })
+
+        return utility.joi.validate(req, res, next, { body: schemaBody })
     }
 
 }

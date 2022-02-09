@@ -41,7 +41,12 @@ class Account extends React.Component {
                         <h5>Name: {this.state.user ? this.state.user.name : ''}</h5>
                         <h5>Email: {this.state.user ? this.state.user.email : ''}</h5>
                         <h5>Timezone: </h5><p>{new Date().toTimeString().slice(9)}</p>
-                        <Button href='/edit/account' variant="link">Edit</Button>
+                        <div>
+                            <Button href='/edit/account' variant="link">Edit Account</Button>
+                        </div>
+                        <div>
+                            <Button href='/edit/account/password' variant="link">Change Password</Button>
+                        </div>
                     </div>
                 </Container>
             </>

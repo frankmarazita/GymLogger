@@ -58,6 +58,32 @@ module.exports = {
         }
 
         return res.status(204).send()
-    }
+    },
 
+    updatePassword: async function (req, res) {
+        let userID = req.userID
+        let oldPassword = req.body.oldPassword
+        let newPassword = req.body.newPassword
+        let confirmPassword = req.body.confirmPassword
+
+        let user = new User()
+        await user.loadWithID(userID)
+
+        if (user.valid) {
+            await user.authenticate(oldPassword)
+            if (user.authenticated) {
+                req.userID = user.id
+            } else {
+                return error.status(res, 401, EM.Auth.InvalidOldPassword())
+            }
+            if (newPassword != confirmPassword) {
+                return error.status(res, 400, EM.Auth.NoMatchPassword())
+            }
+            await user.updatePassword(newPassword)
+        } else {
+            return error.status(res, 401, EM.Auth.InvalidUser())
+        }
+
+        return res.status(204).send()
+    }
 }

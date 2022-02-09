@@ -217,4 +217,13 @@ module.exports = class User {
         }
         return this.name
     }
+
+    /**
+     * Update User Password
+     * @param {String} password - Password
+     */
+    async updatePassword(password) {
+        const passwordHash = await utility.bcrypt.hash(password)
+        await db_user.updatePassword(this.id, passwordHash)
+    }
 }

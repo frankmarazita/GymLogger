@@ -10,6 +10,7 @@ import Login from './containers/Login/Login'
 import Home from './containers/Home/Home'
 import Account from './containers/Account/Account'
 import AccountEdit from './containers/Account/AccountEdit'
+import AccountEditPassword from './containers/Account/AccountEditPassword'
 import Weight from './containers/Weight/Weight'
 import ExerciseGroup from './containers/ExerciseGroup/ExerciseGroup'
 import ExerciseGroupAdd from './containers/ExerciseGroup/ExerciseGroupAdd'
@@ -34,6 +35,7 @@ function App() {
                 <AuthenticatedRoute path="/" exact component={Home} />
                 <AuthenticatedRoute path="/account" exact component={Account} />
                 <AuthenticatedRoute path="/edit/account" exact component={AccountEdit} />
+                <AuthenticatedRoute path="/edit/account/password" exact component={AccountEditPassword} />
                 <AuthenticatedRoute path="/weight" exact component={Weight} />
                 <AuthenticatedRoute path="/group/:id" exact component={ExerciseGroup} />
                 <AuthenticatedRoute path="/add/group" exact component={ExerciseGroupAdd} />

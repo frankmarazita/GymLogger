@@ -2,6 +2,8 @@ const CT = require('../constants/codeTables')
 
 exports.Auth = class {
     static InvalidEmailPassword() { return 'Incorrect Email or Password' }
+    static InvalidOldPassword() { return 'Old password isn\'t valid' }
+    static InvalidUser() { return 'User not found' }
     static EmailExists() { return 'Email already in use' }
     static NoMatchPassword() { return 'Passwords do not match' }
 }

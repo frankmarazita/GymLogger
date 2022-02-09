@@ -137,6 +137,16 @@ module.exports = {
                 [DT.User.C.Name]: name
             })
         }
+    },
+
+    updatePassword: async function (userID, passwordHash) {
+        if (utility.args.verify(arguments, 2)) {
+            return await db.update(DT.User.T, {
+                [DT.User.C.ID]: userID
+            }, {
+                [DT.User.C.PasswordHash]: passwordHash
+            })
+        }
     }
 
 }
