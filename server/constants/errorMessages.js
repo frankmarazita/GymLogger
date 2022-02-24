@@ -1,4 +1,4 @@
-const CT = require('../constants/codeTables')
+const CT = require('./codeTables')
 
 exports.Auth = class {
     static InvalidEmailPassword() { return 'Incorrect Email or Password' }
