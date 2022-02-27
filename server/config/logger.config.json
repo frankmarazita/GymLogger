@@ -15,5 +15,16 @@
     },
     "folderName": "logs",
     "relativePath": "",
-    "staticPath": ""
+    "staticPath": "",
+    "external": {
+        "log": {
+            "enabled": false
+        },
+        "error": {
+            "enabled": true
+        },
+        "warn": {
+            "enabled": false
+        }
+    }
 }

@@ -1,9 +1,13 @@
+let axios = require('axios')
 let fs = require('fs')
 
 const date = require('./date')
 const id = require('./id')
 
 const config = require('../config/config')
+
+const EXTERNAL_LOGGING = process.env.EXTERNAL_LOGGING === 'true'
+const EXTERNAL_LOGGING_URL = process.env.EXTERNAL_LOGGING_URL
 
 let directoryPath = `${__dirname}/../${config.logger.folderName}`
 if (config.logger.relativePath !== '') {
@@ -22,31 +26,64 @@ try {
 function logToFile(fileName, message) {
     fs.appendFile(`${directoryPath}/${fileName}`, `[${date.now().toISOString()}] ${id.new(24)}: ${message}\n`, (err) => {
         if (err) {
-            console.log(err)
+            console.error(err)
         }
     })
 }
 
+async function logToExternalRoute(title, body) {
+    if (EXTERNAL_LOGGING && EXTERNAL_LOGGING_URL) {
+        const data = {
+            args: {
+                title: title,
+                body: body
+            }
+        }
+
+        const request_options = {
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Content-Type': 'application/json'
+            }
+        }
+
+        await axios
+            .post(EXTERNAL_LOGGING_URL, data, request_options)
+            .catch((error) => {
+                console.error(error);
+            })
+    }
+}
+
 module.exports = {
 
-    log: function (message) {
+    log: async function (message) {
         console.log(message)
         if (config.logger.files.log.enabled) {
             logToFile(config.logger.files.log.fileName, message)
         }
+        if (config.logger.external.log.enabled) {
+            logToExternalRoute('Gym Logger: Log', message)
+        }
     },
 
-    error: function (message) {
+    error: async function (message) {
         console.error(message)
         if (config.logger.files.error.enabled) {
             logToFile(config.logger.files.error.fileName, message)
         }
+        if (config.logger.external.error.enabled) {
+            logToExternalRoute('Gym Logger: Error', message)
+        }
     },
 
-    warn: function (message) {
+    warn: async function (message) {
         console.warn(message)
         if (config.logger.files.warn.enabled) {
             logToFile(config.logger.files.warn.fileName, message)
+        }
+        if (config.logger.external.warn.enabled) {
+            logToExternalRoute('Gym Logger: Warn', message)
         }
     }
 

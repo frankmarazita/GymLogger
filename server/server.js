@@ -42,12 +42,12 @@ const exitHandler = async () => {
     }, config.system.exitDelay)
 }
 
-const unexpectedErrorHandler = (err) => {
+const unexpectedErrorHandler = async (err) => {
     let error = err
     if (JSON.stringify(err) !== JSON.stringify({})) {
         error += ` | ${JSON.stringify(err)}`
     }
-    utility.logger.error(error)
+    await utility.logger.error(error)
     exitHandler()
 }
 
