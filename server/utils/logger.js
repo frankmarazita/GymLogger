@@ -4,9 +4,11 @@ let fs = require('fs')
 const date = require('./date')
 const id = require('./id')
 
+const CT = require('../constants/codeTables')
+
 const config = require('../config/config')
 
-const EXTERNAL_LOGGING = process.env.EXTERNAL_LOGGING === 'true'
+const EXTERNAL_LOGGING = process.env.EXTERNAL_LOGGING === CT.Boolean.True
 const EXTERNAL_LOGGING_URL = process.env.EXTERNAL_LOGGING_URL
 
 let directoryPath = `${__dirname}/../${config.logger.folderName}`

@@ -15,6 +15,12 @@ exports.System = {
     Bearer: 'Bearer',
 }
 
+exports.Boolean = {
+    $: 'Boolean',
+    True: 'true',
+    False: 'false'
+}
+
 exports.Status = {
     $: 'Status',
     100: 'Continue',

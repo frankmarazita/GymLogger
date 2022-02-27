@@ -29,6 +29,7 @@
     "helmet": "^4.6.0",
     "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "math-random": "^2.0.1",
     "mongodb": "^3.6.6"
   },
