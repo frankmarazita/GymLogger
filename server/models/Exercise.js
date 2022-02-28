@@ -139,38 +139,6 @@ module.exports = class Exercise {
     }
 
     /**
-     * Returns boolean if the exercise was completed on a specified date
-     * @param {Date} dateDone - Completed Date
-     * @returns {Boolean}
-     */
-    async getDailyMaxDone(dateDone = utility.date.today()) {
-        if (this.dailyMax) {
-            for (let i = 0; i < this.dailyMax.length; i++) {
-                if (this.dailyMax[i].date.setHours(0, 0, 0, 0) == dateDone) {
-                    return true
-                }
-            }
-        }
-        return false
-    }
-
-    /**
-     * Gets the Max Daily Personal Best Achieved
-     * @returns
-     */
-    async getDailyMaxPersonalBest() {
-        let dailyMaxRecord = null
-        if (this.dailyMax) {
-            for (let i = 0; i < this.dailyMax.length; i++) {
-                if (!dailyMaxRecord || this.dailyMax[i].value > dailyMaxRecord) {
-                    dailyMaxRecord = this.dailyMax[i].value
-                }
-            }
-        }
-        return dailyMaxRecord
-    }
-
-    /**
      * Update Exercise Name
      * @param {String} name - Name
      * @returns {String}

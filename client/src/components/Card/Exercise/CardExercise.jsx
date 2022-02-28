@@ -25,6 +25,22 @@ class CardExercise extends React.Component {
             exerciseType = CT.IconExerciseType.C.Running
         }
 
+        if (exercise.dailyMax) {
+            if (exercise.dailyMax) {
+                for (let i = 0; i < exercise.dailyMax.length; i++) {
+                    if (!exercise.dailyMaxRecord || exercise.dailyMax[i].value > exercise.dailyMaxRecord) {
+                        exercise.dailyMaxRecord = exercise.dailyMax[i].value
+                    }
+                }
+            }
+
+            for (let i = 0; i < exercise.dailyMax.length; i++) {
+                if (new Date(exercise.dailyMax[i].date).getTime() > new Date().getTime() - (24 * 60 * 60 * 1000)) {
+                    exercise.done = true
+                }
+            }
+        }
+
         return (
             <>
                 <Card className="my-3 shadow-sm" onClick={() => {window.location = exerciseLocation}}>

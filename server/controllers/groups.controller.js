@@ -26,12 +26,6 @@ module.exports = {
 
         let exercises = await exerciseGroup.getExercises()
 
-        // TODO Calculate done date and max client side
-        for (let i = 0; i < exercises.length; i++) {
-            exercises[i].done = await exercises[i].getDailyMaxDone()
-            exercises[i].dailyMaxRecord = await exercises[i].getDailyMaxPersonalBest()
-        }
-
         // TODO Change this method such that there is a method where exercises are not also returned, just group data
         return res.status(200).send({ exerciseGroup: exerciseGroup, exercises: exercises })
     },
