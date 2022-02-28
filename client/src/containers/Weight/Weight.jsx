@@ -40,11 +40,13 @@ class Weight extends React.Component {
                 <Container style={containerStyle}>
                     <FormWeight weight={this.state.weight} />
                 </Container>
-                <Container>
-                    <div className="pt-3 text-center">
-                        <Button href="/data/weight" variant="secondary">View All Data</Button>
-                    </div>
-                </Container>
+                {this.state.weight && this.state.weight.length > 0 ?
+                    <Container>
+                        <div className="pt-3 text-center">
+                            <Button href="/data/weight" variant="secondary">View All Data</Button>
+                        </div>
+                    </Container>
+                : null}
             </>
         );
     }

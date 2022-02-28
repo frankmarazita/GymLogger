@@ -56,11 +56,14 @@ class Exercise extends React.Component {
                         <FormExerciseGoal exercise={this.state.exercise} />
                     </div>
                 </Container>
-                <Container>
-                    <div className="p-3 text-center">
-                        <Button href={this.state.exercise ? '/data/exercise/' + this.state.exercise.id : ''} variant="secondary">View All Data</Button>
-                    </div>
-                </Container>
+                {(this.state.exercise.dailyMax && this.state.exercise.dailyMax.length > 0) ||
+                    (this.state.exercise.goal && this.state.exercise.goal.length > 0) ?
+                    <Container>
+                        <div className="p-3 text-center">
+                            <Button href={this.state.exercise ? '/data/exercise/' + this.state.exercise.id : ''} variant="secondary">View All Data</Button>
+                        </div>
+                    </Container>
+                : null}
             </>
         );
     }

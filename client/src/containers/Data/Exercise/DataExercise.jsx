@@ -56,15 +56,19 @@ class DataExercise extends React.Component {
                     </div>
                 </Container>
 
-                <Container style={containerStyleData}>
-                    <b><label htmlFor="value" className="pt-2">Daily Max Data:</label></b>
-                    {this.state.exercise ? this.recordInputGroups(this.state.exercise.dailyMax, DT.Exercise.C.DailyMax.T) : []}
-                </Container>
+                {this.state.exercise.dailyMax && this.state.exercise.dailyMax.length > 0 ?
+                    <Container style={containerStyleData}>
+                        <b><label htmlFor="value" className="pt-2">Daily Max Data:</label></b>
+                        {this.recordInputGroups(this.state.exercise.dailyMax, DT.Exercise.C.DailyMax.T)}
+                    </Container>
+                : null}
 
-                <Container className="pb-5" style={containerStyleData}>
-                    <b><label htmlFor="value" className="pt-2">Goals:</label></b>
-                    {this.state.exercise ? this.recordInputGroups(this.state.exercise.goal, DT.Exercise.C.Goal.T) : []}
-                </Container>
+                {this.state.exercise.goal && this.state.exercise.goal.length > 0 ?
+                    <Container className="pb-5" style={containerStyleData}>
+                        <b><label htmlFor="value" className="pt-2">Goals:</label></b>
+                        {this.recordInputGroups(this.state.exercise.goal, DT.Exercise.C.Goal.T)}
+                    </Container>
+                : null}
            </>
         )
     }

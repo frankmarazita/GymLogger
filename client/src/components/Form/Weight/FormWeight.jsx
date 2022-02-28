@@ -51,12 +51,6 @@ class WeightForm extends React.Component {
 
     render() {
 
-        let weight = this.props.weight
-
-        if (!weight) {
-            return ('')
-        }
-
         let buttonStyle = { maxWidth: '70px' }
 
         return (
