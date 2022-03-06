@@ -1,4 +1,6 @@
 {
     "version": "2.1.0",
-    "exitDelay": 1000
+    "name": "Gym Logger",
+    "exitDelay": 1000,
+    "twoFactorDelta": -1
 }

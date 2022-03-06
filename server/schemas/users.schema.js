@@ -35,6 +35,25 @@ module.exports = {
         })
 
         return utility.joi.validate(req, res, next, { body: schemaBody })
+    },
+
+    enableTwoFactor: function (req, res, next) {
+
+        const schemaBody = Joi.object().keys({
+            password: Joi.string().required()
+        })
+
+        return utility.joi.validate(req, res, next, { body: schemaBody })
+    },
+
+    disableTwoFactor: function (req, res, next) {
+
+        const schemaBody = Joi.object().keys({
+            password: Joi.string().required(),
+            twoFactorToken: Joi.string().length(6).required()
+        })
+
+        return utility.joi.validate(req, res, next, { body: schemaBody })
     }
 
 }

@@ -65,7 +65,7 @@ module.exports = {
             logToFile(config.logger.files.log.fileName, message)
         }
         if (config.logger.external.log.enabled) {
-            logToExternalRoute('Gym Logger: Log', message)
+            logToExternalRoute(config.system.name + ': Log', message)
         }
     },
 
@@ -75,7 +75,7 @@ module.exports = {
             logToFile(config.logger.files.error.fileName, message)
         }
         if (config.logger.external.error.enabled) {
-            logToExternalRoute('Gym Logger: Error', message)
+            logToExternalRoute(config.system.name + ': Error', message)
         }
     },
 
@@ -85,7 +85,7 @@ module.exports = {
             logToFile(config.logger.files.warn.fileName, message)
         }
         if (config.logger.external.warn.enabled) {
-            logToExternalRoute('Gym Logger: Warn', message)
+            logToExternalRoute(config.system.name + ': Warn', message)
         }
     }
 

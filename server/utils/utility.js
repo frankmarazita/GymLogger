@@ -8,5 +8,6 @@ utility.joi = require('./joi')
 utility.jwt = require('./jwt')
 utility.logger = require('./logger')
 utility.random = require('./random')
+utility.totp = require('./totp')
 
 module.exports = utility

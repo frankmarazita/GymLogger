@@ -56,6 +56,8 @@ exports.User = {
         Email: 'email',
         Name: 'name',
         PasswordHash: 'passwordhash',
+        TwoFactorEnabled: 'twofactorenabled',
+        TwoFactorSecret: 'twofactorsecret',
         Weight: {
             T: 'weight',
             C: {

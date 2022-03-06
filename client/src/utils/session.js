@@ -1,3 +1,5 @@
+import jwtDecode from 'jwt-decode';
+
 const SESSION_ATTRIBUTE_NAME = 'token';
 
 let session = {
@@ -16,6 +18,10 @@ let session = {
 
     isLoggedIn: function () {
         return !!sessionStorage.getItem(SESSION_ATTRIBUTE_NAME)
+    },
+
+    getDecodedToken: function () {
+        return jwtDecode(sessionStorage.getItem(SESSION_ATTRIBUTE_NAME))
     }
 
 }

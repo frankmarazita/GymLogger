@@ -1,11 +1,16 @@
 const CT = require('./codeTables')
 
 exports.Auth = class {
+    static EmailExists() { return 'Email already in use' }
     static InvalidEmailPassword() { return 'Incorrect Email or Password' }
     static InvalidOldPassword() { return 'Old password isn\'t valid' }
+    static InvalidPassword() { return 'Password is invalid' }
+    static InvalidTwoFactorToken() { return 'Invalid 2FA Token' }
     static InvalidUser() { return 'User not found' }
-    static EmailExists() { return 'Email already in use' }
     static NoMatchPassword() { return 'Passwords do not match' }
+    static TwoFactorAlreadyEnabled() { return 'Two factor authentication is already enabled' }
+    static TwoFactorNotEnabled() { return 'Two factor authentication is not enabled' }
+    static TwoFactorNotValidated() { return 'Two factor authentication is not validated' }
 }
 
 exports.DB = class {

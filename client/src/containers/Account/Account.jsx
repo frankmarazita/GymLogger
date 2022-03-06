@@ -47,6 +47,9 @@ class Account extends React.Component {
                         <div>
                             <Button href='/edit/account/password' variant="link">Change Password</Button>
                         </div>
+                        <div>
+                            <Button href='/edit/account/two-factor' variant="link">{!this.state.user.twoFactorEnabled ? 'Enable' : 'Disable'} 2FA</Button>
+                        </div>
                     </div>
                 </Container>
             </>

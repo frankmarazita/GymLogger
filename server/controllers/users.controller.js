@@ -1,5 +1,6 @@
 const EM = require('../constants/errorMessages')
 
+const config = require('../config/config')
 const error = require('../middleware/error')
 const utility = require('../utils/utility')
 
@@ -14,10 +15,10 @@ module.exports = {
     },
 
     add: async function (req, res) {
-        let email = req.body.email
-        let password = req.body.password
-        let confirmPassword = req.body.confirmPassword
-        let name = req.body.name
+        const email = req.body.email
+        const password = req.body.password
+        const confirmPassword = req.body.confirmPassword
+        const name = req.body.name
 
         let user = new User()
         await user.loadWithEmail(email)
@@ -36,9 +37,9 @@ module.exports = {
     },
 
     update: async function (req, res) {
-        let userID = req.userID
-        let email = req.body.email
-        let name = req.body.name
+        const userID = req.userID
+        const email = req.body.email
+        const name = req.body.name
 
         let user = new User()
         await user.loadWithID(userID)
@@ -61,28 +62,89 @@ module.exports = {
     },
 
     updatePassword: async function (req, res) {
-        let userID = req.userID
-        let oldPassword = req.body.oldPassword
-        let newPassword = req.body.newPassword
-        let confirmPassword = req.body.confirmPassword
+        const userID = req.userID
+        const oldPassword = req.body.oldPassword
+        const newPassword = req.body.newPassword
+        const confirmPassword = req.body.confirmPassword
 
         let user = new User()
         await user.loadWithID(userID)
 
-        if (user.valid) {
-            await user.authenticate(oldPassword)
-            if (user.authenticated) {
-                req.userID = user.id
-            } else {
-                return error.status(res, 401, EM.Auth.InvalidOldPassword())
-            }
-            if (newPassword != confirmPassword) {
-                return error.status(res, 400, EM.Auth.NoMatchPassword())
-            }
-            await user.updatePassword(newPassword)
-        } else {
+        if (!user.valid) {
             return error.status(res, 401, EM.Auth.InvalidUser())
         }
+
+        await user.authenticate(oldPassword)
+
+        if (!user.authenticated) {
+            return error.status(res, 401, EM.Auth.InvalidOldPassword())
+        }
+
+        if (newPassword != confirmPassword) {
+            return error.status(res, 400, EM.Auth.NoMatchPassword())
+        }
+
+        await user.updatePassword(newPassword)
+
+        return res.status(204).send()
+    },
+
+    enableTwoFactor: async function (req, res) {
+        const userID = req.userID
+        const password = req.body.password
+
+        let user = new User()
+        await user.loadWithID(userID)
+
+        if (!user.valid) {
+            return error.status(res, 401, EM.Auth.InvalidUser())
+        }
+
+        await user.authenticate(password)
+
+        if (!user.authenticated) {
+            return error.status(res, 401, EM.Auth.InvalidPassword())
+        }
+
+        if (user.twoFactorEnabled) {
+            return error.status(res, 400, EM.Auth.TwoFactorAlreadyEnabled())
+        }
+
+        let twoFactor = utility.totp.generate(config.system.name, user.email)
+        await user.setTwoFactorSecret(twoFactor.secret)
+
+        return res.status(200).send(twoFactor)
+    },
+
+    disableTwoFactor: async function (req, res) {
+        const userID = req.userID
+        const password = req.body.password
+        const twoFactorToken = req.body.twoFactorToken
+
+        let user = new User()
+        await user.loadWithID(userID)
+
+        if (!user.valid) {
+            return error.status(res, 401, EM.Auth.InvalidUser())
+        }
+
+        await user.authenticate(password)
+
+        if (!user.authenticated) {
+            return error.status(res, 401, EM.Auth.InvalidPassword())
+        }
+
+        if (!user.twoFactorEnabled) {
+            return error.status(res, 400, EM.Auth.TwoFactorNotEnabled())
+        }
+
+        await user.authenticateTwoFactor(twoFactorToken)
+
+        if (!user.authenticated) {
+            return error.status(res, 401, EM.Auth.InvalidTwoFactorToken())
+        }
+
+        await user.disableTwoFactor()
 
         return res.status(204).send()
     }
