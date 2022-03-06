@@ -3,8 +3,6 @@ const DT = require('../constants/databaseTables')
 
 const db_exercise = require('../db/db_exercise')
 
-const utility = require('../utils/utility')
-
 module.exports = class Exercise {
     constructor() {
         this.valid = false

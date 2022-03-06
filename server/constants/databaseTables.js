@@ -48,6 +48,16 @@ exports.ExerciseGroup = {
     }
 }
 
+exports.Logs = {
+    T: 'logs',
+    C: {
+        ID: '_id',
+        DateCreated: 'datecreated',
+        Type: 'type',
+        Message: 'message',
+    }
+}
+
 exports.User = {
     T: 'user',
     C: {

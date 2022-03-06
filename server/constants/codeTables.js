@@ -21,6 +21,13 @@ exports.Boolean = {
     False: 'false'
 }
 
+exports.LogType = {
+    $: 'LogType',
+    Info: 'info',
+    Error: 'error',
+    Warn: 'warn',
+}
+
 exports.Status = {
     $: 'Status',
     100: 'Continue',

@@ -6,7 +6,7 @@ const db = require('./db/db')
 const EM = require('./constants/errorMessages')
 const LM = require('./constants/logMessages')
 
-const utility = require('./utils/utility')
+const logger = require('./logger/logger')
 
 const PORT = parseInt(process.env.PORT)
 
@@ -17,7 +17,10 @@ require('./routes')
 
 // Initialise DB and Start Server
 let server
+let errorQuit = false
 db.init().then(async () => {
+
+    if (!await db.connected()) throw new Error(EM.DB.NotInitialised())
 
     // Load DBConfig
     let dbConfig = new DBConfig()
@@ -43,11 +46,13 @@ const exitHandler = async () => {
 }
 
 const unexpectedErrorHandler = async (err) => {
+    if (errorQuit) process.exit(1)
     let error = err
     if (JSON.stringify(err) !== JSON.stringify({})) {
         error += ` | ${JSON.stringify(err)}`
     }
-    await utility.logger.error(error)
+    errorQuit = true
+    await logger.error(error)
     exitHandler()
 }
 

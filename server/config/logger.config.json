@@ -1,8 +1,8 @@
 {
     "files": {
-        "log": {
+        "info": {
             "enabled": true,
-            "fileName": "general.log"
+            "fileName": "info.log"
         },
         "error": {
             "enabled": true,
@@ -11,13 +11,24 @@
         "warn": {
             "enabled": true,
             "fileName": "warn.log"
+        },
+        "folderName": "logs",
+        "relativePath": "",
+        "staticPath": ""
+    },
+    "external": {
+        "info": {
+            "enabled": false
+        },
+        "error": {
+            "enabled": true
+        },
+        "warn": {
+            "enabled": false
         }
     },
-    "folderName": "logs",
-    "relativePath": "",
-    "staticPath": "",
-    "external": {
-        "log": {
+    "db": {
+        "info": {
             "enabled": false
         },
         "error": {
