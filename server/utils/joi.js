@@ -9,9 +9,9 @@ async function validateCommon(req, res, schemas) {
     try {
         errorCode = 404
         schemas.params ? await schemas.params.validateAsync(req.params, config.joi) : null
-        errorField = 400
+        errorCode = 400
         schemas.body ? await schemas.body.validateAsync(req.body, config.joi) : null
-        errorField = 400
+        errorCode = 400
         schemas.headers ? await schemas.headers.validateAsync(req.headers, config.joi) : null
     } catch (err) {
         let message = ''

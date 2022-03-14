@@ -47,3 +47,7 @@ exports.Status = function (code) {
 exports.Schema = class {
     static InvalidSchema(key) { return `Invalid ${key}` }
 }
+
+exports.Exercise = class {
+    static InvalidExerciseType(type) { return `Invalid Exercise Type: ${type}` }
+}

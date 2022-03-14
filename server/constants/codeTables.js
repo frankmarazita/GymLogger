@@ -1,11 +1,15 @@
+exports.$ = function (codeTable = {}) {
+    delete codeTable.$
+    return codeTable
+}
+
 exports.ExerciseType = {
     $: 'ExerciseType',
-    // 0: 'None',
-    1: 'Weight',
-    2: 'Machine (Weight)',
-    3: 'Machine (Level)',
-    4: 'Bodyweight',
-    5: 'Cardio',
+    Weight: 'weight',
+    MachineWeight: 'machineWeight',
+    MachineLevel: 'machineLevel',
+    Bodyweight: 'bodyweight',
+    Cardio: 'cardio',
 }
 
 exports.System = {

@@ -30,7 +30,7 @@ try {
     fs.mkdirSync(directoryPath)
 }
 
-function logToFile(fileName, id, dateTime, message) {
+async function logToFile(fileName, id, dateTime, message) {
     const dateString = dateTime.toISOString()
     const filePath = `${directoryPath}/${fileName}`
     fs.appendFile(filePath, `[${dateString}] ${id}: ${message}\n`, (err) => {
@@ -83,7 +83,7 @@ async function logCommon(logType, message) {
         const id = log ? log.id : utility.id.new(24)
         const dateTime = log ? log.dateCreated : utility.date.now()
         try {
-            logToFile(config.logger.files[logType].fileName, id, dateTime, message)
+            await logToFile(config.logger.files[logType].fileName, id, dateTime, message)
         } catch (err) {
             console.error(err)
         }
@@ -91,7 +91,7 @@ async function logCommon(logType, message) {
     if (config.logger.external[logType].enabled) {
         const title = `${config.system.name}: ${utility.string.capitalize(logType)}`
         try {
-            logToExternalRoute(title, message)
+            await logToExternalRoute(title, message)
         } catch (err) {
             console.error(err)
         }

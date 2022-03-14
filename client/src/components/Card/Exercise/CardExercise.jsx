@@ -13,15 +13,15 @@ class CardExercise extends React.Component {
         let exerciseLocation = '/exercise/' + exercise.id
 
         let exerciseType = ''
-        if (exercise.exerciseType === CT.ExerciseType.C.Key.C.Weight.toString()) {
+        if (exercise.exerciseType === CT.ExerciseType.C.Key.C.Weight) {
             exerciseType = CT.IconExerciseType.C.Dumbbell
-        } else if (exercise.exerciseType === CT.ExerciseType.C.Key.C.MachineWeight.toString()) {
+        } else if (exercise.exerciseType === CT.ExerciseType.C.Key.C.MachineWeight) {
             exerciseType = CT.IconExerciseType.C.Cog
-        } else if (exercise.exerciseType === CT.ExerciseType.C.Key.C.MachineLevel.toString()) {
+        } else if (exercise.exerciseType === CT.ExerciseType.C.Key.C.MachineLevel) {
             exerciseType = CT.IconExerciseType.C.Cog
-        } else if (exercise.exerciseType === CT.ExerciseType.C.Key.C.Bodyweight.toString()) {
+        } else if (exercise.exerciseType === CT.ExerciseType.C.Key.C.Bodyweight) {
             exerciseType = CT.IconExerciseType.C.WeightHanging
-        } else if (exercise.exerciseType === CT.ExerciseType.C.Key.C.Cardio.toString()) {
+        } else if (exercise.exerciseType === CT.ExerciseType.C.Key.C.Cardio) {
             exerciseType = CT.IconExerciseType.C.Running
         }
 

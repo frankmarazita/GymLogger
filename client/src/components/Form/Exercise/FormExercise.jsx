@@ -18,7 +18,7 @@ class FormExercise extends React.Component {
             note: '',
             exerciseGroups: [],
             exerciseGroupID: '',
-            exerciseTypeID: '',
+            exerciseType: '',
         }
     }
 
@@ -63,7 +63,7 @@ class FormExercise extends React.Component {
             if (this.state.exerciseGroupID === '') {
                 alert('Please select an Exercise Group')
                 error = true
-            } else if (this.state.exerciseTypeID === '') {
+            } else if (this.state.exerciseType === '') {
                 alert('Please select an Exercise Type')
                 error = true
             }
@@ -78,7 +78,7 @@ class FormExercise extends React.Component {
             }
             if (this.state.action === CT.Form.C.Action.C.Add) {
                 data['exerciseGroupID'] = this.state.exerciseGroupID
-                data['exerciseTypeID'] = this.state.exerciseTypeID
+                data['exerciseType'] = this.state.exerciseType
             }
 
             if (this.state.action === CT.Form.C.Action.C.Add) {
@@ -168,7 +168,7 @@ class FormExercise extends React.Component {
                     {this.state.action === CT.Form.C.Action.C.Add &&
                         <Form.Group className="mb-3">
                             <Form.Label>Exercise Type</Form.Label>
-                            <Form.Control as="select" id="exerciseTypeID" name="exerciseTypeID" onChange={this.handleChange} value={this.state.exerciseTypeID} required >
+                            <Form.Control as="select" id="exerciseType" name="exerciseType" onChange={this.handleChange} value={this.state.exerciseType} required >
                                 <option value='' disabled hidden>...</option>
                                 {Object.keys(CT.ExerciseType.C.Value.C).map((key, i) => <option value={key} key={i}>{CT.ExerciseType.C.Value.C[key] }</option>)}
                             </Form.Control>

@@ -1,3 +1,6 @@
+const CT = require('../constants/codeTables')
+const EM = require('../constants/errorMessages')
+
 const error = require('../middleware/error')
 const utility = require('../utils/utility')
 
@@ -10,6 +13,13 @@ function validate(res, exercise, userID) {
         return error.status(res, 404)
     } else if (exercise.user != userID) {
         return error.status(res, 403)
+    }
+}
+
+function validateExerciseType(res, exerciseType) {
+    const exerciseTypes = Object.values(CT.$(CT.ExerciseType))
+    if (!exerciseTypes.includes(exerciseType)) {
+        return error.status(res, 400, EM.Exercise.InvalidExerciseType(exerciseType))
     }
 }
 
@@ -32,7 +42,7 @@ module.exports = {
         let name = req.body.name
         let note = req.body.note
         let exerciseGroupID = req.body.exerciseGroupID
-        let exerciseTypeID = req.body.exerciseTypeID
+        let exerciseType = req.body.exerciseType
 
         let user = new User()
         await user.loadWithID(userID)
@@ -41,10 +51,12 @@ module.exports = {
             return error.render(req, res, 400)
         }
 
+        if(validateExerciseType(res, exerciseType)) return
+
         let exerciseGroup = new ExerciseGroup()
         await exerciseGroup.loadWithID(exerciseGroupID)
         let exercise = new Exercise()
-        await exercise.new(exerciseGroup, user, name, note, exerciseTypeID)
+        await exercise.new(exerciseGroup, user, name, note, exerciseType)
 
         return res.status(201).send({ exercise: exercise })
     },

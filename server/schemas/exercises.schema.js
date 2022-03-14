@@ -19,7 +19,7 @@ module.exports = {
             name: Joi.string().required(),
             note: Joi.string(),
             exerciseGroupID: Joi.string().required(),
-            exerciseTypeID: Joi.string().required(),
+            exerciseType: Joi.string().required(),
         })
 
         return utility.joi.validate(req, res, next, {body: schemaBody})
@@ -31,7 +31,7 @@ module.exports = {
             name: Joi.string(),
             note: Joi.string(),
             exerciseGroupID: Joi.string(),
-            exerciseTypeID: Joi.string(),
+            exerciseType: Joi.string(),
         })
 
         const schemaParams = Joi.object().keys({
