@@ -47,7 +47,7 @@ const exitHandler = async () => {
 
 const unexpectedErrorHandler = async (err) => {
     if (errorQuit) process.exit(1)
-    let error = err
+    let error = err.toString()
     if (JSON.stringify(err) !== JSON.stringify({})) {
         error += ` | ${JSON.stringify(err)}`
     }
