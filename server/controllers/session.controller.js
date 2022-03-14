@@ -50,7 +50,8 @@ module.exports = {
             return error.status(res, 401, EM.Auth.InvalidTwoFactorToken())
         }
 
-        let token = await utility.jwt.createNewSessionToken(user.sessionData(user.authenticated))
+        let twoFactorValidated = user.authenticated
+        let token = await utility.jwt.createNewSessionToken(user.sessionData(twoFactorValidated))
 
         return res.status(200).send({ token: token })
     }

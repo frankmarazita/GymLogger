@@ -21,6 +21,14 @@ exports.Boolean = {
     False: 'false'
 }
 
+exports.HTTP = {
+    $: 'HttpMethod',
+    Get: 'GET',
+    Post: 'POST',
+    Put: 'PUT',
+    Delete: 'DELETE',
+}
+
 exports.LogType = {
     $: 'LogType',
     Info: 'info',

@@ -58,6 +58,26 @@ exports.Logs = {
     }
 }
 
+exports.Token = {
+    T: 'token',
+    C: {
+        ID: '_id',
+        DateCreated: 'dateCreated',
+        Enabled: 'enabled',
+        User: 'user',
+        Expiry: 'expiry',
+        Note: 'note',
+        Scope: {
+            T: 'scope',
+            C: {
+                allowedHttpMethods: 'allowedHttpMethods',
+                allowedRoutes: 'allowedRoutes',
+                disallowedRoutes: 'disallowedRoutes',
+            }
+        }
+    }
+}
+
 exports.User = {
     T: 'user',
     C: {
