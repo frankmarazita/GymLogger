@@ -1,5 +1,5 @@
 import React from 'react';
-import { Jumbotron, Container, Button } from 'react-bootstrap';
+import { Jumbotron, Container, Button, ButtonGroup } from 'react-bootstrap';
 import http from '../../utils/http';
 
 import CT from '../../constants/codeTables'
@@ -44,6 +44,9 @@ class Home extends React.Component {
             return (<><Loading /></>)
         }
 
+        let primaryButtonStyle = { width: 160 }
+        let secondaryButtonStyle = { width: 100 }
+
         return (
             <>
                 <Jumbotron className="text-center">
@@ -52,8 +55,10 @@ class Home extends React.Component {
                         <p className="lead text-muted">Start by adding an exercise group, and then add exercises to each group. You could create them for days of the week or to target specific muscle groups.</p>
                     </Container>
                     <Container>
-                        <Button href="/add/group" variant="primary" className="m-1">Add New Group</Button>
-                        {this.state.exerciseGroups.length > 0 ? <Button href="/add/exercise" variant="secondary" className="m-1">Add New Exercise</Button> : ''}
+                        <Button href="/add/group" variant="primary" className="m-1" style={primaryButtonStyle}>Add New Group</Button>
+                        {this.state.exerciseGroups.length > 0 ?
+                            <Button href="/add/exercise" variant="secondary" className="m-1" style={primaryButtonStyle} >Add New Exercise</Button>
+                        : ''}
                     </Container>
                     <Container className="pt-2">
                         <IconExerciseType exerciseType={CT.IconExerciseType.C.Dumbbell} />
@@ -62,9 +67,13 @@ class Home extends React.Component {
                         <IconExerciseType exerciseType={CT.IconExerciseType.C.Running} />
                         <IconExerciseType exerciseType={CT.IconExerciseType.C.WeightHanging} />
                         <IconExerciseType exerciseType={CT.IconExerciseType.C.Weight} />
+                        <IconExerciseType exerciseType={CT.IconExerciseType.C.Heartbeat} />
                     </Container>
                     <Container className="pt-4">
-                        <Button href="/weight" variant="outline-secondary">Log Weight</Button>
+                        <ButtonGroup>
+                            <Button href="/weight" variant="outline-secondary" style={secondaryButtonStyle}>Weight</Button>
+                            <Button href="/heartbeat" variant="outline-secondary" style={secondaryButtonStyle}>Heartbeat</Button>
+                        </ButtonGroup>
                     </Container>
                 </Jumbotron>
                 <div className="album py-5 bg-light">

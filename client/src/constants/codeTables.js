@@ -27,12 +27,13 @@ exports.ExerciseType = {
 exports.IconExerciseType = {
     T: 'iconExerciseType',
     C: {
-        Dumbbell: 'DUMBBELL',
         Cog: 'COG',
+        Dumbbell: 'DUMBBELL',
         HandRock: 'HANDROCK',
+        Heartbeat: 'HEARTBEAT',
         Running: 'RUNNING',
-        WeightHanging: 'WEIGHTHANGING',
         Weight: 'WEIGHT',
+        WeightHanging: 'WEIGHTHANGING',
     }
 }
 

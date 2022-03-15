@@ -11,18 +11,20 @@ class ExerciseType extends React.Component {
 
         if (exerciseType && exerciseType !== '') {
             let className = 'las'
-            if (exerciseType === CT.IconExerciseType.C.Dumbbell) {
-                className += ' la-dumbbell'
-            } else if (exerciseType === CT.IconExerciseType.C.Cog) {
+            if (exerciseType === CT.IconExerciseType.C.Cog) {
                 className += ' la-cog'
+            } else if (exerciseType === CT.IconExerciseType.C.Dumbbell) {
+                className += ' la-dumbbell'
             } else if (exerciseType === CT.IconExerciseType.C.HandRock) {
                 className += ' la-hand-rock'
+            } else if (exerciseType === CT.IconExerciseType.C.Heartbeat) {
+                className += ' la-heartbeat'
             } else if (exerciseType === CT.IconExerciseType.C.Running) {
                 className += ' la-running'
-            } else if (exerciseType === CT.IconExerciseType.C.WeightHanging) {
-                className += ' la-weight-hanging'
             } else if (exerciseType === CT.IconExerciseType.C.Weight) {
                 className += ' la-weight'
+            } else if (exerciseType === CT.IconExerciseType.C.WeightHanging) {
+                className += ' la-weight-hanging'
             } else {
                 className = ''
             }
