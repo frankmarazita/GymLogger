@@ -96,5 +96,12 @@ exports.User = {
             }
         },
         ExerciseGroups: 'exercisegroups',
+        Settings: {
+            T: 'settings',
+            C: {
+                ButtonNavigation: 'buttonNavigation',
+                DarkMode: 'darkMode',
+            }
+        }
     }
 }

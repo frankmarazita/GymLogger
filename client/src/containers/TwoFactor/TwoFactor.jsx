@@ -2,6 +2,7 @@ import React from 'react';
 
 import http from '../../utils/http';
 import session from '../../utils/session';
+import settings from '../../utils/settings';
 
 import ErrorAuth from '../../components/Error/ErrorAuth'
 
@@ -48,7 +49,15 @@ class TwoFactor extends React.Component {
                 session.setToken(response.data.token)
                 const decoded = session.getDecodedToken()
                 if (decoded.user.twoFactorValidated) {
-                    window.location = '/'
+                    http.get('/settings')
+                    .then((res) => {
+                        settings.setSettings(res.data.settings)
+                        window.location = '/'
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        window.location = '/'
+                    });
                 }
             })
             .catch((error) => {

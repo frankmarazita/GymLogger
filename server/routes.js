@@ -17,6 +17,7 @@ const preRoute = config.routes.preRoute
 app.use(preRoute, require('./routes/exercises.routes'))
 app.use(preRoute, require('./routes/groups.routes'))
 app.use(preRoute, require('./routes/session.routes'))
+app.use(preRoute, require('./routes/settings.routes'))
 app.use(preRoute, require('./routes/tokens.routes'))
 app.use(preRoute, require('./routes/users.routes'))
 app.use(preRoute, require('./routes/weight.routes'))

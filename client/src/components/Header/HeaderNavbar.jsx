@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Button, Navbar, Nav} from 'react-bootstrap';
 
 import session from '../../utils/session';
+import settings from '../../utils/settings';
 
 class HeaderNavbar extends React.Component {
 
@@ -12,7 +13,8 @@ class HeaderNavbar extends React.Component {
             title: "Gym Logger",
             items: [
                 { value: "Account", path: "/account" },
-                { value: "Data", path: "/data" }
+                { value: "Data", path: "/data" },
+                { value: "Settings", path: "/settings" }
             ]
         }
     }
@@ -20,6 +22,7 @@ class HeaderNavbar extends React.Component {
     handleLogout = (event) => {
         // TODO Correct the logout behavior
         session.deleteToken()
+        settings.deleteSettings()
         window.location = '/login'
     }
 

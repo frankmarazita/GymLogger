@@ -216,6 +216,24 @@ module.exports = class User {
     }
 
     /**
+     * Gets user settings
+     * @returns {Object}
+     */
+    async getSettings() {
+        let result = await db_user.getSettings(this.id)
+        this.settings = result[DT.User.C.Settings.T]
+        return this.settings
+    }
+
+    /**
+     * Update user settings
+     * @param {Object} settings - Settings
+     */
+    async updateSettings(settings) {
+        await db_user.updateSettings(this.id, settings)
+    }
+
+    /**
      * Update User Email
      * @param {String} email - Email
      * @returns {String}

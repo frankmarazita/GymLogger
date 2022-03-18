@@ -131,6 +131,26 @@ module.exports = {
         }
     },
 
+    getSettings: async function (userID) {
+        if (utility.args.verify(arguments, 1)) {
+            return await db.getOne(DT.User.T, {
+                [DT.User.C.ID]: userID
+            }, {
+                [DT.User.C.Settings.T]: 1
+            })
+        }
+    },
+
+    updateSettings: async function (userID, settings) {
+        if (utility.args.verify(arguments, 2)) {
+            return await db.update(DT.User.T, {
+                [DT.User.C.ID]: userID
+            }, {
+                [DT.User.C.Settings.T]: settings
+            })
+        }
+    },
+
     updateEmail: async function (userID, email) {
         if (utility.args.verify(arguments, 2)) {
             return await db.update(DT.User.T, {

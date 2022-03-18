@@ -2,6 +2,7 @@ import React from 'react';
 
 import http from '../../utils/http';
 import session from '../../utils/session';
+import settings from '../../utils/settings';
 
 import TwoFactor from '../../containers/TwoFactor/TwoFactor'
 
@@ -55,7 +56,15 @@ class Login extends React.Component {
                 if (decoded.user.twoFactorEnabled && !decoded.user.twoFactorValidated) {
                     this.setState({ twoFactorEnabled: true })
                 } else {
-                    window.location = '/'
+                    http.get('/settings')
+                    .then((res) => {
+                        settings.setSettings(res.data.settings)
+                        window.location = '/'
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        window.location = '/'
+                    });
                 }
             })
             .catch((error) => {
