@@ -1,8 +1,7 @@
 import React from 'react';
 import { Container, Button, Navbar, Nav} from 'react-bootstrap';
 
-import session from '../../utils/session';
-import settings from '../../utils/settings';
+import logout from '../../utils/logout';
 
 class HeaderNavbar extends React.Component {
 
@@ -20,10 +19,7 @@ class HeaderNavbar extends React.Component {
     }
 
     handleLogout = (event) => {
-        // TODO Correct the logout behavior
-        session.deleteToken()
-        settings.deleteSettings()
-        window.location = '/login'
+        logout.logout();
     }
 
     render() {

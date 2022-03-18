@@ -47,7 +47,6 @@ class Exercise extends React.Component {
                     </div>
                 </Container>
                 <ChartExercise exercise={this.state.exercise} />
-                {/* TODO: Add A Range Slider */}
                 <Container style={containerStyle}>
                     <div>
                         <FormExerciseDailyMax exercise={this.state.exercise} />

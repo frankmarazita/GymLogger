@@ -8,4 +8,6 @@ routes.post('/tokens', auth.verify, schema.add, controller.add)
 routes.put('/tokens/:tokenID', auth.verify, schema.update, controller.update)
 routes.delete('/tokens/:tokenID', auth.verify, schema.delete, controller.delete)
 
+// TODO Get all tokens for a user
+
 module.exports = routes
