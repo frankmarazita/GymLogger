@@ -45,7 +45,7 @@ class Home extends React.Component {
         }
 
         let primaryButtonStyle = { width: 160 }
-        let secondaryButtonStyle = { width: 100 }
+        let secondaryButtonStyle = { width: 110 }
 
         return (
             <>
@@ -72,7 +72,7 @@ class Home extends React.Component {
                     <Container className="pt-4">
                         <ButtonGroup>
                             <Button href="/weight" variant="outline-secondary" style={secondaryButtonStyle}>Weight</Button>
-                            <Button href="/heartbeat" variant="outline-secondary" style={secondaryButtonStyle}>Heartbeat</Button>
+                            <Button href="/heart-rate" variant="outline-secondary" style={secondaryButtonStyle}>Heart Rate</Button>
                         </ButtonGroup>
                     </Container>
                 </Jumbotron>

@@ -121,6 +121,29 @@ module.exports = {
         }
     },
     /**
+     * Add item to database by index
+     * @param {string} collection - Name of database collection
+     * @param {object} data - Dictionary of search terms {_id: "id"}
+     * @param {object} item - Dictionary of items to add {exercisegroups: "id"}
+     * @param {string} field - Name of field to add to
+     * @param {number} index - Index to add item to
+     * @returns
+     */
+    addArrayItemByIndex: async function(collection, data, item, field, index) {
+        if (db) {
+            return await dbo.collection(collection).updateOne(data,
+                {
+                    $push: {
+                        [field]: {
+                            $each: [item],
+                            $position: index
+                        }
+                    }
+                }
+            )
+        }
+    },
+    /**
      * Remove an item form an array collection
      * @param {string} collection - Name of database collection
      * @param {object} data - Dictionary of search terms {_id: "id"}

@@ -32,7 +32,7 @@ class Goal extends React.Component {
 
         if (!error) {
             let data = {
-                goal: this.state.goal
+                value: this.state.goal
             }
 
             http.post('/exercises/' + this.props.exercise.id + '/goal', data)

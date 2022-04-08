@@ -53,7 +53,8 @@ module.exports = {
     logDailyMax: function (req, res, next) {
 
         const schemaBody = Joi.object().keys({
-            dailyMax: Joi.number().positive().required(),
+            date: Joi.date(),
+            value: Joi.number().positive().required(),
         })
 
         const schemaParams = Joi.object().keys({
@@ -66,7 +67,8 @@ module.exports = {
     logGoal: function (req, res, next) {
 
         const schemaBody = Joi.object().keys({
-            goal: Joi.number().positive().required(),
+            date: Joi.date(),
+            value: Joi.number().positive().required(),
         })
 
         const schemaParams = Joi.object().keys({

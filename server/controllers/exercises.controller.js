@@ -102,30 +102,32 @@ module.exports = {
     },
 
     logDailyMax: async function (req, res) {
-        let userID = req.userID
-        let exerciseID = req.params.exerciseID
-        let dailyMax = parseFloat(req.body.dailyMax)
+        const userID = req.userID
+        const exerciseID = req.params.exerciseID
+        const date = req.body.date ? utility.date.stringToDate(req.body.date) : utility.date.now()
+        const value = parseFloat(req.body.value)
 
         let exercise = new Exercise()
         await exercise.loadWithID(exerciseID)
 
         if (validate(res, exercise, userID)) return
 
-        await exercise.addDailyMaxRecord(dailyMax)
+        await exercise.addDailyMaxRecord(date, value)
         return res.status(201).send()
     },
 
     logGoal: async function (req, res) {
-        let userID = req.userID
-        let exerciseID = req.params.exerciseID
-        let goal = parseFloat(req.body.goal)
+        const userID = req.userID
+        const exerciseID = req.params.exerciseID
+        const date = req.body.date ? utility.date.stringToDate(req.body.date) : utility.date.now()
+        const value = parseFloat(req.body.value)
 
         let exercise = new Exercise()
         await exercise.loadWithID(exerciseID)
 
         if (validate(res, exercise, userID)) return
 
-        await exercise.addGoalRecord(goal)
+        await exercise.addGoalRecord(date, value)
         return res.status(201).send()
     },
 

@@ -86,10 +86,18 @@ module.exports = class Exercise {
 
     /**
      * Add Daily Max to Exercise
+     * @param {Date} date - Date
      * @param {Number} value - Exercise Daily Max Value
      */
-    async addDailyMaxRecord(value) {
-        await db_exercise.addDailyMaxRecord(this.id, value)
+    async addDailyMaxRecord(date, value) {
+        let index = 0
+        if (this.dailyMax && this.dailyMax.length > 0) {
+            index = this.dailyMax.findIndex(x => date.getTime() < x.date.getTime())
+        }
+        if (index < 0 || this.dailyMax.length == 0) {
+            return await db_exercise.addDailyMaxRecord(this.id, date, value)
+        }
+        return await db_exercise.addDailyMaxRecordAtIndex(this.id, index, date, value)
     }
 
     /**
@@ -112,10 +120,18 @@ module.exports = class Exercise {
 
     /**
      * Add Goal to Exercise
+     * @param {Date} date - Date
      * @param {Number} value - Exercise Goal Value
      */
-    async addGoalRecord(value) {
-        await db_exercise.addGoalRecord(this.id, value)
+    async addGoalRecord(date, value) {
+        let index = 0
+        if (this.goal && this.goal.length > 0) {
+            index = this.goal.findIndex(x => date.getTime() < x.date.getTime())
+        }
+        if (index < 0 || this.goal.length == 0) {
+            return await db_exercise.addGoalRecord(this.id, date, value)
+        }
+        return await db_exercise.addGoalRecordAtIndex(this.id, index, date, value)
     }
 
     /**
