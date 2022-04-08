@@ -24,10 +24,23 @@ module.exports = {
 
         if (validate(res, exerciseGroup, userID)) return
 
+        return res.status(200).send({ exerciseGroup: exerciseGroup })
+    },
+
+    getExercises: async function (req, res) {
+        let userID = req.userID
+        let exerciseGroupID = req.params.groupID
+        let user = new User()
+        await user.loadWithID(userID)
+
+        let exerciseGroup = new ExerciseGroup()
+        await exerciseGroup.loadWithID(exerciseGroupID)
+
+        if (validate(res, exerciseGroup, userID)) return
+
         let exercises = await exerciseGroup.getExercises()
 
-        // TODO Change this method such that there is a method where exercises are not also returned, just group data
-        return res.status(200).send({ exerciseGroup: exerciseGroup, exercises: exercises })
+        return res.status(200).send({ exercises: exercises })
     },
 
     add: async function (req, res) {

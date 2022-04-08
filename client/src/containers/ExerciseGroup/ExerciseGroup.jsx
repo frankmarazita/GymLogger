@@ -22,6 +22,13 @@ class ExerciseGroup extends React.Component {
         http.get('/groups/' + this.state.exerciseGroupID)
         .then((res) => {
             this.setState({ exerciseGroup: res.data.exerciseGroup })
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+
+        http.get('/groups/' + this.state.exerciseGroupID + '/exercises')
+        .then((res) => {
             this.setState({ exercises: res.data.exercises })
         })
         .catch((error) => {

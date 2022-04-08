@@ -13,6 +13,15 @@ module.exports = {
         return utility.joi.validate(req, res, next, {params: schemaParams})
     },
 
+    getExercises: function (req, res, next) {
+
+        const schemaParams = Joi.object().keys({
+            groupID: Joi.string().required(),
+        })
+
+        return utility.joi.validate(req, res, next, { params: schemaParams })
+    },
+
     add: function (req, res, next) {
 
         const schemaBody = Joi.object().keys({
