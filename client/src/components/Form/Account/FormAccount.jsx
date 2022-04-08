@@ -49,11 +49,11 @@ class FormAccount extends React.Component {
                 email: this.state.email
             }
 
-            this.put(data, this.state.user.id)
+            this.put(data)
         }
     }
 
-    put = (data, id) => {
+    put = (data) => {
         http.put('/users', data)
         .then((res) => {
             window.location = '/account'

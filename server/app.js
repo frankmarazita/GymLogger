@@ -1,8 +1,5 @@
 const CT = require('./constants/codeTables')
 
-const IS_PRODUCTION = process.env.NODE_ENV === CT.System.C.Production
-const IS_DEVELOPMENT = process.env.NODE_ENV === CT.System.C.Development
-
 const express = require('express')
 const helmet = require('helmet')
 const cors = require('cors')

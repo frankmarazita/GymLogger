@@ -3,9 +3,10 @@ const config = require('./config/config')
 const app = require('./app')
 const db = require('./db/db')
 
+const EM = require('./constants/errorMessages')
 const LM = require('./constants/logMessages')
 
-const utility = require('./utils/utility')
+const logger = require('./logger/logger')
 
 const PORT = parseInt(process.env.PORT)
 
@@ -14,34 +15,29 @@ const DBConfig = require('./models/DBConfig')
 // Routes
 require('./routes')
 
-// Initialise MongoDB and Start Server
+// Initialise DB and Start Server
 let server
-db.init(process.env.MONGODB_SECRET, process.env.DB_NAME).then(async () => {
+let errorQuit = false
+db.init().then(async () => {
+
+    if (!await db.connected()) throw new Error(EM.DB.NotInitialised())
 
     // Load DBConfig
     let dbConfig = new DBConfig()
     await dbConfig.load()
 
-    if (!dbConfig.valid) {
-        await dbConfig.new(process.env.DB_NAME, config.system.version, process.env.NODE_ENV)
-    }
-
-    if (dbConfig.environment !== process.env.NODE_ENV) {
-        await exitHandler(LM.DBConfigEnvironmentMismatch(dbConfig.environment, process.env.NODE_ENV))
-    } else if (dbConfig.version !== config.system.version) {
-        await exitHandler(LM.DBConfigVersionMismatch(dbConfig.version, config.system.version))
-    } else {
+    if (await dbConfig.validate()) {
+        // Start Server
         server = app.listen(PORT, () => {
-            console.log(LM.ServerOpened(PORT))
+            console.log(LM.Server.Opened(PORT))
         })
     }
 })
 
-const exitHandler = async (message) => {
-    if (message) utility.logger.log(message)
+const exitHandler = async () => {
     if (server) {
         server.close()
-        console.log(LM.ServerClosed())
+        console.log(LM.Server.Closed())
     }
     await db.close()
     setTimeout(() => {
@@ -49,8 +45,14 @@ const exitHandler = async (message) => {
     }, config.system.exitDelay)
 }
 
-const unexpectedErrorHandler = (err) => {
-    utility.logger.error(`${err} | ${JSON.stringify(err)}`)
+const unexpectedErrorHandler = async (err) => {
+    if (errorQuit) process.exit(1)
+    let error = err.toString()
+    if (JSON.stringify(err) !== JSON.stringify({})) {
+        error += ` | ${JSON.stringify(err)}`
+    }
+    errorQuit = true
+    await logger.error(error)
     exitHandler()
 }
 

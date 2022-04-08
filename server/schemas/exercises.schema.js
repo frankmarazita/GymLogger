@@ -19,7 +19,7 @@ module.exports = {
             name: Joi.string().required(),
             note: Joi.string(),
             exerciseGroupID: Joi.string().required(),
-            exerciseTypeID: Joi.string().required(),
+            exerciseType: Joi.string().required(),
         })
 
         return utility.joi.validate(req, res, next, {body: schemaBody})
@@ -31,7 +31,7 @@ module.exports = {
             name: Joi.string(),
             note: Joi.string(),
             exerciseGroupID: Joi.string(),
-            exerciseTypeID: Joi.string(),
+            exerciseType: Joi.string(),
         })
 
         const schemaParams = Joi.object().keys({
@@ -53,7 +53,8 @@ module.exports = {
     logDailyMax: function (req, res, next) {
 
         const schemaBody = Joi.object().keys({
-            dailyMax: Joi.number().positive().required(),
+            date: Joi.date(),
+            value: Joi.number().positive().required(),
         })
 
         const schemaParams = Joi.object().keys({
@@ -66,7 +67,8 @@ module.exports = {
     logGoal: function (req, res, next) {
 
         const schemaBody = Joi.object().keys({
-            goal: Joi.number().positive().required(),
+            date: Joi.date(),
+            value: Joi.number().positive().required(),
         })
 
         const schemaParams = Joi.object().keys({

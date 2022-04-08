@@ -9,7 +9,7 @@ class Loading extends React.Component {
         return (
             <>
                 <Container className="loading text-center">
-                    <Spinner animation="border" variant="primary" />
+                    <Spinner animation="border" variant="dark" />
                 </Container>
             </>
         );

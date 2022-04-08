@@ -2,6 +2,9 @@ import React from 'react';
 
 import http from '../../utils/http';
 import session from '../../utils/session';
+import settings from '../../utils/settings';
+
+import TwoFactor from '../../containers/TwoFactor/TwoFactor'
 
 import ErrorAuth from '../../components/Error/ErrorAuth'
 
@@ -15,7 +18,8 @@ class Login extends React.Component {
         this.state = {
             email: "",
             password: "",
-            errorMessage: ""
+            errorMessage: "",
+            twoFactorEnabled: false
         }
     }
 
@@ -48,7 +52,20 @@ class Login extends React.Component {
             http.post('/session', data)
             .then((response) => {
                 session.setToken(response.data.token)
-                window.location = '/'
+                const decoded = session.getDecodedToken()
+                if (decoded.user.twoFactorEnabled && !decoded.user.twoFactorValidated) {
+                    this.setState({ twoFactorEnabled: true })
+                } else {
+                    http.get('/settings')
+                    .then((res) => {
+                        settings.setSettings(res.data.settings)
+                        window.location = '/'
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        window.location = '/'
+                    });
+                }
             })
             .catch((error) => {
                 console.error(error)
@@ -60,6 +77,11 @@ class Login extends React.Component {
     }
 
     render() {
+
+        if (this.state.twoFactorEnabled) {
+            return (<><TwoFactor /></>)
+        }
+
         return (
             <>
                 <div className="container login-form">

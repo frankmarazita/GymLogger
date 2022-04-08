@@ -3,7 +3,7 @@ const EM = require('../constants/errorMessages')
 
 const config = require('../config/config')
 
-const IS_DEVELOPMENT = process.env.NODE_ENV === CT.System.C.Development
+const IS_DEVELOPMENT = process.env.NODE_ENV === CT.System.Development
 
 exports.status = function (res, code, message = null) {
     if (!message) {

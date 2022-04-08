@@ -1,5 +1,8 @@
 # GymLogger
-A REST API for logging exercise progress and activity with Node.js, Express, MongoDB and React.
+
+A REST API for logging exercise progress and activity with Node.js, Express and MongoDB.
+
+Also has a frontend website and PWA built with React.
 
 ## Quick Start
 
@@ -59,25 +62,37 @@ npm start
 npm build
 ```
 
-## Tools and Dependencies
-Server:
-- Node.js
-- Express
-- MongoDB
-- Jest
-- Joi
-- JWT
+## Dependencies
+Server (Node.js):
+- axios
 - bcrypt
+- cors
 - dotenv
+- express
 - helmet
+- jest
+- joi
+- jsonwebtoken
+- lodash
+- math-random
+- mongodb
+- node-2fa
+- nodemon
 
-Client:
-- Node.js
-- Axios
-- React
-- React Bootstrap
-- Chart.js
-- SASS
+Client (React):
+- axios
+- chart.js
+- jsonwebtoken
+- jwt-decode
+- moment
+- react
+- react-bootstrap
+- react-chartjs-2
+- react-dom
+- react-router-dom
+- react-scripts
+- sass
+- web-vitals
 
 ## Environment Variables:
 
@@ -90,18 +105,21 @@ NODE_ENV=production/development
 DOMAIN=example.com/localhost
 PORT=5000
 
-MONGODB_SECRET=mymongodbsecreturl
+MONGODB_URI=mymongodbsecreturl
 DB_NAME=mydbname
 
 JWT_PRIVATE_KEY=testKey
+
+CONFIG_OVERRIDE=false
+CONFIG_OVERRIDE_FOLDER=../temp/config # relative to config.js
+
+EXTERNAL_LOGGING=false
+EXTERNAL_LOGGING_URL=https://logging.example.com/api/logs
 ```
 
 Client:
 
 ```
-BROWSER=none
-PORT=3000
-
 REACT_APP_API_URL='http://localhost:5000'
 ```
 
@@ -127,6 +145,8 @@ server\
  |--constants\      # Variable constants
  |--controllers\    # Controller methods
  |--db\             # Database methods
+ |--logger\         # File & database logging methods
+ |--logs\           # Log files (Created by logger)
  |--middleware\     # Middleware
  |--models\         # Models
  |--routes\         # Route controllers
@@ -139,9 +159,6 @@ server\
  |--server.js       # App entry point
 ```
 
-## Issues and Features
-
-- Kanban project for issues and new features can be found [here](https://github.com/frankmarazita/GymLogger/projects/1).
-
 ## Licence
+
 [MIT](LICENSE)

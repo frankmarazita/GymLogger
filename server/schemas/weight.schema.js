@@ -4,7 +4,7 @@ const utility = require('../utils/utility')
 
 module.exports = {
 
-    logWeight: function (req, res, next) {
+    add: function (req, res, next) {
 
         const schemaBody = Joi.object().keys({
             value: Joi.number().positive().required(),
@@ -13,7 +13,7 @@ module.exports = {
         return utility.joi.validate(req, res, next, {body: schemaBody})
     },
 
-    updateWeight: function (req, res, next) {
+    update: function (req, res, next) {
 
         const schemaBody = Joi.object().keys({
             date: Joi.date().required(),
@@ -21,16 +21,16 @@ module.exports = {
         })
 
         const schemaParams = Joi.object().keys({
-            id: Joi.number().integer().min(0).required(),
+            weightID: Joi.number().integer().min(0).required(),
         })
 
         return utility.joi.validate(req, res, next, {body: schemaBody, params: schemaParams})
     },
 
-    deleteWeight: function (req, res, next) {
+    delete: function (req, res, next) {
 
         const schemaParams = Joi.object().keys({
-            id: Joi.number().integer().min(0).required(),
+            weightID: Joi.number().integer().min(0).required(),
         })
 
         return utility.joi.validate(req, res, next, {params: schemaParams})

@@ -3,6 +3,7 @@ const DT = require('../constants/databaseTables')
 
 const db_user = require('../db/db_user')
 
+const config = require('../config/config')
 const utility = require('../utils/utility')
 
 const ExerciseGroup = require('./ExerciseGroup')
@@ -15,6 +16,7 @@ module.exports = class User {
         this.dateCreated = null
         this.email = null
         this.name = null
+        this.twoFactorEnabled = false
     }
 
     /**
@@ -29,6 +31,7 @@ module.exports = class User {
             this.dateCreated = data[DT.User.C.DateCreated]
             this.email = data[DT.User.C.Email]
             this.name = data[DT.User.C.Name]
+            this.twoFactorEnabled = (!!data[DT.User.C.TwoFactorEnabled])
         }
         return this.valid
     }
@@ -78,6 +81,24 @@ module.exports = class User {
     }
 
     /**
+     * Authenticate the User with Password
+     * @param {String} twoFactorToken - Two Factor Token
+     * @returns
+     */
+    async authenticateTwoFactor(twoFactorToken) {
+        if (this.twoFactorEnabled) {
+            let user = await db_user.getTwoFactorSecret(this.id)
+            let result = await utility.totp.check(user[DT.User.C.TwoFactorSecret], twoFactorToken)
+            if (result) {
+                this.authenticated = result.delta >= config.system.twoFactorDelta
+            } else {
+                this.authenticated = false
+            }
+        }
+        return this.authenticated
+    }
+
+    /**
      * Creates a new User
      * @param {String} email - Email
      * @param {String} name - Name
@@ -95,10 +116,12 @@ module.exports = class User {
      * Get User Session Data For Token
      * @returns {Object}
      */
-    sessionData() {
+    sessionData(twoFactorValidated = false) {
         return {
+            id: this.id,
             authenticated: this.authenticated,
-            id: this.id
+            twoFactorEnabled: this.twoFactorEnabled,
+            twoFactorValidated: twoFactorValidated
         }
     }
 
@@ -193,6 +216,24 @@ module.exports = class User {
     }
 
     /**
+     * Gets user settings
+     * @returns {Object}
+     */
+    async getSettings() {
+        let result = await db_user.getSettings(this.id)
+        this.settings = result[DT.User.C.Settings.T]
+        return this.settings
+    }
+
+    /**
+     * Update user settings
+     * @param {Object} settings - Settings
+     */
+    async updateSettings(settings) {
+        await db_user.updateSettings(this.id, settings)
+    }
+
+    /**
      * Update User Email
      * @param {String} email - Email
      * @returns {String}
@@ -216,5 +257,30 @@ module.exports = class User {
             this.name = name
         }
         return this.name
+    }
+
+    /**
+     * Update User Password
+     * @param {String} password - Password
+     */
+    async updatePassword(password) {
+        const passwordHash = await utility.bcrypt.hash(password)
+        await db_user.updatePassword(this.id, passwordHash)
+    }
+
+    /**
+     * Set User Two Factor Secret
+     * @param {String} twoFactorSecret - Two Factor Secret
+     * @returns {String}
+     */
+    async setTwoFactorSecret(twoFactorSecret) {
+        await db_user.setTwoFactor(this.id, twoFactorSecret)
+    }
+
+    /**
+     * Set User Two Factor Enabled
+     */
+    async disableTwoFactor() {
+        await db_user.unsetTwoFactor(this.id)
     }
 }

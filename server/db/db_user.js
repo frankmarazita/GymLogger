@@ -16,6 +16,16 @@ module.exports = {
         }
     },
 
+    getTwoFactorSecret: async function (userID) {
+        if (utility.args.verify(arguments, 1)) {
+            return await db.getOne(DT.User.T, {
+                [DT.User.C.ID]: userID
+            }, {
+                [DT.User.C.TwoFactorSecret]: 1
+            })
+        }
+    },
+
     getDataWithID: async function (userID) {
         if (utility.args.verify(arguments, 1)) {
             return await db.getOne(DT.User.T, {
@@ -25,6 +35,7 @@ module.exports = {
                 [DT.User.C.DateCreated]: 1,
                 [DT.User.C.Email]: 1,
                 [DT.User.C.Name]: 1,
+                [DT.User.C.TwoFactorEnabled]: 1,
             })
         }
     },
@@ -38,6 +49,7 @@ module.exports = {
                 [DT.User.C.DateCreated]: 1,
                 [DT.User.C.Email]: 1,
                 [DT.User.C.Name]: 1,
+                [DT.User.C.TwoFactorEnabled]: 1,
             })
         }
     },
@@ -119,6 +131,26 @@ module.exports = {
         }
     },
 
+    getSettings: async function (userID) {
+        if (utility.args.verify(arguments, 1)) {
+            return await db.getOne(DT.User.T, {
+                [DT.User.C.ID]: userID
+            }, {
+                [DT.User.C.Settings.T]: 1
+            })
+        }
+    },
+
+    updateSettings: async function (userID, settings) {
+        if (utility.args.verify(arguments, 2)) {
+            return await db.update(DT.User.T, {
+                [DT.User.C.ID]: userID
+            }, {
+                [DT.User.C.Settings.T]: settings
+            })
+        }
+    },
+
     updateEmail: async function (userID, email) {
         if (utility.args.verify(arguments, 2)) {
             return await db.update(DT.User.T, {
@@ -135,6 +167,38 @@ module.exports = {
                 [DT.User.C.ID]: userID
             }, {
                 [DT.User.C.Name]: name
+            })
+        }
+    },
+
+    updatePassword: async function (userID, passwordHash) {
+        if (utility.args.verify(arguments, 2)) {
+            return await db.update(DT.User.T, {
+                [DT.User.C.ID]: userID
+            }, {
+                [DT.User.C.PasswordHash]: passwordHash
+            })
+        }
+    },
+
+    setTwoFactor: async function (userID, twoFactorSecret) {
+        if (utility.args.verify(arguments, 2)) {
+            return await db.update(DT.User.T, {
+                [DT.User.C.ID]: userID
+            }, {
+                [DT.User.C.TwoFactorEnabled]: true,
+                [DT.User.C.TwoFactorSecret]: twoFactorSecret
+            })
+        }
+    },
+
+    unsetTwoFactor: async function (userID) {
+        if (utility.args.verify(arguments, 1)) {
+            return await db.update(DT.User.T, {
+                [DT.User.C.ID]: userID
+            }, {
+                [DT.User.C.TwoFactorEnabled]: false,
+                [DT.User.C.TwoFactorSecret]: null
             })
         }
     }

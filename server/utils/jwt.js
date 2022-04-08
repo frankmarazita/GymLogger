@@ -12,16 +12,22 @@ const expiryTimeSeconds = config.jwt.expiryTimeSeconds
 
 /**
  * Creates a new JWT Session Token
- * @param {Object} payload
+ * @param {Object} userData - User data
+ * @param {Object} personalAccessTokenData - Personal Access Token data
+ * @param {Date} exp - Expiry date
  * @returns {String}
  */
-exports.createNewSessionToken = async function (data) {
+exports.createNewSessionToken = async function (userData, personalAccessTokenData = null, exp = null) {
     let now = date.now()
     let payload = {
         iat: now / 1000,
         exp: date.addSeconds(now, expiryTimeSeconds) / 1000,
-        user: data
+        user: userData
     }
+
+    if (personalAccessTokenData) payload.personalAccessToken = personalAccessTokenData
+    if (exp) payload.exp = exp / 1000
+
     let token = await jwt.sign(payload, privateKey, { algorithm: algorithm })
     try {
         return token

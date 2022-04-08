@@ -22,6 +22,13 @@ class ExerciseGroup extends React.Component {
         http.get('/groups/' + this.state.exerciseGroupID)
         .then((res) => {
             this.setState({ exerciseGroup: res.data.exerciseGroup })
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+
+        http.get('/groups/' + this.state.exerciseGroupID + '/exercises')
+        .then((res) => {
             this.setState({ exercises: res.data.exercises })
         })
         .catch((error) => {
@@ -46,7 +53,7 @@ class ExerciseGroup extends React.Component {
                         <Button href={this.state.exerciseGroup ? '/edit/group/' + this.state.exerciseGroup.id : ''} variant="link">Edit</Button>
                     </div>
                     {this.state.exercises.map((exercise, i) => <CardExercise exercise={exercise} key={i} />)}
-                    <div className="pb-3 text-center">
+                    <div className="py-3 text-center">
                         <Button href="/add/exercise" variant="primary">Add New Exercise</Button>
                     </div>
                 </Container>

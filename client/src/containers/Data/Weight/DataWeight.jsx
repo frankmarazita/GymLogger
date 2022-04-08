@@ -53,10 +53,12 @@ class DataWeight extends React.Component {
                     </div>
                 </Container>
 
-                <Container className="pb-5" style={containerStyleData}>
-                    <b><label htmlFor="value" className="pt-2">Weight Data:</label></b>
-                    {this.state.weight ? this.recordInputGroups(this.state.weight) : []}
-                </Container>
+                {this.state.weight && this.state.weight.length > 0 ?
+                    <Container className="pb-5" style={containerStyleData}>
+                        <b><label htmlFor="value" className="pt-2">Weight Data:</label></b>
+                        {this.state.weight ? this.recordInputGroups(this.state.weight) : []}
+                    </Container>
+                : null}
            </>
         )
     }

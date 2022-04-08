@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Button, Navbar, Nav} from 'react-bootstrap';
 
-import session from '../../utils/session';
+import logout from '../../utils/logout';
 
 class HeaderNavbar extends React.Component {
 
@@ -12,15 +12,14 @@ class HeaderNavbar extends React.Component {
             title: "Gym Logger",
             items: [
                 { value: "Account", path: "/account" },
-                { value: "Data", path: "/data" }
+                { value: "Data", path: "/data" },
+                { value: "Settings", path: "/settings" }
             ]
         }
     }
 
     handleLogout = (event) => {
-        // TODO Correct the logout behavior
-        session.deleteToken()
-        window.location = '/login'
+        logout.logout();
     }
 
     render() {

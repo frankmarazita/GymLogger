@@ -16,9 +16,9 @@ module.exports = {
     connected: async function () {
         try {
             if (db) {
-                return db.isConnected()
+                return await db.isConnected()
             }
-            throw new Error(EM.Database.NotInitialised)
+            throw new Error(EM.DB.NotInitialised())
         } catch (err) {
             console.error(err)
             return false
@@ -26,18 +26,18 @@ module.exports = {
     },
     /**
      * Initialises MongoDB database
-     * @param {string} uri - Uniform resource identifier
-     * @param {*} name - Database name
      * @returns {Promise<void>}
      */
-    init: async function (uri, name) {
+    init: async function () {
+        const uri = process.env.MONGODB_URI
+        const name = process.env.DB_NAME
         const client = new MongoClient(uri, { useUnifiedTopology: true })
         try {
             return await client.connect().then(response => {
                 db = response
                 dbName = name
                 dbo = db.db(dbName)
-                console.log(LM.DatabaseConnected(dbName))
+                console.log(LM.DB.Connected(dbName))
             })
         } catch (err) {
             console.error(err)
@@ -50,7 +50,7 @@ module.exports = {
     close: async function () {
         if (db) {
             return await db.close().then(response => {
-                console.log(LM.DatabaseDisconnected())
+                console.log(LM.DB.Disconnected())
             })
         }
     },
@@ -73,15 +73,15 @@ module.exports = {
      * Get all data from the database
      * @param {string} collection - Name of database collection
      * @param {object} data - Dictionary of search terms {email: "me@email.com"}
-     * @param {boolean} [objectID=false] - If set to true, treats data as a object ID string
+     * @param {boolean} [filter=null] - Dictionary of query 'projection' {email: 1}
      * @returns {object}
      */
-    getAll: async function (collection, data, objectID = false) {
+    getAll: async function (collection, data, filter = null) {
         if (db) {
-            if (objectID) {
-                data = { '_id': new ObjectId(data) }
+            if (filter) {
+                filter = { projection: filter }
             }
-            return await (await dbo.collection(collection).find(data)).toArray()
+            return await (await dbo.collection(collection).find(data, filter)).toArray()
         }
     },
     /**
@@ -118,6 +118,29 @@ module.exports = {
     addArrayItem: async function (collection, data, item) {
         if (db) {
             return await dbo.collection(collection).updateOne(data, { $addToSet: item })
+        }
+    },
+    /**
+     * Add item to database by index
+     * @param {string} collection - Name of database collection
+     * @param {object} data - Dictionary of search terms {_id: "id"}
+     * @param {object} item - Dictionary of items to add {exercisegroups: "id"}
+     * @param {string} field - Name of field to add to
+     * @param {number} index - Index to add item to
+     * @returns
+     */
+    addArrayItemByIndex: async function(collection, data, item, field, index) {
+        if (db) {
+            return await dbo.collection(collection).updateOne(data,
+                {
+                    $push: {
+                        [field]: {
+                            $each: [item],
+                            $position: index
+                        }
+                    }
+                }
+            )
         }
     },
     /**

@@ -4,21 +4,21 @@ exports.ExerciseType = {
         Key: {
             T: 'key',
             C: {
-                Weight: 1,
-                MachineWeight: 2,
-                MachineLevel: 3,
-                Bodyweight: 4,
-                Cardio: 5,
+                Weight: 'weight',
+                MachineWeight: 'machineWeight',
+                MachineLevel: 'machineLevel',
+                Bodyweight: 'bodyweight',
+                Cardio: 'cardio',
             }
         },
         Value: {
             T: 'value',
             C: {
-                1: 'Weight',
-                2: 'Machine (Weight)',
-                3: 'Machine (Level)',
-                4: 'Bodyweight',
-                5: 'Cardio',
+                weight: 'Weight',
+                machineWeight: 'Machine (Weight)',
+                machineLevel: 'Machine (Level)',
+                bodyWeight: 'Bodyweight',
+                cardio: 'Cardio',
             }
         }
     }
@@ -27,12 +27,13 @@ exports.ExerciseType = {
 exports.IconExerciseType = {
     T: 'iconExerciseType',
     C: {
-        Dumbbell: 'DUMBBELL',
         Cog: 'COG',
+        Dumbbell: 'DUMBBELL',
         HandRock: 'HANDROCK',
+        Heartbeat: 'HEARTBEAT',
         Running: 'RUNNING',
-        WeightHanging: 'WEIGHTHANGING',
         Weight: 'WEIGHT',
+        WeightHanging: 'WEIGHTHANGING',
     }
 }
 

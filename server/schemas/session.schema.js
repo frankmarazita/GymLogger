@@ -12,6 +12,15 @@ module.exports = {
         })
 
         return utility.joi.validate(req, res, next, {body: schemaBody})
+    },
+
+    validateTwoFactor: function (req, res, next) {
+
+        const schemaBody = Joi.object().keys({
+            twoFactorToken: Joi.string().length(6).required()
+        })
+
+        return utility.joi.validate(req, res, next, {body: schemaBody})
     }
 
 }

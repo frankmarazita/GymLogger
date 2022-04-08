@@ -2,8 +2,8 @@ const CT = require('../constants/codeTables')
 
 const config = require('../config/config')
 
-const IS_PRODUCTION = process.env.NODE_ENV === CT.System.C.Production
-const IS_DEVELOPMENT = process.env.NODE_ENV === CT.System.C.Development
+const IS_PRODUCTION = process.env.NODE_ENV === CT.System.Production
+const IS_DEVELOPMENT = process.env.NODE_ENV === CT.System.Development
 
 let dateOffsetEnabled = false
 let dateOffset = 0
@@ -94,6 +94,22 @@ module.exports = {
 
     addHours: function (date, hours) {
         return new Date(date.getTime() + hours * 3600000)
+    },
+
+    addDays: function (date, days) {
+        return new Date(date.getTime() + days * 86400000)
+    },
+
+    addMonths: function (date, months) {
+        let d = new Date(date)
+        d.setMonth(d.getMonth() + months)
+        return d
+    },
+
+    addYears: function (date, years) {
+        let d = new Date(date)
+        d.setFullYear(d.getFullYear() + years)
+        return d
     }
 
 }

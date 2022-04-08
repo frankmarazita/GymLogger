@@ -1,5 +1,9 @@
 const { ObjectID } = require('bson')
+
+const config = require('../config/config')
+
 const DT = require('../constants/databaseTables')
+const EM = require('../constants/errorMessages')
 
 const db_db_config = require('../db/db_db_config')
 
@@ -43,7 +47,7 @@ module.exports = class DBConfig {
      * @returns {Boolean}
      */
     async reload() {
-        this.valid = this.load()
+        this.valid = await this.load()
         return this.valid
     }
 
@@ -58,6 +62,26 @@ module.exports = class DBConfig {
         let resultData = result.ops[0]
         await this.loadDBData(resultData)
         return this.valid
+    }
+
+    /**
+     * Validate DB Config
+     * @returns {Boolean}
+     * @throws {Error}
+     */
+    async validate() {
+        if (!this.valid) {
+            // Add a new config if not found
+            await this.new(process.env.DB_NAME, config.system.version, process.env.NODE_ENV)
+        } else {
+            // Check if config is up to date
+            if (this.environment != process.env.NODE_ENV) {
+                throw new Error(EM.DB.ConfigEnvironmentMismatch(this.environment, process.env.NODE_ENV))
+            } else if (this.version != config.system.version) {
+                throw new Error(EM.DB.ConfigVersionMismatch(this.version, config.system.version))
+            }
+        }
+        return true
     }
 
     /**

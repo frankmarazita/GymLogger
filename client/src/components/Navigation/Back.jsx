@@ -1,9 +1,22 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 
+import settings from '../../utils/settings';
+
 class Back extends React.Component {
 
     render() {
+
+        if (!settings.getSettings().buttonNavigation) {
+            return (
+                <>
+                    <Container>
+                        <div className="pt-5 text-center"></div>
+                    </Container>
+                </>
+            );
+        }
+
         let path = this.props.path
         if (!path) {
             path = document.referrer

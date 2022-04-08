@@ -32,7 +32,7 @@ class DailyMax extends React.Component {
 
         if (!error) {
             let data = {
-                dailyMax: this.state.dailyMax
+                value: this.state.dailyMax
             }
 
             http.post('/exercises/' + this.props.exercise.id + '/dailyMax', data)

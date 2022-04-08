@@ -48,6 +48,36 @@ exports.ExerciseGroup = {
     }
 }
 
+exports.Logs = {
+    T: 'logs',
+    C: {
+        ID: '_id',
+        DateCreated: 'datecreated',
+        Type: 'type',
+        Message: 'message',
+    }
+}
+
+exports.Token = {
+    T: 'token',
+    C: {
+        ID: '_id',
+        DateCreated: 'dateCreated',
+        Enabled: 'enabled',
+        User: 'user',
+        Expiry: 'expiry',
+        Note: 'note',
+        Scope: {
+            T: 'scope',
+            C: {
+                allowedHttpMethods: 'allowedHttpMethods',
+                allowedRoutes: 'allowedRoutes',
+                disallowedRoutes: 'disallowedRoutes',
+            }
+        }
+    }
+}
+
 exports.User = {
     T: 'user',
     C: {
@@ -56,6 +86,8 @@ exports.User = {
         Email: 'email',
         Name: 'name',
         PasswordHash: 'passwordhash',
+        TwoFactorEnabled: 'twofactorenabled',
+        TwoFactorSecret: 'twofactorsecret',
         Weight: {
             T: 'weight',
             C: {
@@ -64,5 +96,12 @@ exports.User = {
             }
         },
         ExerciseGroups: 'exercisegroups',
+        Settings: {
+            T: 'settings',
+            C: {
+                ButtonNavigation: 'buttonNavigation',
+                DarkMode: 'darkMode',
+            }
+        }
     }
 }

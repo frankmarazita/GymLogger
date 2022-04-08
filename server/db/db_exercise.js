@@ -58,19 +58,38 @@ module.exports = {
     /**
      * Adds a new Daily Max record to the array
      * @param {ObjectID} exerciseID - Exercise ID
+     * @param {Date} date - Date
      * @param {Number} value - Daily Max Value
      * @returns
      */
-    addDailyMaxRecord: async function (exerciseID, value) {
-        if (utility.args.verify(arguments, 2)) {
+    addDailyMaxRecord: async function (exerciseID, date, value) {
+        if (utility.args.verify(arguments, 3)) {
             return await db.addArrayItem(DT.Exercise.T, {
                 [DT.Exercise.C.ID]: exerciseID
             }, {
                 [DT.Exercise.C.DailyMax.T]: {
-                    [DT.Exercise.C.DailyMax.C.Date]: utility.date.now(),
+                    [DT.Exercise.C.DailyMax.C.Date]: date ? date : utility.date.now(),
                     [DT.Exercise.C.DailyMax.C.Value]: value,
                 }
             })
+        }
+    },
+
+    /**
+     * Adds a Daily Max record to the array at the specified index
+     * @param {ObjectID} exerciseID - Exercise ID
+     * @param {number} index - Index
+     * @param {Date} date - Date
+     * @param {Number} value - Daily Max Value
+     */
+    addDailyMaxRecordAtIndex: async function (exerciseID, index, date, value) {
+        if (utility.args.verify(arguments, 4)) {
+            return await db.addArrayItemByIndex(DT.Exercise.T, {
+                [DT.Exercise.C.ID]: exerciseID
+            }, {
+                [DT.Exercise.C.DailyMax.C.Date]: date ? date : utility.date.now(),
+                [DT.Exercise.C.DailyMax.C.Value]: value,
+            }, DT.Exercise.C.DailyMax.T, index)
         }
     },
 
@@ -113,19 +132,38 @@ module.exports = {
     /**
      * Adds a new Goal record to the array
      * @param {ObjectID} exerciseID - Exercise ID
+     * @param {Date} date - Date
      * @param {Number} value - Goal Value
      * @returns
      */
-    addGoalRecord: async function (exerciseID, value) {
-        if (utility.args.verify(arguments, 2)) {
+    addGoalRecord: async function (exerciseID, date, value) {
+        if (utility.args.verify(arguments, 3)) {
             return await db.addArrayItem(DT.Exercise.T, {
                 [DT.Exercise.C.ID]: exerciseID
             }, {
                 [DT.Exercise.C.Goal.T]: {
-                    [DT.Exercise.C.Goal.C.Date]: utility.date.now(),
+                    [DT.Exercise.C.Goal.C.Date]: date ? date : utility.date.now(),
                     [DT.Exercise.C.Goal.C.Value]: value,
                 }
             })
+        }
+    },
+
+    /**
+     * Adds a Goal record to the array at the specified index
+     * @param {ObjectID} exerciseID - Exercise ID
+     * @param {number} index - Index
+     * @param {Date} date - Date
+     * @param {Number} value - Goal Value
+     */
+    addGoalRecordAtIndex: async function (exerciseID, index, date, value) {
+        if (utility.args.verify(arguments, 4)) {
+            return await db.addArrayItemByIndex(DT.Exercise.T, {
+                [DT.Exercise.C.ID]: exerciseID
+            }, {
+                [DT.Exercise.C.Goal.C.Date]: date ? date : utility.date.now(),
+                [DT.Exercise.C.Goal.C.Value]: value,
+            }, DT.Exercise.C.Goal.T, index)
         }
     },
 

@@ -13,9 +13,23 @@ function validate(res, exerciseGroup, userID) {
 
 module.exports = {
 
-    getGroup: async function (req, res) {
+    get: async function (req, res) {
         let userID = req.userID
-        let exerciseGroupID = req.params.id
+        let exerciseGroupID = req.params.groupID
+        let user = new User()
+        await user.loadWithID(userID)
+
+        let exerciseGroup = new ExerciseGroup()
+        await exerciseGroup.loadWithID(exerciseGroupID)
+
+        if (validate(res, exerciseGroup, userID)) return
+
+        return res.status(200).send({ exerciseGroup: exerciseGroup })
+    },
+
+    getExercises: async function (req, res) {
+        let userID = req.userID
+        let exerciseGroupID = req.params.groupID
         let user = new User()
         await user.loadWithID(userID)
 
@@ -26,14 +40,7 @@ module.exports = {
 
         let exercises = await exerciseGroup.getExercises()
 
-        // TODO Calculate done date and max client side
-        for (let i = 0; i < exercises.length; i++) {
-            exercises[i].done = await exercises[i].getDailyMaxDone()
-            exercises[i].dailyMaxRecord = await exercises[i].getDailyMaxPersonalBest()
-        }
-
-        // TODO Change this method such that there is a method where exercises are not also returned, just group data
-        return res.status(200).send({ exerciseGroup: exerciseGroup, exercises: exercises })
+        return res.status(200).send({ exercises: exercises })
     },
 
     add: async function (req, res) {
@@ -53,7 +60,7 @@ module.exports = {
         let userID = req.userID
         let name = req.body.name
         let note = req.body.note
-        let exerciseGroupID = req.params.id
+        let exerciseGroupID = req.params.groupID
 
         let exerciseGroup = new ExerciseGroup()
         await exerciseGroup.loadWithID(exerciseGroupID)
