@@ -37,7 +37,7 @@ module.exports = {
                 db = response
                 dbName = name
                 dbo = db.db(dbName)
-                console.log(LM.DB.Connected())
+                console.log(LM.DB.Connected(dbName))
             })
         } catch (err) {
             console.error(err)

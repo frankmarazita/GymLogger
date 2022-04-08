@@ -2,5 +2,6 @@
     "version": "2.1.0",
     "name": "Gym Logger",
     "exitDelay": 1000,
+    "allowRegistration": true,
     "twoFactorDelta": -1
 }

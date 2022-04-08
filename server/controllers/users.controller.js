@@ -14,7 +14,11 @@ module.exports = {
         return res.status(200).send({ user: user })
     },
 
-    add: async function (req, res) {
+    add: async function (req, res) {  
+        if (config.system.allowRegistration === false) {
+            return error.status(res, 403, EM.Auth.RegistrationDisabled)
+        }
+      
         const email = req.body.email
         const password = req.body.password
         const confirmPassword = req.body.confirmPassword

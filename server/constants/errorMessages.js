@@ -13,6 +13,7 @@ exports.Auth = class {
     static InvalidUser() { return 'User not found' }
     static NoMatchPassword() { return 'Passwords do not match' }
     static PersonalAccessTokenDisabled() { return 'Personal Access Token is disabled' }
+    static RegistrationDisabled() { return 'Registration is currently disabled' }
     static TokenExpired() { return 'Token has expired' }
     static TwoFactorAlreadyEnabled() { return 'Two factor authentication is already enabled' }
     static TwoFactorNotEnabled() { return 'Two factor authentication is not enabled' }

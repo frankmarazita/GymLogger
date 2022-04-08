@@ -1,6 +1,6 @@
 exports.DB = class {
-    static Connected() {
-        return 'Connected to MongoDB'
+    static Connected(dbName) {
+        return `Connected to MongoDB (${dbName})`
     }
     static Disconnected() {
         return 'Disconnected from MongoDB'
