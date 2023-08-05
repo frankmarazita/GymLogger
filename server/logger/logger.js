@@ -44,8 +44,10 @@ async function logToExternalRoute(title, body) {
     if (EXTERNAL_LOGGING && EXTERNAL_LOGGING_URL) {
         const data = {
             args: {
-                title: title,
-                body: body
+                notification: {
+                    title: title,
+                    body: body
+                }
             }
         }
 
